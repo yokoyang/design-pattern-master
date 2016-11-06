@@ -7,6 +7,7 @@
 
 USING_NS_CC;
 
+//全局变量 global
 Vector<Sprite*>* GameScene::playerimg = new Vector<Sprite*>();
 Vector<player*>* GameScene::players = new Vector<player*>();
 Vector<Sprite*>* GameScene::step_image = new Vector<Sprite*>();
@@ -66,9 +67,6 @@ bool GameScene::init()
 	addChild(background);
 	addProgressTimer();
 	scheduleOnce(schedule_selector(GameScene::add_infor), 1.60f);
-
-
-
 
     return true;
 }
