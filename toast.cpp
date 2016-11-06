@@ -1,4 +1,3 @@
-
 #include"toast.h"
 //Add toast
 void toast::addtoast(Node* node, Point p, std::string s, float time)

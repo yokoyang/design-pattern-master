@@ -7,7 +7,7 @@ class house :public Sprite
 public:
 	house();
 	~house();
-        // 一些抽象行为，放到子类去实现
+    // 一些抽象行为，放到子类去实现
 	virtual void buy(std::string& name);
 	virtual void rent();
 	virtual void mortgage();

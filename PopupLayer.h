@@ -4,7 +4,7 @@
 
 #include "cocos-ext.h"
 #include"player.h"
-#include"Duang.h"
+#include"Opportunity.h"
 USING_NS_CC_EXT;
 
 
