@@ -1,6 +1,6 @@
-#include"house.h"
+#include"AbstractHouse.h"
 
-house::house()
+AbstractHouse::AbstractHouse()
 {
 	_ini_pri = 0;
 	_now_pri = 0;
@@ -11,7 +11,7 @@ house::house()
 	_owner = "";
 }
 
-house::~house()
+AbstractHouse::~AbstractHouse()
 {
 
 }
@@ -23,42 +23,42 @@ void TemplateBuyMethod(){
     log("Done the method.");
 }
 
-void house::buy(std::string& name)
+void AbstractHouse::buy(std::string& name)
 {
 	
 }
 
-void house::rent()
+void AbstractHouse::rent()
 {
 
 }
 
-void house::mortgage()
+void AbstractHouse::mortgage()
 {
 
 }
 
-void house::ransom()
+void AbstractHouse::ransom()
 {
 
 }
 
-void house::auction()
+void AbstractHouse::auction()
 {
 
 }
 
-void house::promote()
+void AbstractHouse::promote()
 {
 
 }
 
-void house::changetype(int type)
+void AbstractHouse::changetype(int type)
 {
 
 }
 
-bool house::init()
+bool AbstractHouse::init()
 {
 	if (!Sprite::init())
 	{

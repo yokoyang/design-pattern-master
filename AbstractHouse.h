@@ -2,11 +2,11 @@
 #pragma warning(disable:4996)
 #include"cocos2d.h"
 
-class house :public Sprite
+class AbstractHouse :public Sprite
 {
 public:
-	house();
-	~house();
+	AbstractHouse();
+	~AbstractHouse();
     // 一些抽象行为，放到子类去实现
 	virtual void buy(std::string& name);
 	virtual void rent();
@@ -16,7 +16,7 @@ public:
 	virtual void promote();
 	virtual void changetype(int type);
 	virtual bool init();
-	CREATE_FUNC(house);
+	CREATE_FUNC(AbstractHouse);
 
     // 模板方法，给出了逻辑的骨架，而逻辑的组成是一些相应的抽象操作，推迟到子类去实现
     void TemplateMethod();
