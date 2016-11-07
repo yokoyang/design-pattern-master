@@ -2,7 +2,7 @@
 #include"toast.h"
 #include"FinalScene.h"
 #include<string>
-#include<Duang.h>
+#include<Opportunity.h>
 #include<SimpleAudioEngine.h>
 
 USING_NS_CC;
@@ -75,8 +75,6 @@ bool GameScene::init()
 void GameScene::add_infor(float t)
 {
 	auto Size = Director::getInstance()->getVisibleSize();
-
-
 	auto layer = Layer::create();
 	addmap(map_type);
 	addplayerimg();
@@ -91,14 +89,12 @@ void GameScene::add_infor(float t)
 	adddialog();
 	adddialoglottery();
 	addFinal_layer();
-	Duang::Load();
+	Opportunity::Load();
 	add_location_image();
-
 	auto back=Sprite::create("Quit Button.png");
 	back->setPosition(150, 50);
 	back->setScale(0.5);
 	addChild(back);
-	
 	auto listener = EventListenerTouchOneByOne::create();
 	listener->onTouchBegan = [back](Touch* t, Event* e){
 		if (back->getBoundingBox().containsPoint(t->getLocation()))

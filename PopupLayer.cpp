@@ -263,7 +263,7 @@ void PopupLayer::realRunAnmi(float t)
 			{
 				if (Player->vec.at(i) == lott)
 				{
-					Duang::addparticle();
+					Opportunity::addparticle();
 					GameScene::update_money(Player, 50000);
 				}
 			}
