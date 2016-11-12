@@ -85,6 +85,7 @@ comhouse1::~comhouse1()
 
 void comhouse1::buy(std::string& name)
 {
+	//如果此房产没有被抵押没有
 	if (!_ismortgage)
 	{
 		auto ps = player::getplayers();

@@ -19,7 +19,7 @@ public:
 	CREATE_FUNC(AbstractHouse);
 
     // 模板方法，给出了逻辑的骨架，而逻辑的组成是一些相应的抽象操作，推迟到子类去实现
-    void TemplateMethod();
+    void TemplateChooseMethod();
 
     
 protected:
@@ -30,5 +30,13 @@ protected:
 	std::string _owner;
 	bool _ismortgage;
 	float _promote_money;
+    virtual void payMoney()
+    {
 
+        cout<<"Default payMoney Operation"<<endl;
+    }
+    virtual void happenAccident()
+    {
+        cout<<"Default happenAccident Operation1"<<endl;
+    }
 }
