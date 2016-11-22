@@ -10,6 +10,7 @@ player::player()
 {
 	comex = -1; comey = -1;
 	_money = 0;
+	saveMony = 0;
 	_name = nullptr;
 	money_string = Label::createWithTTF("","fonts/Gazzarel.TTF",20);
 	turnme = false;

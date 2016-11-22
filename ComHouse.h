@@ -10,12 +10,13 @@ public:
 	ComHouse();
 	ComHouse::ComHouse(int buyPrice, int rentPrice, int promotePrice)
 	~ComHouse();
-	virtual void buy(std::string& name);
 	virtual void rent();
 	virtual void mortgage();
 	virtual void ransom();
 	virtual void auction();
 	virtual void promote();
+	virtual void payMoney();
+	virtual void happenAccident();
 	virtual void changetype(int type);
 	virtual bool init();
 	CREATE_FUNC(ComHouse);

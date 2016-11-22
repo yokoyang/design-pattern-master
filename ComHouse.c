@@ -20,8 +20,9 @@ ComHouse::~ComHouse()
 
 }
 
-void ComHouse::buy(std::string& name)
+void ComHouse::payMoney()
 {
+	std::string name = player::getplayers()->_name;
 	//如果此房产没有被抵押没有
 	if (!_ismortgage)
 	{
@@ -50,21 +51,7 @@ void ComHouse::buy(std::string& name)
 	}
 }
 
-void ComHouse::rent()
-{
-	if (!_ismortgage)
-	{
-		auto ps = player::getplayers();
-		for (auto it = ps->begin(); it != ps->end(); it++)
-		{
-			if ((*it)->getname() == _name)
-			{
-				(*it)->setproperty((*it)->getproperty() + _rent_money);
-				break;
-			}
-		}
-	}
-}
+
 
 void ComHouse::mortgage()
 {
@@ -153,4 +140,25 @@ bool ComHouse::init()
 	_ismortgage = false;
 	_owner = "";
 	return true;
+}
+
+void ComHouse::rent()
+{
+	//未抵押的房产
+	if (!_ismortgage)
+	{
+		auto ps = player::getplayers();
+		for (auto it = ps->begin(); it != ps->end(); it++)
+		{
+			if ((*it)->getname() == _name)
+			{
+				(*it)->setproperty((*it)->getproperty() + _rent_money);
+				break;
+			}
+		}
+	}
+}
+
+void happenAccident(){
+
 }

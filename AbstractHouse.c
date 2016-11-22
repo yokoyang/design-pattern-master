@@ -100,9 +100,11 @@ bool AbstractHouse::init()
 
 //普通房子实现交过路费，监狱可以交赎金，银行存钱
 void payMoney(){
-
+	//推迟到子类实现
+    log("Abstract payMoney method!");
 }
-//普通住房可以选择购买房子、升级房子，银行可以触发取钱动作，监狱可能触发坐牢
+//普通住房可以选择购买房子、升级房子，银行可以触发拿到红利动作，监狱可能触发坐牢
 void happenAccident(){
-
+	//推迟到子类实现
+    log("Abstract happenAccident method!");
 }

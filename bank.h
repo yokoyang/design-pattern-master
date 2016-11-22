@@ -15,4 +15,6 @@ public:
 	float getwage(){ return _wage; };
 	virtual bool init();
 	CREATE_FUNC(bank);
+	void payMoney();
+	void happenAccident();
 };

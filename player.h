@@ -13,7 +13,7 @@ protected:
 
 	//The property
 	float _money;
-
+	float saveMony;
 	//The path
 	std::vector<int> pathrow;
 	std::vector<int> pathcol;
