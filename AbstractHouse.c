@@ -15,7 +15,8 @@ AbstractHouse::~AbstractHouse(){
 
 }
 
-// 模板方法，给出了逻辑的骨架，而逻辑的组成是一些相应的抽象操作，推迟到子类去实现
+// 模板方法
+//定义一个操作的算法的框架 给出了逻辑的骨架，而逻辑的组成是一些相应的抽象操作，推迟到子类去实现
 void TemplateChooseMethod(){
     payMoney();
     happenAccident();
