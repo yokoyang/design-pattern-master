@@ -1,6 +1,0 @@
-#include"Factory.h"
-#include"control.h"
-#include"GameSceneScene.h"
-#include"route.h"
-#include"toast.h"
-#include"FinalScene.h"
