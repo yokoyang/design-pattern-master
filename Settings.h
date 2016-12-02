@@ -1,7 +1,7 @@
 #pragma once
 #pragma warning(disable:4996)
 #include<cocos2d.h>
-#include"ui/CocosGUI.h"
+#include"Ui/CocosGUI.h"
 #include"HelloWorldScene.h"
 #include<SimpleAudioEngine.h>
 
@@ -12,11 +12,11 @@ class Settings:public Layer
 public:
 	Settings();
 	~Settings();
-	static Scene* createScene();
-	virtual bool init();
+	static Scene* CreateScene();
+	virtual bool Init();
 	CREATE_FUNC(Settings);
-	void sliderEvent(Ref*, Slider::EventType);
+	void SliderEvent(Ref*, Slider::EventType);
 private:
-	Label* percentage;
+	Label* percentAge;
 };
 

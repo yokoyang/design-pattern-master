@@ -7,12 +7,12 @@ ComHouse::ComHouse()
 
 ComHouse::ComHouse(int buyPrice, int rentPrice, int promotePrice)
 {
-	_ini_pri = price;
-	_now_pri = price;
+	_iniPri = price;
+	_nowPri = price;
 	_rank = 1;
-	_rent_money = rentPrice;
-	_promote_money = promotePrice;
-	_ismortgage = false;
+	_rentMoney = rentPrice;
+	_promoteMoney = promotePrice;
+	_isMortgage = false;
 	_owner = "";
 }
 ComHouse::~ComHouse()
@@ -20,11 +20,11 @@ ComHouse::~ComHouse()
 
 }
 
-void ComHouse::payMoney()
+void ComHouse::PayMoney()
 {
 	std::string name = player::getplayers()->_name;
 	//如果此房产没有被抵押没有
-	if (!_ismortgage)
+	if (!_isMortgage)
 	{
 		auto ps = player::getplayers();
 		auto it = ps->begin();
@@ -38,14 +38,14 @@ void ComHouse::payMoney()
 		if (_owner == "")
 		{
 			_owner = name;
-			_rent_money = rentPrice;
-			(*it)->setproperty((*it)->getproperty() - _now_pri);
+			_rentMoney = rentPrice;
+			(*it)->setproperty((*it)->getproperty() - _nowPri);
 		}
 		else
 		{
 			_owner = name;
-			_rent_money = rentPrice;
-			(*it)->setproperty((*it)->getproperty() - _now_pri - promotePrice);
+			_rentMoney = rentPrice;
+			(*it)->setproperty((*it)->getproperty() - _nowPri - _promotePrice);
 		}
 		_rank = 1;
 	}
@@ -53,59 +53,59 @@ void ComHouse::payMoney()
 
 
 
-void ComHouse::mortgage()
+void ComHouse::Mortgage()
 {
 	_ismortgage = true;
-	auto ps = player::getplayers();
+	auto ps = Player::getplayers();
 	for (auto it = ps->begin(); it != ps->end(); it++)
 	{
 		if ((*it)->getname() == _name)
 		{
-			(*it)->setproperty((*it)->getproperty() + _now_pri / 2);
+			(*it)->setproperty((*it)->getproperty() + _nowPri / 2);
 			break;
 		}
 	}
 }
 
-void ComHouse::ransom()
+void ComHouse::Ransom()
 {
-	auto ps = player::getplayers();
+	auto ps = Player::getplayers();
 	for (auto it = ps->begin(); it != ps->end(); it++)
 	{
 		if ((*it)->getname() == _name)
 		{
 			_ismortgage = false;
-			(*it)->setproperty((*it)->getproperty() - _now_pri * 0.6);
+			(*it)->setproperty((*it)->getproperty() - _nowPri * 0.6);
 			break;
 		}
 	}
 }
 
-void ComHouse::promote()
+void ComHouse::Promote()
 {
 	if (!_ismortgage)
 	{
 		if (_rank == 1)
 		{
 			_rank++;
-			_now_pri += 500;
-			_rent_money += 100;
+			_nowPri += 500;
+			_rentMoney += 100;
 		}
 		else if (_rank == 2)
 		{
 			_rank++;
-			_now_pri += 600;
-			_rent_money += 200;
+			_nowPri += 600;
+			_rentMoney += 200;
 		}
 	}
 }
 
-void ComHouse::changetype(int type)
+void ComHouse::ChangeType(int type)
 {
 	//TODO
 }
 
-void ComHouse::auction()
+void ComHouse::Auction()
 {
 	if (!_ismortgage)
 	{
@@ -114,51 +114,51 @@ void ComHouse::auction()
 		{
 			if ((*it)->getname() == _name)
 			{
-				(*it)->setproperty((*it)->getproperty() + _now_pri);
+				(*it)->setproperty((*it)->getproperty() + _nowPri);
 				break;
 			}
 		}
-		_ini_pri = 1500;
-		_now_pri = 1500;
+		_iniPri = 1500;
+		_nowPri = 1500;
 		_rank = 1;
-		_rent_money = 0;
-		_promote_money = 500;
-		_ismortgage = false;
+		_rentMoney = 0;
+		_promoteMoney = 500;
+		_isMortgage = false;
 		_owner = "";
 	}
 }
 
-bool ComHouse::init()
+bool ComHouse::Init()
 {
-	if (!Sprite::init())
+	if (!Sprite::Init())
 		return false;
-	_ini_pri = 1500;
-	_now_pri = 1500;
+	_iniPri = 1500;
+	_nowPri = 1500;
 	_rank = 1;
-	_rent_money = 0;
-	_promote_money = 500;
-	_ismortgage = false;
+	_rentMoney = 0;
+	_promoteMoney = 500;
+	_isMortgage = false;
 	_owner = "";
 	return true;
 }
 
-void ComHouse::rent()
+void ComHouse::Rent()
 {
 	//未抵押的房产
 	if (!_ismortgage)
 	{
-		auto ps = player::getplayers();
+		auto ps = Player::getplayers();
 		for (auto it = ps->begin(); it != ps->end(); it++)
 		{
 			if ((*it)->getname() == _name)
 			{
-				(*it)->setproperty((*it)->getproperty() + _rent_money);
+				(*it)->setproperty((*it)->getproperty() + _rentMoney);
 				break;
 			}
 		}
 	}
 }
 
-void happenAccident(){
+void HappenAccident(){
 
 }

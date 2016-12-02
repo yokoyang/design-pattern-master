@@ -3,7 +3,7 @@
 #include<cocos2d.h>
 #include<string>
 #include<vector>
-#include<player.h>
+#include<Player.h>
 
 USING_NS_CC;
 
@@ -15,24 +15,24 @@ public:
 	~Opportunity();
 
 
-	virtual bool init();
+	virtual bool Init();
 
 	//Returns a layer showing the event
-	Layer* getShowOnScreen();
+	Layer* GetShowOnScreen();
 
 	//Adds particle system
-	static void addparticle();
+	static void AddParticle();
 
 	//Pure virtual function to be overrided, realize the event 
-	virtual bool RunAction(player*) = 0;
+	virtual bool RunAction(Player*) = 0;
 
-	std::string getCauses(){ return Causes; };
+	std::string GetCauses(){ return _causes; };
 
 	//Preload all the pictures needed to show on screen
 	static void Load();
 protected:
 	//A string giving account of the event
-	std::string Causes;
+	std::string _causes;
 };
 
 //Make the character move forward
@@ -47,17 +47,17 @@ public:
 	CREATE_FUNC(Forwards);
 
 	//Realize the event
-	virtual bool RunAction(player*) override;
+	virtual bool RunAction(Player*) override;
 
 	//Returns a pointer to a Forwards object ,causes for Opportunity::causes,steps for Forwards::steps
-	static Forwards* createWithSteps(std::string, int);
+	static Forwards* CreateWithSteps(std::string, int);
 	//Returns the single instance
-	static std::vector<Forwards*>* getInstance(){ return &Instances; };
+	static std::vector<Forwards*>* GetInstance(){ return &_instances; };
 protected:
 	//Steps to take
-	int Steps;
+	int _steps;
 	//Single instance
-	static std::vector <Forwards*> Instances;
+	static std::vector <Forwards*> _instances;
 };
 
 class Delay :public Opportunity
@@ -68,20 +68,20 @@ public:
 	~Delay();
 
 
-	virtual bool init();
+	virtual bool Init();
 	CREATE_FUNC(Delay);
 
 	//Realize the event
-	virtual bool RunAction(player*) override;
+	virtual bool RunAction(Player*) override;
 
 	//Create a Delay object,with Opportunity::causes, rounds, status
-	static Delay* createWithRoundsAndStatus(std::string, int, int);
+	static Delay* CreateWithRoundsAndStatus(std::string, int, int);
 	//Return the single instance
-	static std::vector<Delay*>* getInstance(){ return &Instances; };
+	static std::vector<Delay*>* GetInstance(){ return &_instances; };
 protected:
-	int Rounds;
-	int Status = 0;                              //0 stands for staying at the original place, 1 for going to hospital, 2 for going to jail
-	static std::vector <Delay*> Instances;
+	int rounds;
+	int status = 0;                              //0 stands for staying at the original place, 1 for going to hospital, 2 for going to jail
+	static std::vector <Delay*> _instances;
 };
 
 class Wealth :public Opportunity
@@ -95,16 +95,16 @@ public:
 	CREATE_FUNC(Wealth);
 
 	//Realize the event
-	virtual bool RunAction(player*) override;
+	virtual bool RunAction(Player*) override;
 
 	//Creates the Wealth Object
-	static Wealth* createWithProfit(std::string, int);
+	static Wealth* CreateWithProfit(std::string, int);
 	//Returns the single instance
-	static std::vector<Wealth*>* getInstance(){ return &Instances; };
+	static std::vector<Wealth*>* GetInstance(){ return &_instances; };
 protected:
 	//The money the character will gain, below zero if the character will lose money
-	int Profit;
-	static std::vector <Wealth*> Instances;
+	int _profit;
+	static std::vector <Wealth*> _instances;
 };
 
 
@@ -116,14 +116,14 @@ public:
 	~Lottery();
 
 	//Adds a lottery publishing animation
-	void addAnimation();
+	void AddAnimation();
 
-	virtual bool init();
+	virtual bool Init();
 	CREATE_FUNC(Lottery);
 	CC_SYNTHESIZE(Animate*, normal_anmi, Normal_anmi);
 private:
-	SpriteFrameCache* Sprite_Frame;
+	SpriteFrameCache* spriteFrame;
 	char* name;
 	Vector<SpriteFrame*> animate;
-	void setItemAnimate();
+	void SetItemAnimate();
 };

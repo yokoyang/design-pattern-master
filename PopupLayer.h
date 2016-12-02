@@ -3,7 +3,7 @@
 #include "cocos2d.h"
 
 #include "cocos-ext.h"
-#include"player.h"
+#include"Player.h"
 #include"Opportunity.h"
 USING_NS_CC_EXT;
 
@@ -18,26 +18,26 @@ public:
 	//Constructor and destructor 
 	PopupLayer();
 	~PopupLayer();
-	virtual bool init();
+	virtual bool Init();
 	CREATE_FUNC(PopupLayer);
-	Vector<player*>players_vec;
+	Vector<Player*> players_vec;
 	std::vector<int>lotterynum;
-	static PopupLayer * create(const char* backgroundImage);
-	void setTitle(const char* title, int fontsize = Pop_FontSize);
-	void setContentText(const char* text, int fontsize = Pop_FontSize, int padding = 50, int paddintTop = 100);
-	void setCallbackFunc(Object* target, SEL_CallFuncN callfun);
-	void setPlayerVector(Vector<player*>_vector);
-	bool addButton(const char* normalImage, const char* selectedImage, const char* title, int tag = 0);
+	static PopupLayer * Create(const char* backgroundImage);
+	void SetTitle(const char* title, int fontsize = Pop_FontSize);
+	void SetContentText(const char* text, int fontsize = Pop_FontSize, int padding = 50, int paddintTop = 100);
+	void SetCallbackFunc(Object* target, SEL_CallFuncN callfun);
+	void SetPlayerVector(Vector<Player*>_vector);
+	bool AddButton(const char* normalImage, const char* selectedImage, const char* title, int tag = 0);
 
-	void addplayerlottery();
-	void runanmi();
-	virtual void onEnter();
-	virtual void onExit();
-	void addplayerinfo(Size size);
-	void setlotterycontext(Size size);
-	void settype(int i){ type = i; };
+	void AddPlayerlottery();
+	void RunAnmi();
+	virtual void OnEnter();
+	virtual void OnExit();
+	void AddPlayerInfo(Size size);
+	void SetLotteryContext(Size size);
+	void SetType(int i){ type = i; };
 private:
-	void buttonCallback(Object* pSender);
+	void ButtonCallback(Object* pSender);
 
 	//Margins
 	int m_contentPadding;
@@ -54,7 +54,7 @@ private:
 
 	CC_SYNTHESIZE(int, dataTag, DataTag);
 	Lottery* lp;
-	void realRunAnmi(float dt);
-	void dismissFromParent(float dt);
+	void RealRunAnmi(float dt);
+	void DismissFromParent(float dt);
 	int type=0;
 };

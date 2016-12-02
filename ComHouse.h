@@ -1,6 +1,6 @@
 #pragma once
 #include"cocos2d.h"
-#include"player.h"
+#include"Player.h"
 #include<string>
 USING_NS_CC;
 
@@ -10,15 +10,15 @@ public:
 	ComHouse();
 	ComHouse::ComHouse(int buyPrice, int rentPrice, int promotePrice)
 	~ComHouse();
-	virtual void rent();
-	virtual void mortgage();
-	virtual void ransom();
-	virtual void auction();
-	virtual void promote();
-	virtual void payMoney();
-	virtual void happenAccident();
-	virtual void changetype(int type);
-	virtual bool init();
+	virtual void Rent();
+	virtual void Mortgage();
+	virtual void Ransom();
+	virtual void Auction();
+	virtual void Promote();
+	virtual void PayMoney();
+	virtual void HappenAccident();
+	virtual void Changetype(int type);
+	virtual bool Init();
 	CREATE_FUNC(ComHouse);
 protected:
 

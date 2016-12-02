@@ -2,9 +2,9 @@
 #define __GameScene_SCENE_H__
 #pragma warning(disable:4996)
 #include "cocos2d.h"
-#include"player.h"
-#include"route.h"
-#include"control.h"
+#include"Player.h"
+#include"Route.h"
+#include"Control.h"
 #include"Ui.h"
 #include"PopupLayer.h"
 
@@ -17,7 +17,7 @@ public:
     static cocos2d::Scene* createScene();
 
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
-    virtual bool init();
+    virtual bool Init();
     
    
     
@@ -25,11 +25,11 @@ public:
     CREATE_FUNC(GameScene);
 
 	//Get the coordinate in the map where the character can move to
-	void getwaygild();
+	void GetWaygild();
 
 
 	//Acquire iswalk
-	bool** getiswalk();
+	bool** IsWalk();
 
 	//Returns the container of step marker
 	static Vector<Sprite*>* getstep_image(){ return step_image; };
@@ -45,10 +45,10 @@ public:
 	static void setplayernumber(int t){ playernumber = t; };
 	
 	//Set the map type
-	static void set_maptype(int i){ map_type = i; };
+	static void setmap_type(int i){ map_type = i; };
 	
 	// True to indicate the place accessible,false otherwise
-	static bool** iswalk;
+	static bool** isWalk;
 
 	//Acquire the Layer"Land"
 	static TMXLayer* getlandlayer(){ return land; };
@@ -62,36 +62,36 @@ public:
 	static float buy_land_y;
 
 	//Update the character's money 
-	static void update_money(player*, int money);
+	static void UpdateMoney(Player*, int money);
 
 	//Add all sorts of game resources
-	void add_infor(float);
+	void AddInfor(float);
 
 	//Acquire the rows and columns of the map
-	static int getrow_count(){ return rowcount; };
-	static int getcol_count(){ return colcount; };
+	static int getrowcount(){ return rowcount; };
+	static int getcolcount(){ return colcount; };
 
 	//Get the ID of the vacant land
 	static int getland_id(){ return land_id; };
 
 	//Acquire the go button
-	static Sprite* get_go(){ return go; };
+	static Sprite* getgo(){ return go; };
 
 	//Aquire the ID where there are question marks
-	static int get_wenhao_id(){ return wenhao_id; };
+	static int getwenhao_id(){ return wenhao_id; };
 
 	//Acuire the container of location pictures
-	static Vector<Sprite*>* get_location_image(){ return location_image; };
+	static Vector<Sprite*>* getlocation_image(){ return location_image; };
 
 	//Acquire the dialog of lottery publishing 
-	static PopupLayer* get_dialoglottery(){ return dialoglottery; };
+	static PopupLayer* getdialoglottery(){ return dialoglottery; };
 
 
 	//Add progress timer
-	void addProgressTimer();
+	void AddProgressTimer();
 
 	//Update the progress timer
-	void update(float);
+	void Update(float);
 
 
 private:
@@ -101,12 +101,12 @@ private:
 	Label* numsTTF;
 	static int land_id;
 	static int playernumber;
-	static Vector<player*>*players;
+	static Vector<Player*>*players;
 	Size visibleSize;
 	static TMXTiledMap* map;
 	
 	//The player
-	player* player1;
+	Player* player1;
 	static Vector<Sprite*> * playerimg;
 	
 	//The width and height of a single tile
@@ -136,31 +136,31 @@ private:
 	static Vector<Sprite*>* location_image;
 	static int map_type;
 	
-	void addFinal_layer();
-	void add_location_image();
+	void AddFinal_layer();
+	void Add_location_image();
 
-	player* get_land_owner(int ID);
-	int area_land_pay(float x, float y, player*, int id1, int id2, int id3);
+	Player* GetId(int ID);
+	int AreaLand_pay(float x, float y, Player*, int id1, int id2, int id3);
 	//Add map
-	void addmap(int type);
+	void Addmap(int type);
 	//Add players images
-	void addplayerimg();
+	void AddPlayerImg();
 	//Add the info of the characters
-	void addplayerinformation(int number);
+	void AddPlayerInformation(int number);
 	//Add players of number 'number'
-	void addplayer(int number);
+	void AddPlayer(int number);
 	//Add dice to Layer*
-	void addshaizi(Layer*);
+	void AddShaiZi(Layer*);
 
 	
-	void setiswalk();
+	void SetIswalk();
 
-	void addstep_image();
+	void AddStep_image();
 
-	void adddialog();
-	void adddialoglottery();
+	void AddDialog();
+	void AddDialoglottery();
 
-	void buyland(Node*);
+	void BuyLand(Node*);
 };
 
 #endif // __GameScene_SCENE_H__

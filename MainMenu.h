@@ -9,7 +9,7 @@ public:
 	//Constructor and destructor
 	MainMenu();
 	~MainMenu();
-	virtual bool init();
+	virtual bool Init();
 	CREATE_FUNC(MainMenu);
 };
 
