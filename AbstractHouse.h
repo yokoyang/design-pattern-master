@@ -14,9 +14,9 @@ public:
 	virtual void Ransom();
 	virtual void Auction();
 	virtual void Promote();
-	virtual void Changetype(int type);
+	virtual void ChanGetype(int type);
 	virtual bool IsInit();
-	CREATE_FUNC(AbstractHouse);
+	Create_FUNC(AbstractHouse);
 
     // 模板方法，给出了逻辑的骨架，而逻辑的组成是一些相应的抽象操作，推迟到子类去实现
     void TemplateChooseMethod();

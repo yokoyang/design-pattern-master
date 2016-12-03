@@ -1,8 +1,8 @@
 #pragma once
-#include"cocos2d.h"
-#include"Player.h"
-#include"Bank.h"
-#include<string>
+#include "cocos2d.h"
+#include "Player.h"
+#include "Bank.h"
+#include <string>
 USING_NS_CC;
 
 class Bank :public AbstractHouse
@@ -12,9 +12,9 @@ protected:
 public:
 	Bank();
 	~Bank();
-	float getwage(){ return _wage; };
+	float Getwage(){ return _wage; };
 	virtual bool Init();
-	CREATE_FUNC(CBank);
+	Create_FUNC(CBank);
 	void PayMoney();
 	void HappenAccident();
 };

@@ -20,8 +20,8 @@ public:
 
 	//The current character starts moving 
 	//rowVector and colVector stores the path of the current character
-	//Player points to the current character
-	void StartGo(std::vector<int> rowVector, std::vector<int> colVector, Player* Player);
+	//player points to the current character
+	void StartGo(std::vector<int> rowVector, std::vector<int> colVector, Player* player);
 
 	//Move the character one step ahead
 	void MoveOne(Player* richerPlayer);
@@ -31,7 +31,7 @@ public:
 	void EndEvent();
 
 	//Return an autoreleases control object
-	CREATE_FUNC(Control);
+	Create_FUNC(Control);
 	virtual bool Init();
 
 	//Non-player characters Move
@@ -44,15 +44,15 @@ public:
 	void Receivemsg(Object*);
 
 	//The remaining characters initiation
-	void ResetPlayerGoTurn();
+	void ReSetPlayerGoTurn();
 
 	//Lottery publish
 	void Poplottery();
 
 private:
 	//Path
-	std::vector<int> pathrow;
-	std::vector<int> pathcol;
+	std::vector<int> pathRow;
+	std::vector<int> pathCol;
 	float tilewidth = 32;
 	float tileheigh = 32;
 
@@ -75,7 +75,7 @@ private:
 	bool oneRoundend;
 
 	//Current character
-	Player* Player;
+	Player* player;
 	Sprite* image;
 
 };

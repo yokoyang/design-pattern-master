@@ -3,7 +3,7 @@
 #include<cocos2d.h>
 #include<string>
 #include<vector>
-#include<Player.h>
+#include "Player.h"
 
 USING_NS_CC;
 
@@ -43,8 +43,8 @@ public:
 	Forwards();
 	~Forwards();
 
-	virtual bool init();
-	CREATE_FUNC(Forwards);
+	virtual bool Init();
+	Create_FUNC(Forwards);
 
 	//Realize the event
 	virtual bool RunAction(Player*) override;
@@ -69,7 +69,7 @@ public:
 
 
 	virtual bool Init();
-	CREATE_FUNC(Delay);
+	Create_FUNC(Delay);
 
 	//Realize the event
 	virtual bool RunAction(Player*) override;
@@ -91,8 +91,8 @@ public:
 	Wealth();
 	~Wealth();
 
-	virtual bool init();
-	CREATE_FUNC(Wealth);
+	virtual bool Init();
+	Create_FUNC(Wealth);
 
 	//Realize the event
 	virtual bool RunAction(Player*) override;
@@ -119,7 +119,7 @@ public:
 	void AddAnimation();
 
 	virtual bool Init();
-	CREATE_FUNC(Lottery);
+	Create_FUNC(Lottery);
 	CC_SYNTHESIZE(Animate*, normal_anmi, Normal_anmi);
 private:
 	SpriteFrameCache* spriteFrame;

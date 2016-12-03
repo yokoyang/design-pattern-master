@@ -14,47 +14,47 @@ class GameScene : public cocos2d::Layer
 {
 public:
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
-    static cocos2d::Scene* createScene();
+    static cocos2d::Scene* CreateScene();
 
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
     virtual bool Init();
     
    
     
-    // implement the "static create()" method manually
-    CREATE_FUNC(GameScene);
+    // implement the "static Create()" method manually
+    Create_FUNC(GameScene);
 
 	//Get the coordinate in the map where the character can move to
-	void GetWaygild();
+	void GetWayGild();
 
 
-	//Acquire iswalk
-	bool** IsWalk();
+	//Acquire isWalk
+	bool** isWalk();
 
 	//Returns the container of step marker
-	static Vector<Sprite*>* getstep_image(){ return step_image; };
+	static Vector<Sprite*>* GetStep_image(){ return step_image; };
 
 
 	//Acquire a container of characters
-	static Vector<player*>* getplayers(){ return players; };
+	static Vector<Player*>* GetPlayers(){ return players; };
 
 	//Acquire the character number
-	static int getplayernumber(){ return playernumber; };
+	static int GetPlayerNumber(){ return playerNumber; };
 
 	//Set the character number
-	static void setplayernumber(int t){ playernumber = t; };
+	static void SetPlayerNumber(int t){ playerNumber = t; };
 	
 	//Set the map type
-	static void setmap_type(int i){ map_type = i; };
+	static void SetMap_type(int i){ map_type = i; };
 	
 	// True to indicate the place accessible,false otherwise
 	static bool** isWalk;
 
 	//Acquire the Layer"Land"
-	static TMXLayer* getlandlayer(){ return land; };
+	static TMXLayer* GetLandLayer(){ return land; };
 
 	//Acquire the map
-	static TMXTiledMap* getmap(){ return map; };
+	static TMXTiledMap* Getmap(){ return map; };
 
 	//Display a dialog to ask whether to purchase estates
 	static void show_buy_land_dialog(int);
@@ -63,28 +63,29 @@ public:
 
 	//Update the character's money 
 	static void UpdateMoney(Player*, int money);
+	bool** GetIsWalk();
 
 	//Add all sorts of game resources
 	void AddInfor(float);
 
 	//Acquire the rows and columns of the map
-	static int getrowcount(){ return rowcount; };
-	static int getcolcount(){ return colcount; };
+	static int GetRowCount(){ return rowCount; };
+	static int GetColCount(){ return colCount; };
 
 	//Get the ID of the vacant land
-	static int getland_id(){ return land_id; };
+	static int GetLand_id(){ return land_id; };
 
 	//Acquire the go button
-	static Sprite* getgo(){ return go; };
+	static Sprite* GetGo(){ return go; };
 
 	//Aquire the ID where there are question marks
-	static int getwenhao_id(){ return wenhao_id; };
+	static int GetQuesmark_id(){ return quesmark_id; };
 
 	//Acuire the container of location pictures
-	static Vector<Sprite*>* getlocation_image(){ return location_image; };
+	static Vector<Sprite*>* GetLocation_image(){ return location_image; };
 
 	//Acquire the dialog of lottery publishing 
-	static PopupLayer* getdialoglottery(){ return dialoglottery; };
+	static PopupLayer* GetDialogLottery(){ return dialogLottery; };
 
 
 	//Add progress timer
@@ -96,18 +97,18 @@ public:
 
 private:
 
-	Sprite* progressbgSprite;
+	Sprite* progressBgSprite;
 	ProgressTimer* progress1;
 	Label* numsTTF;
 	static int land_id;
-	static int playernumber;
+	static int playerNumber;
 	static Vector<Player*>*players;
 	Size visibleSize;
 	static TMXTiledMap* map;
 	
 	//The player
 	Player* player1;
-	static Vector<Sprite*> * playerimg;
+	static Vector<Sprite*> * playerImg;
 	
 	//The width and height of a single tile
 	float tilewidth;
@@ -117,21 +118,21 @@ private:
 	static Vector<Sprite*>* step_image;
 
 	static PopupLayer* dialog;
-	static PopupLayer* dialoglottery;
+	static PopupLayer* dialogLottery;
 	//Vacant land
 	static TMXLayer* land;
 	static TMXLayer* wenhao;
-	static int wenhao_id;
+	static int quesmark_id;
 	void reg_notification_Observe();
 
-	void received_MSG(Object*);
+	void Received_MSG(Object*);
 
 	static Vector<Sprite*>area_land;
 
 	static Layer* final_layer;
 	
-	static int rowcount;
-	static int colcount;
+	static int rowCount;
+	static int colCount;
 	static Sprite* go;
 	static Vector<Sprite*>* location_image;
 	static int map_type;
@@ -153,12 +154,12 @@ private:
 	void AddShaiZi(Layer*);
 
 	
-	void SetIswalk();
+	void SetIsWalk();
 
 	void AddStep_image();
 
 	void AddDialog();
-	void AddDialoglottery();
+	void AddDialogLottery();
 
 	void BuyLand(Node*);
 };

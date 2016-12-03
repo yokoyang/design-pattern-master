@@ -16,20 +16,20 @@ public:
 	static Route* GetInstance();
 
 	//Acquire the path the players are to take 
-	void GetPath(Player* playername, bool** iswalk, int step, int colcount, int rowcount);
+	void GetPath(Player* playername, bool** isWalk, int step, int colCount, int rowCount);
 
 	//Decide which of the four directions are accessible
-	bool IsCango(int x, int y, int dir, bool**);
+	bool IsCanGo(int x, int y, int dir, bool**);
 
 	//Set the tile size
-	void SetTilesize(float tilewidth, float tileheigh);
+	void SettileSize(float tilewidth, float tileheigh);
 
-	std::vector<int> GetPathrow(){ return pathrow; };
-	std::vector<int> GetPathcol(){ return pathcol; };
+	std::vector<int> GetPathRow(){ return pathRow; };
+	std::vector<int> GetPathCol(){ return pathCol; };
 private:
 	static Route* route;
-	std::vector<int> pathrow;
-	std::vector<int> pathcol;
+	std::vector<int> pathRow;
+	std::vector<int> pathCol;
 
 	//Coming direction, avoided 
 	int comeX;

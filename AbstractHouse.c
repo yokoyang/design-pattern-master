@@ -28,11 +28,11 @@ void AbstractHouse::Buy(std::string& name)
 {
 	if (!_isMortgage)
 	{
-		auto ps = Player::getplayers();
-		auto it = ps->begin();
-		for (; it != ps->end(); it++)
+		auto ps = Player::GetPlayers();
+		auto it = ps->Begin();
+		for (; it != ps->End(); it++)
 		{
-			if ((*it)->getname() == _name)
+			if ((*it)->Getname() == _name)
 			{
 				break;
 			}
@@ -41,13 +41,13 @@ void AbstractHouse::Buy(std::string& name)
 		{
 			_owner = name;
 			_rentMoney = 300;
-			(*it)->setproperty((*it)->getproperty() - _nowPri);
+			(*it)->Setproperty((*it)->Getproperty() - _nowPri);
 		}
 		else
 		{
 			_owner = name;
 			_rentMoney = 300;
-			(*it)->setproperty((*it)->getproperty() - _nowPri - 500);
+			(*it)->Setproperty((*it)->Getproperty() - _nowPri - 500);
 		}
 		_rank = 1;
 	}
@@ -78,14 +78,14 @@ void AbstractHouse::Promote()
 
 }
 
-void AbstractHouse::Changetype(int type)
+void AbstractHouse::ChanGetype(int type)
 {
 
 }
 
 bool AbstractHouse::IsInit()
 {
-	if (!Sprite::init())
+	if (!Sprite::Init())
 	{
 		return false;
 	}
