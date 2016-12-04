@@ -1,6 +1,6 @@
-#include"prison.h"
+#include"Prison.h"
 
-prison::prison()
+Prison::Prison()
 {
 	_wage = 1000;
 	//初始化的时候是未缴纳罚金状态
@@ -9,7 +9,7 @@ prison::prison()
 }
 
 //监狱可以交赎金
-void payMoney(){
+void PayMoney(){
 	auto ps = player::getplayers();
 	auto it = ps->begin();
 	float moneyLeft;
@@ -26,7 +26,7 @@ void payMoney(){
 	return;
 }
 //监狱触发坐牢事件
-void happenAccident(){
+void HappenAccident(){
 	//没交赎金，需要玩家坐牢
 	if(acceptPunishment == false){
 		auto ps = player::getplayers();
@@ -39,7 +39,7 @@ void happenAccident(){
 }
 
 
-prison::~prison()
+Prison::~Prison()
 {
 
 }

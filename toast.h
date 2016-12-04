@@ -6,12 +6,12 @@ USING_NS_CC;
 USING_NS_CC_EXT;
 
 //Adds a toast to remind players
-class toast:public LayerColor
+class Toast:public LayerColor
 {
 public:
 	//Add toast
-	static void addtoast(Node*, Point, std::string, float);
+	static void AddToast(Node*, Point, std::string, float);
 
 	//Remove the toast
-	void removetoast(Node* node);
+	void RemoveToast(Node* node);
 };

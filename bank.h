@@ -1,20 +1,20 @@
 #pragma once
 #include"cocos2d.h"
-#include"player.h"
-#include"bank.h"
+#include"Player.h"
+#include"Bank.h"
 #include<string>
 USING_NS_CC;
 
-class bank :public AbstractHouse
+class Bank :public AbstractHouse
 {
 protected:
 	float _wage;
 public:
-	bank();
-	~bank();
+	Bank();
+	~Bank();
 	float getwage(){ return _wage; };
-	virtual bool init();
-	CREATE_FUNC(bank);
-	void payMoney();
-	void happenAccident();
+	virtual bool Init();
+	CREATE_FUNC(CBank);
+	void PayMoney();
+	void HappenAccident();
 };

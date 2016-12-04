@@ -1,25 +1,25 @@
-#include"bank.h"
+#include"Bank.h"
 
-bank::bank()
+Bank::Bank()
 {
 	_wage = 1000;
 }
 
-bank::~bank()
+Bank::~Bank()
 {
 
 }
 
 //银行存钱
-void payMoney(){
+void PayMoney(){
 	auto ps = player::getplayers();
 	auto it = ps->begin();
 	(*it)->getproperty() -= _wage;
-	it->saveMony += _wage;
+	it->_saveMoney += _wage;
 }
 
 //下次来银行时，银行发红利
-void happenAccident(){
+void HappenAccident(){
 	auto it = ps->begin();
-	(*it)->getproperty() += it->saveMony * 0.2;
+	(*it)->getproperty() += it->_saveMony * 0.2;
 }

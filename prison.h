@@ -1,23 +1,23 @@
 #pragma once
 #include"cocos2d.h"
-#include"player.h"
-#include"prison.h"
+#include"Player.h"
+#include"Prison.h"
 #include<string>
 USING_NS_CC;
 
-class prison :public AbstractHouse
+class Prison :public AbstractHouse
 {
 protected:
 	float _wage;
-	bool acceptPunishment;
-	int delayDay;
+	bool _acceptPunishment;
+	int _delayDay;
 public:
-	prison();
-	~prison();
-	float getwage(){ return _wage; };
-	virtual bool init();
-	CREATE_FUNC(prison);
-	void payMoney();
-	void happenAccident();
+	Prison();
+	~Prison();
+	float Get_wage(){ return _wage; };
+	virtual bool Init();
+	CREATE_FUNC(Prison);
+	void PayMoney();
+	void HappenAccident();
 
 };

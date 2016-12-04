@@ -1,39 +1,39 @@
 #pragma once
 #pragma warning(disable:4996)
 #include"cocos2d.h"
-#include"player.h"
+#include"Player.h"
 
 
 USING_NS_CC;
 
-class route
+class Route
 {
 public:
-	route();
-	~route();
+	Route();
+	~Route();
 
 	//Returns the single instance
-	static route* getInstance();
+	static Route* GetInstance();
 
 	//Acquire the path the players are to take 
-	void getpath(player* playername, bool** iswalk, int step, int colcount, int rowcount);
+	void GetPath(Player* playername, bool** iswalk, int step, int colcount, int rowcount);
 
 	//Decide which of the four directions are accessible
-	bool iscango(int x, int y, int dir, bool**);
+	bool IsCango(int x, int y, int dir, bool**);
 
 	//Set the tile size
-	void settilesize(float tilewidth, float tileheigh);
+	void SetTilesize(float tilewidth, float tileheigh);
 
-	std::vector<int> getpathrow(){ return pathrow; };
-	std::vector<int> getpathcol(){ return pathcol; };
+	std::vector<int> GetPathrow(){ return pathrow; };
+	std::vector<int> GetPathcol(){ return pathcol; };
 private:
-	static route* Route;
+	static Route* route;
 	std::vector<int> pathrow;
 	std::vector<int> pathcol;
 
 	//Coming direction, avoided 
-	int comex;
-	int comey;
+	int comeX;
+	int comeY;
 	float tilewidth=32;
 	float tileheigh=32;
 };
