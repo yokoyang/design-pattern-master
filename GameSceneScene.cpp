@@ -435,30 +435,20 @@ bool** GameScene::getiswalk()
 void GameScene::addstep_image()
 {
 	step_image->clear();
-	auto image1 = Sprite::create("Marker1.png");
-	auto image2 = Sprite::create("Marker2.png");
-	auto image3 = Sprite::create("Marker3.png");
-	auto image4 = Sprite::create("Marker4.png");
-	auto image5 = Sprite::create("Marker5.png");
-	auto image6 = Sprite::create("Marker6.png");
-	step_image->pushBack(image1);
-	step_image->pushBack(image2);
-	step_image->pushBack(image3);
-	step_image->pushBack(image4);
-	step_image->pushBack(image5);
-	step_image->pushBack(image6);
-	image1->setVisible(false);
-	image2->setVisible(false);
-	image3->setVisible(false);
-	image4->setVisible(false);
-	image5->setVisible(false);
-	image6->setVisible(false);
-	map->addChild(image1);
-	map->addChild(image2);
-	map->addChild(image3);
-	map->addChild(image4);
-	map->addChild(image5);
-	map->addChild(image6);
+
+    char*picName = new char[20];
+    memset(picName, 0, 20);
+	//sprintf来减少重复代码
+	for(int i=1;i<=6;i++){
+        sprintf(picName, "Marker%02d.png", i);
+		auto image1 = Sprite::create(picName);
+		step_image->pushBack(image1);
+		image1->setVisible(false);
+		map->addChild(image1);
+    	memset(picName, 0, 20);
+
+	}
+
 }
 
 void GameScene::adddialog()
