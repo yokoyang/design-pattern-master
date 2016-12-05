@@ -24,11 +24,11 @@ bool Settings::Init()
 	{
 		return false;
 	}
-	auto VisibleSize = Director::GetInstance()->GetVisibleSize();
+	auto visibleSize = Director::GetInstance()->GetvisibleSize();
 
 	auto bk = Sprite::Create("wenli.jpg");
-	bk->SetScale(VisibleSize.width / bk->GetContentSize().width, VisibleSize.height / bk->GetContentSize().height);
-	bk->SetPosition(VisibleSize / 2);
+	bk->SetScale(visibleSize.width / bk->GetContentSize().width, visibleSize.height / bk->GetContentSize().height);
+	bk->setPosition(visibleSize / 2);
 	AddChild(bk);
 
 	auto Settings_Menu = Menu::Create();
@@ -36,19 +36,19 @@ bool Settings::Init()
 	auto MusicText = Label::CreateWithTTF("Music", "fonts/Gazzarel.TTF",40);
 	MusicText->SetColor(Color3B::BLACK);
 	auto MusicItem = MenuItemLabel::Create(MusicText);
-	MusicItem->SetAnchorPoint(Vec2(0, 0));
+	MusicItem->setAnchorPoint(Vec2(0, 0));
 
 	auto ModeText = Label::CreateWithTTF("Mode", "fonts/Gazzarel.TTF", 40);
 	ModeText->SetColor(Color3B::BLACK);
 	auto ModeItem = MenuItemLabel::Create(ModeText, [](Ref* sender){
 	});
-	ModeItem->SetAnchorPoint(Vec2(0, 0));
+	ModeItem->setAnchorPoint(Vec2(0, 0));
 
 	auto DifficultyText = Label::CreateWithTTF("Difficulty", "fonts/Gazzarel.TTF", 40);
 	DifficultyText->SetColor(Color3B::BLACK);
 	auto DifficultyItem = MenuItemLabel::Create(DifficultyText, [](Ref* sender){
 	});
-	DifficultyItem->SetAnchorPoint(Vec2(0, 0));
+	DifficultyItem->setAnchorPoint(Vec2(0, 0));
 
 
 	auto BackText = Label::CreateWithTTF("Back to Main Menu", "fonts/Gazzarel.TTF", 40);
@@ -58,13 +58,13 @@ bool Settings::Init()
 		auto transitionScene = TransitionCrossFade::Create(2, scene);
 		Director::GetInstance()->ReplaceScene(transitionScene);
 	});
-	BackItem->SetAnchorPoint(Vec2(0, 0));
+	BackItem->setAnchorPoint(Vec2(0, 0));
 
 	Settings_Menu->AddChild(MusicItem); Settings_Menu->AddChild(ModeItem);
 	Settings_Menu->AddChild(DifficultyItem); Settings_Menu->AddChild(BackItem);
 	Settings_Menu->AlignItemsVerticallyWithPAdding(50);
-	Settings_Menu->SetAnchorPoint(Vec2(0, 0));
-	Settings_Menu->SetPosition(50, VisibleSize.height / 2);
+	Settings_Menu->setAnchorPoint(Vec2(0, 0));
+	Settings_Menu->setPosition(50, visibleSize.height / 2);
 
 	AddChild(Settings_Menu);
 
@@ -72,28 +72,28 @@ bool Settings::Init()
 	slider->loadBarTexture("slider.png");
 	slider->loadSlidBallTextures("xiaoqiu.png", "xiaoqiu.png", "");
 	//slider->loadProgressBarTexture();
-	slider->SetAnchorPoint(Vec2(1, 0));
-	slider->SetPosition(Vec2(VisibleSize.width - 50, MusicItem->GetPositionY() + Settings_Menu->GetPositionY()));
+	slider->setAnchorPoint(Vec2(1, 0));
+	slider->setPosition(Vec2(visibleSize.width - 50, MusicItem->GetPositionY() + Settings_Menu->GetPositionY()));
 	slider->SetPercent(50);
 	slider->AddEventListener(CC_CALLBACK_2(Settings::SliderEvent, this));
 	AddChild(slider);
 
 	percentage=Label::CreateWithTTF("50%", "fonts/Gazzarel.ttf", 40);
 	percentage->SetColor(Color3B::BLACK);
-	percentage->SetPosition(ConvertToWorldSpace(Vec2(slider->GetPosition().x-150,slider->GetPosition().y - 20)));
+	percentage->setPosition(ConvertToWorldSpace(Vec2(slider->GetPosition().x-150,slider->GetPosition().y - 20)));
 	AddChild(percentage);
 
 
 	auto ModeSelection = Label::CreateWithTTF("Normal Mode", "fonts/Gazzarel.TTF", 40);
 	ModeSelection->SetColor(Color3B::BLACK);
-	ModeSelection->SetAnchorPoint(Vec2(1, 0));
-	ModeSelection->SetPosition(Vec2(VisibleSize.width - 50, ModeItem->GetPositionY() + Settings_Menu->GetPositionY()));
+	ModeSelection->setAnchorPoint(Vec2(1, 0));
+	ModeSelection->setPosition(Vec2(visibleSize.width - 50, ModeItem->GetPositionY() + Settings_Menu->GetPositionY()));
 	AddChild(ModeSelection);
 
 	auto DifficultySelection = Label::CreateWithTTF("Easy", "fonts/Gazzarel.TTF", 40);
 	DifficultySelection->SetColor(Color3B::BLACK);
-	DifficultySelection->SetAnchorPoint(Vec2(1, 0));
-	DifficultySelection->SetPosition(Vec2(VisibleSize.width - 50, DifficultyItem->GetPositionY() + Settings_Menu->GetPositionY()));
+	DifficultySelection->setAnchorPoint(Vec2(1, 0));
+	DifficultySelection->setPosition(Vec2(visibleSize.width - 50, DifficultyItem->GetPositionY() + Settings_Menu->GetPositionY()));
 	AddChild(DifficultySelection);
 
 	auto listener = EventListenerTouchOneByOne::Create();

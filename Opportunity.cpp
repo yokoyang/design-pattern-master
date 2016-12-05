@@ -81,7 +81,7 @@ void Opportunity::Addparticle()
 	auto batch = ParticleBatchNode::CreateWithTexture(particle->GetTexture());
 	batch->AddChild(particle);
 	GameScene::Getmap()->AddChild(batch);
-	particle->SetPosition(Director::GetInstance()->GetVisibleSize() / 2);
+	particle->setPosition(Director::GetInstance()->GetvisibleSize() / 2);
 }
 
 
@@ -118,11 +118,11 @@ Wealth* Wealth::CreateWithProfit(std::string causes, int profit)
 Layer*Opportunity::GetShowOnScreen()
 {
 
-	auto VisibleSize = Director::GetInstance()->GetVisibleSize();
+	auto visibleSize = Director::GetInstance()->GetvisibleSize();
 
 	auto causeLabel = Label::CreateWithSystemFont(GetCauses(), "Gothic", 50);
-	causeLabel->SetAnchorPoint(Vec2(0.5, 0.5));
-	causeLabel->SetPosition(VisibleSize / 2);
+	causeLabel->setAnchorPoint(Vec2(0.5, 0.5));
+	causeLabel->setPosition(visibleSize / 2);
 	AddChild(causeLabel);
 
 	return this;
@@ -152,7 +152,7 @@ bool Wealth::RunAction(Player* p)
 }
 //Preload all the pictures needed to show on screen
 void Opportunity::Load()
-{
+{	
 	auto temp1 = Forwards::CreateWithSteps("Take A Bus, Go Two Steps Ahead", 2); temp1->Retain();
 	auto temp2 = Forwards::CreateWithSteps("Take The Subway,Go Six Steps Ahead", 6); temp2->Retain();
 	auto temp3 = Forwards::CreateWithSteps("Came Across An Old Friend,Take You For A Ride For Five Steps", 5); temp3->Retain();

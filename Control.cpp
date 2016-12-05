@@ -2,7 +2,7 @@
 #include"GameSceneScene.h"
 #include"Route.h"
 #include"Ui.h"
-#include"Duang.h"
+#include "Opportunity.h"
 #include"player.h"
 
 
@@ -120,7 +120,7 @@ void Control::StartGo(std::vector<int>pathRow,std::vector<int>pathCol,Player* pl
 //Deal with the events when the character has finished moving and ended up in one specific tile
 void Control::endGo()
 {
-	GameScene::GetStep_image()->at(_step)->SetVisible(false);
+	GameScene::GetStep_image()->at(_step)->setVisible(false);
 	_step++;
 	if (_step >= _stepcount)
 	{
@@ -133,7 +133,7 @@ void Control::endGo()
 		if (ID)
 		{
 			image = GameScene::Get_location_image()->at(ID - 1);
-			image->SetVisible(true);
+			image->setVisible(true);
 			image->RunAction(Spawn::Create(FadeIn::Create(1.0f),FadeOut::Create(3.0f),NULL));
 			
 		}
@@ -190,7 +190,7 @@ void Control::endGo()
 //Lottery publish
 void Control::poplottery()
 {
-	GameScene::Get_dialoglottery()->SetVisible(true);
+	GameScene::Get_dialoglottery()->setVisible(true);
 	GameScene::Get_dialoglottery()->AddPlayerLottery();
 	GameScene::Get_dialoglottery()->runAnmi();
 }
@@ -212,8 +212,8 @@ void Control::robotwalk()
 		}
 
 	}
-	GameScene::Get_go()->SetPosition(GameScene::Get_go()->GetPosition() + Vec2(0, 500));
-	GameScene::Get_go()->SetVisible(true);
+	GameScene::Get_go()->setPosition(GameScene::Get_go()->GetPosition() + Vec2(0, 500));
+	GameScene::Get_go()->setVisible(true);
 	oneRoundend = true;
 	reSetPlayerGoTurn();
 }

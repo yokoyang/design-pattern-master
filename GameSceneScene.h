@@ -143,7 +143,7 @@ private:
 	Player* GetId(int ID);
 	int AreaLand_pay(float x, float y, Player*, int id1, int id2, int id3);
 	//Add map
-	void Addmap(int type);
+	void AddMap(int type);
 	//Add players images
 	void AddPlayerImg();
 	//Add the info of the characters

@@ -57,12 +57,12 @@ bool GameScene::Init()
         return false;
     }
     
-    visibleSize = Director::GetInstance()->GetVisibleSize();
+    visibleSize = Director::GetInstance()->GetvisibleSize();
     Vec2 origin = Director::GetInstance()->GetVisibleOrigin();
 
 	auto background = Sprite::Create("world.jpg");
-	background->SetPosition(visibleSize / 2);
-	background->SetAnchorPoint(Vec2(0.5, 0.5));
+	background->setPosition(visibleSize / 2);
+	background->setAnchorPoint(Vec2(0.5, 0.5));
 	background->SetScale(1.5);
 	AddChild(background);
 	AddProgressTimer();
@@ -74,7 +74,7 @@ bool GameScene::Init()
 //Add all sorts of game resources
 void GameScene::Add_infor(float t)
 {
-	auto Size = Director::GetInstance()->GetVisibleSize();
+	auto Size = Director::GetInstance()->GetvisibleSize();
 	auto layer = Layer::Create();
 	AddMap(map_type);
 	AddPlayerImg();
@@ -92,7 +92,7 @@ void GameScene::Add_infor(float t)
 	Opportunity::Load();
 	Add_location_image();
 	auto back=Sprite::Create("Quit Button.png");
-	back->SetPosition(150, 50);
+	back->setPosition(150, 50);
 	back->SetScale(0.5);
 	AddChild(back);
 	auto listener = EventListenerTouchOneByOne::Create();
@@ -109,20 +109,20 @@ void GameScene::Add_infor(float t)
 //Add progress timer
 void GameScene::AddProgressTimer()
 {
-	auto Size = Director::GetInstance()->GetVisibleSize();
+	auto Size = Director::GetInstance()->GetvisibleSize();
 	progressBgSprite = Sprite::Create("slider.png");
-	progressBgSprite->SetPosition(Size/2);
+	progressBgSprite->setPosition(Size/2);
 	AddChild(progressBgSprite);
 	auto progressSprite1 = Sprite::Create("slider.png");
 	progress1 = ProgressTimer::Create(progressSprite1);
 	progress1->SetType(kCCProgressTimerTypeBar);
-	progress1->SetPosition(Size/2);
+	progress1->setPosition(Size/2);
 	progress1->SetMidpoint(Vec2(0, 0));
 	progress1->SetBarChangeRate(Vec2(1, 0));
 	progress1->SetPercentage(0);
 	AddChild(progress1);
 	numsTTF = Label::CreateWithTTF("0", "fonts/Gazzarel.TTF", 18);
-	numsTTF->SetPosition(Vec2(300, 300));
+	numsTTF->setPosition(Vec2(300, 300));
 	AddChild(numsTTF, 1);
 	ScheduleUpdate();
 }
@@ -140,9 +140,9 @@ void GameScene::Update(float t)
 	numsTTF->SetString(str->GetCString());
 	if (cu >= 100)
 	{
-		numsTTF->SetVisible(false);
-		progress1->SetVisible(false);
-		progressBgSprite->SetVisible(false);
+		numsTTF->setVisible(false);
+		progress1->setVisible(false);
+		progressBgSprite->setVisible(false);
 	}
 }
 
@@ -150,18 +150,18 @@ void GameScene::AddFinal_layer()
 {
 	final_layer = FinalScene::Create();
 	AddChild(final_layer);
-	final_layer->SetPosition(visibleSize / 2);
-	final_layer->SetVisible(false);
+	final_layer->setPosition(visibleSize / 2);
+	final_layer->setVisible(false);
 }
 
-void GameScene::Addmap(int type)
+void GameScene::AddMap(int type)
 {
 	if (type == 1)
 	{
 		map = TMXTiledMap::Create("map1.tmx");
 		auto background = Sprite::Create("Sea.jpg");
-		background->SetAnchorPoint(Vec2(0.5, 0.5));
-		background->SetPosition(visibleSize / 2);
+		background->setAnchorPoint(Vec2(0.5, 0.5));
+		background->setPosition(visibleSize / 2);
 		background->SetScale(visibleSize.width / background->GetContentSize().width, visibleSize.height / background->GetContentSize().height);
 		AddChild(background);
 	}
@@ -169,8 +169,8 @@ void GameScene::Addmap(int type)
 	{
 		map = TMXTiledMap::Create("map2.tmx");
 		auto background = Sprite::Create("Sea.jpg");
-		background->SetAnchorPoint(Vec2(0.5, 0.5));
-		background->SetPosition(visibleSize / 2);
+		background->setAnchorPoint(Vec2(0.5, 0.5));
+		background->setPosition(visibleSize / 2);
 		background->SetScale(visibleSize.width / background->GetContentSize().width, visibleSize.height / background->GetContentSize().height);
 		AddChild(background);
 	}
@@ -178,13 +178,13 @@ void GameScene::Addmap(int type)
 	{
 		map = TMXTiledMap::Create("map3.tmx");
 		auto background = Sprite::Create("Sea.jpg");
-		background->SetAnchorPoint(Vec2(0.5, 0.5));
-		background->SetPosition(visibleSize / 2); background->SetScale(visibleSize.width / background->GetContentSize().width, visibleSize.height / background->GetContentSize().height); e().height);
+		background->setAnchorPoint(Vec2(0.5, 0.5));
+		background->setPosition(visibleSize / 2); background->SetScale(visibleSize.width / background->GetContentSize().width, visibleSize.height / background->GetContentSize().height); e().height);
 		AddChild(background);
 	}
 	AddChild(map);
-	map->SetAnchorPoint(Point(0.5, 0.5));
-	map->SetPosition(visibleSize.width / 2 - 100, visibleSize.height / 2);
+	map->setAnchorPoint(Point(0.5, 0.5));
+	map->setPosition(visibleSize.width / 2 - 100, visibleSize.height / 2);
 	Size tile = map->GetTileSize();
 	tilewidth = tile.width;
 	tileheigh = tile.height;
@@ -205,8 +205,6 @@ void GameScene::Addmap(int type)
 }
 
 
-
-
 void GameScene::AddPlayerInformation(int number)
 {
 	auto it = playerImg->Begin();
@@ -215,272 +213,40 @@ void GameScene::AddPlayerInformation(int number)
 		auto player = Sprite::Create();
 		player = *it;
 		AddChild(player);
-		player->SetAnchorPoint(Point(0.5,0.5));
-		player->SetPosition(Vec2(visibleSize.width / 24 * 19, visibleSize.height / number / 2 + (number - 1 - i) * visibleSize.height / number));
+		player->setAnchorPoint(Point(0.5,0.5));
+		player->setPosition(Vec2(visibleSize.width / 24 * 19, visibleSize.height / number / 2 + (number - 1 - i) * visibleSize.height / number));
 	}
 }
 
 
+//去除冗余代码
 void GameScene::AddPlayerImg()
 {
 	playerImg->Clear();
-	auto player1 = Sprite::Create("player1.jpg");
-	auto player2 = Sprite::Create("player2.png");
-	auto player3 = Sprite::Create("player3.png");
-	auto player4 = Sprite::Create("player4.png");
-	playerImg->PushBack(player1);
-	playerImg->PushBack(player2);
-	playerImg->PushBack(player3);
-	playerImg->PushBack(player4);
-}
+	for (int i = 1; i < 5; i++)
+	{
+		auto player = Sprite::Create("player%d.jpg",i);
+		playerImg->PushBack(player);
 
+	}
+}
 void GameScene::Add_location_image()
 {
 	if (!location_image->Empty())
 	{
 		return;
 	}
-	auto temp1 = Sprite::Create("Austria.jpg");
-	auto temp2 = Sprite::Create("Australia.jpg");
-	auto temp3 = Sprite::Create("Belgium.jpg");
-	auto temp4 = Sprite::Create("Beijing.jpg");
-	auto temp5 = Sprite::Create("Bermingham.jpg");
-	auto temp6 = Sprite::Create("Bhutan.jpg");
-	auto temp7 = Sprite::Create("Chicago.jpg");
-	auto temp8 = Sprite::Create("Coppenhagen.jpg");
-	auto temp9 = Sprite::Create("Desert.jpg");
-	auto temp10 = Sprite::Create("Dubai.jpg");
-	auto temp11 = Sprite::Create("FujiYama.jpg");
-	auto temp12 = Sprite::Create("Guilin.jpg");
-	auto temp13 = Sprite::Create("Hainan.jpg");
-	auto temp14 = Sprite::Create("India.jpg");
-	auto temp15 = Sprite::Create("Iraq.jpg");
-	auto temp16 = Sprite::Create("Jiangnan.jpg");
-	auto temp17 = Sprite::Create("LA.jpg");
-	auto temp18 = Sprite::Create("London.jpg");
-	auto temp19 = Sprite::Create("Maldives.jpg");
-	auto temp20 = Sprite::Create("Manchester.jpg");
-	auto temp21 = Sprite::Create("Mongolia.jpg");
-	auto temp22 = Sprite::Create("Moscow.jpg");
-	auto temp23 = Sprite::Create("Nara.jpg");
-	auto temp24 = Sprite::Create("Norway.jpg");
-	auto temp25 = Sprite::Create("NY.jpg");
-	auto temp26 = Sprite::Create("Pakistan.jpg");
-	auto temp27 = Sprite::Create("Paris.jpg");
-	auto temp28 = Sprite::Create("Phillipines.jpg");
-	auto temp29 = Sprite::Create("Portugal.jpg");
-	auto temp30 = Sprite::Create("Qinghai.jpg");
-	auto temp31 = Sprite::Create("SH.jpg");
-	auto temp32 = Sprite::Create("Singapore.jpg");
-	auto temp33 = Sprite::Create("Spain.jpg");
-	auto temp34 = Sprite::Create("Switzerland.jpg");
-	auto temp35 = Sprite::Create("Thailand.jpg");
-	auto temp36 = Sprite::Create("Tibet.jpg");
-	auto temp37 = Sprite::Create("Toulouse.jpg");
-	auto temp38 = Sprite::Create("Vatican.jpg");
-	auto temp39 = Sprite::Create("Vienna.jpg");
-	auto temp40 = Sprite::Create("Yunnan.jpg");
-	location_image->PushBack(temp1);
-	location_image->PushBack(temp2);
-	location_image->PushBack(temp3);
-	location_image->PushBack(temp4);
-	location_image->PushBack(temp5);
-	location_image->PushBack(temp6);
-	location_image->PushBack(temp7);
-	location_image->PushBack(temp8);
-	location_image->PushBack(temp9); 
-	location_image->PushBack(temp10);
-	location_image->PushBack(temp11);
-	location_image->PushBack(temp12);
-	location_image->PushBack(temp13);
-	location_image->PushBack(temp14);
-	location_image->PushBack(temp15);
-	location_image->PushBack(temp16);
-	location_image->PushBack(temp17);
-	location_image->PushBack(temp18);
-	location_image->PushBack(temp19);
-	location_image->PushBack(temp20);
-	location_image->PushBack(temp21);
-	location_image->PushBack(temp22);
-	location_image->PushBack(temp23);
-	location_image->PushBack(temp24);
-	location_image->PushBack(temp25);
-	location_image->PushBack(temp26);
-	location_image->PushBack(temp27);
-	location_image->PushBack(temp28);
-	location_image->PushBack(temp29);
-	location_image->PushBack(temp30);
-	location_image->PushBack(temp31);
-	location_image->PushBack(temp32);
-	location_image->PushBack(temp33);
-	location_image->PushBack(temp34);
-	location_image->PushBack(temp35);
-	location_image->PushBack(temp36);
-	location_image->PushBack(temp37);
-	location_image->PushBack(temp38);
-	location_image->PushBack(temp39);
-	location_image->PushBack(temp40);
-	AddChild(temp1);
-	AddChild(temp2);
-	AddChild(temp3);
-	AddChild(temp4);
-	AddChild(temp5);
-	AddChild(temp6);
-	AddChild(temp7);
-	AddChild(temp8);
-	AddChild(temp9);
-	AddChild(temp10);
-	AddChild(temp11);
-	AddChild(temp12);
-	AddChild(temp13);
-	AddChild(temp14);
-	AddChild(temp15);
-	AddChild(temp16);
-	AddChild(temp17);
-	AddChild(temp18);
-	AddChild(temp19);
-	AddChild(temp20);
-	AddChild(temp21);
-	AddChild(temp22);
-	AddChild(temp23);
-	AddChild(temp24);
-	AddChild(temp25);
-	AddChild(temp26);
-	AddChild(temp27);
-	AddChild(temp28);
-	AddChild(temp29);
-	AddChild(temp30);
-	AddChild(temp31);
-	AddChild(temp32);
-	AddChild(temp33);
-	AddChild(temp34);
-	AddChild(temp35);
-	AddChild(temp36);
-	AddChild(temp37);
-	AddChild(temp38);
-	AddChild(temp39);
-	AddChild(temp40);
-	temp1->SetVisible(false);
-	temp2->SetVisible(false);
-	temp3->SetVisible(false);
-	temp4->SetVisible(false);
-	temp5->SetVisible(false);
-	temp6->SetVisible(false);
-	temp7->SetVisible(false);
-	temp8->SetVisible(false);
-	temp9->SetVisible(false);
-	temp10->SetVisible(false);
-	temp11->SetVisible(false);
-	temp12->SetVisible(false);
-	temp13->SetVisible(false);
-	temp14->SetVisible(false);
-	temp15->SetVisible(false);
-	temp16->SetVisible(false);
-	temp17->SetVisible(false);
-	temp18->SetVisible(false);
-	temp19->SetVisible(false);
-	temp20->SetVisible(false);
-	temp21->SetVisible(false);
-	temp22->SetVisible(false);
-	temp23->SetVisible(false);
-	temp24->SetVisible(false);
-	temp25->SetVisible(false);
-	temp26->SetVisible(false);
-	temp27->SetVisible(false);
-	temp28->SetVisible(false);
-	temp29->SetVisible(false);
-	temp30->SetVisible(false);
-	temp31->SetVisible(false);
-	temp32->SetVisible(false);
-	temp33->SetVisible(false);
-	temp34->SetVisible(false);
-	temp35->SetVisible(false);
-	temp36->SetVisible(false);
-	temp37->SetVisible(false);
-	temp38->SetVisible(false);
-	temp39->SetVisible(false);
-	temp40->SetVisible(false);
-	temp1->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp1->SetPosition(visibleSize / 2);
-	temp2->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp2->SetPosition(visibleSize / 2);
-	temp3->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp3->SetPosition(visibleSize / 2);
-	temp4->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp4->SetPosition(visibleSize / 2);
-	temp5->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp5->SetPosition(visibleSize / 2);
-	temp6->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp6->SetPosition(visibleSize / 2);
-	temp7->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp7->SetPosition(visibleSize / 2);
-	temp8->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp8->SetPosition(visibleSize / 2);
-	temp9->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp9->SetPosition(visibleSize / 2);
-	temp10->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp10->SetPosition(visibleSize / 2);
-	temp11->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp11->SetPosition(visibleSize / 2);
-	temp12->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp12->SetPosition(visibleSize / 2);
-	temp13->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp13->SetPosition(visibleSize / 2);
-	temp14->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp14->SetPosition(visibleSize / 2);
-	temp15->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp15->SetPosition(visibleSize / 2);
-	temp16->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp16->SetPosition(visibleSize / 2);
-	temp17->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp17->SetPosition(visibleSize / 2);
-	temp18->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp18->SetPosition(visibleSize / 2);
-	temp19->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp19->SetPosition(visibleSize / 2);
-	temp20->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp20->SetPosition(visibleSize / 2);
-	temp21->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp21->SetPosition(visibleSize / 2);
-	temp22->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp22->SetPosition(visibleSize / 2);
-	temp23->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp23->SetPosition(visibleSize / 2);
-	temp24->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp24->SetPosition(visibleSize / 2);
-	temp25->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp25->SetPosition(visibleSize / 2);
-	temp26->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp26->SetPosition(visibleSize / 2);
-	temp27->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp27->SetPosition(visibleSize / 2);
-	temp28->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp28->SetPosition(visibleSize / 2);
-	temp29->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp29->SetPosition(visibleSize / 2);
-	temp30->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp30->SetPosition(visibleSize / 2);
-	temp31->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp31->SetPosition(visibleSize / 2);
-	temp32->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp32->SetPosition(visibleSize / 2);
-	temp33->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp33->SetPosition(visibleSize / 2);
-	temp34->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp34->SetPosition(visibleSize / 2);
-	temp35->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp35->SetPosition(visibleSize / 2);
-	temp36->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp36->SetPosition(visibleSize / 2);
-	temp37->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp37->SetPosition(visibleSize / 2);
-	temp38->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp38->SetPosition(visibleSize / 2);
-	temp39->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp39->SetPosition(visibleSize / 2);
-	temp40->SetAnchorPoint(Vec2(0.5, 0.5));
-	temp40->SetPosition(visibleSize / 2);
+	for (int i = 0; i < 39; i++)
+	{
+		auto temp = Sprite::Create("Location%02d.jpg", i);
+		location_image->PushBack(temp);
+		AddChild(temp);
+		temp->setVisible(false);
+		temp->setAnchorPoint(Vec2(0.5, 0.5));
+		temp->setPosition(visibleSize / 2);
+	}
 }
+
 
 void GameScene::AddPlayer(int number)
 {
@@ -491,11 +257,11 @@ void GameScene::AddPlayer(int number)
 	auto s1 = framecache->GetSpriteFrameByName("player1_anim_01.png");
 	player1 = Player::Createwith("player1", 1, s1, money);
 	player1->SettileSize(tilewidth, tileheigh);
-	player1->SetAnchorPoint(Point(0, 0.5));
+	player1->setAnchorPoint(Point(0, 0.5));
 	Point q = point[0];
 	q.y = tileheigh + q.y;
 	map->AddChild(player1);
-	player1->SetPosition(q);
+	player1->setPosition(q);
 	player1->SetTurnMe(true);
 	player1->Set_id(3, 6, 9);
 	framecache->AddSpriteFramesWithFile("player2_anim.plist", "player2_anim.png");
@@ -505,8 +271,8 @@ void GameScene::AddPlayer(int number)
 	Point q1 = point[39];
 	q1.y = tileheigh + q1.y;
 	map->AddChild(player2);
-	player2->SetPosition(q1);
-	player2->SetAnchorPoint(Point(0, 0.5));
+	player2->setPosition(q1);
+	player2->setAnchorPoint(Point(0, 0.5));
 	player2->SetTurnMe(true);
 	player2->Set_id(1, 4, 7);
 	framecache->AddSpriteFramesWithFile("player3_anim.plist", "player3_anim.png");
@@ -516,8 +282,8 @@ void GameScene::AddPlayer(int number)
 	Point q2 = point[10];
 	q2.y = tileheigh + q2.y;
 	map->AddChild(player3);
-	player3->SetPosition(q2);
-	player3->SetAnchorPoint(Point(0, 0.5));
+	player3->setPosition(q2);
+	player3->setAnchorPoint(Point(0, 0.5));
 	player3->SetTurnMe(true);
 	player3->Set_id(2, 5, 8);
 	framecache->AddSpriteFramesWithFile("player4_anim.plist", "player4_anim.png");
@@ -527,8 +293,8 @@ void GameScene::AddPlayer(int number)
 	Point q3 = point[29];
 	q3.y = tileheigh + q3.y;
 	map->AddChild(player4);
-	player4->SetPosition(q3);
-	player4->SetAnchorPoint(Point(0, 0.5));
+	player4->setPosition(q3);
+	player4->setAnchorPoint(Point(0, 0.5));
 	player4->SetTurnMe(true);
 	player4->Set_id(10, 11, 12);
 	players->Clear();
@@ -544,14 +310,14 @@ void GameScene::AddPlayer(int number)
 		players->PushBack(player1);
 		players->PushBack(player2);
 		players->PushBack(player3);
-		player4->SetVisible(false);
+		player4->setVisible(false);
 	}
 	else if (number == 2)
 	{
 		players->PushBack(player1);
 		players->PushBack(player2);
-		player3->SetVisible(false);
-		player4->SetVisible(false);
+		player3->setVisible(false);
+		player4->setVisible(false);
 	}
 	auto it = players->Begin();
 	int j = 0;
@@ -563,8 +329,8 @@ void GameScene::AddPlayer(int number)
 		(*it)->GetMoney_string()->SetString(a);
 		(*it)->GetName()->SetColor(Color3B::BLACK);
 		(*it)->GetName()->SetScale(1.5);
-		(*it)->GetMoney_string()->SetPosition(visibleSize.width / 12 * 11, (number - j + 1) * visibleSize.height / number - visibleSize.height / number / 2 - 30);
-		(*it)->GetName()->SetPosition(visibleSize.width / 12 * 11, (number - j + 1) * visibleSize.height / number - visibleSize.height / number / 2 + 40);
+		(*it)->GetMoney_string()->setPosition(visibleSize.width / 12 * 11, (number - j + 1) * visibleSize.height / number - visibleSize.height / number / 2 - 30);
+		(*it)->GetName()->setPosition(visibleSize.width / 12 * 11, (number - j + 1) * visibleSize.height / number - visibleSize.height / number / 2 + 40);
 		(*it)->GetMoney_string()->SetColor(Color3B::BLACK);
 		(*it)->GetMoney_string()->SetScale(1.5);
 		AddChild((*it)->GetMoney_string());
@@ -603,16 +369,16 @@ void GameScene::AddShaiZi(Layer* layer)
 	go = Sprite::Create("Start Button.png");
 	go->SetScale(0.5);
 	layer->AddChild(go);
-	go->SetAnchorPoint(Point(0,1));
-	go->SetPosition(Vec2(280, 80));
+	go->setAnchorPoint(Point(0,1));
+	go->setPosition(Vec2(280, 80));
 	auto touch = EventListenerTouchOneByOne::Create();
 	bool** isWalkCopy = isWalk;
 	auto Go = go;
 	touch->onTouchBegan = [i,isWalkCopy,Go,this](Touch* t, Event* e){
 		if (e->GetCurrentTarGet()->GetBoundingBox().ContainsPoint(t->GetLocation()))
 		{
-			Go->SetVisible(false);
-			Go->SetPosition(Go->GetPosition() - Vec2(0, 500));
+			Go->setVisible(false);
+			Go->setPosition(Go->GetPosition() - Vec2(0, 500));
 			auto it = players->Begin();
 			int stepNumber = rand() % 6;
 			Route::GetInstance()->GetPath(*it,isWalkCopy, stepNumber + 1, colCount, rowCount);
@@ -652,33 +418,18 @@ bool** GameScene::GetIsWalk()
 }
 
 
+
 void GameScene::AddStep_image()
 {
 	step_image->Clear();
-	auto image1 = Sprite::Create("Marker1.png");
-	auto image2 = Sprite::Create("Marker2.png");
-	auto image3 = Sprite::Create("Marker3.png");
-	auto image4 = Sprite::Create("Marker4.png");
-	auto image5 = Sprite::Create("Marker5.png");
-	auto image6 = Sprite::Create("Marker6.png");
-	step_image->PushBack(image1);
-	step_image->PushBack(image2);
-	step_image->PushBack(image3);
-	step_image->PushBack(image4);
-	step_image->PushBack(image5);
-	step_image->PushBack(image6);
-	image1->SetVisible(false);
-	image2->SetVisible(false);
-	image3->SetVisible(false);
-	image4->SetVisible(false);
-	image5->SetVisible(false);
-	image6->SetVisible(false);
-	map->AddChild(image1);
-	map->AddChild(image2);
-	map->AddChild(image3);
-	map->AddChild(image4);
-	map->AddChild(image5);
-	map->AddChild(image6);
+	for (int i = 1; i < 7; i++)
+	{
+		auto image = Sprite::Create("Marker%d.png", i);
+		step_image->PushBack(image);
+		image->setVisible(false);
+		map->AddChild(image);
+	}
+
 }
 
 void GameScene::AddDialog()
@@ -691,7 +442,7 @@ void GameScene::AddDialog()
 	dialog->AddButton("button_bg1.png", "button_bg3.png", "OK", 1);
 	dialog->AddButton("button_bg2.png", "button_bg3.png", "CANCEL", 0);
 	AddChild(dialog);
-	dialog->SetVisible(false);
+	dialog->setVisible(false);
 }
 
 void GameScene::AddDialogLottery()
@@ -704,7 +455,7 @@ void GameScene::AddDialogLottery()
 	dialogLottery->SetPlayerVector(*players);
 	dialogLottery->SetTag(100);
 	this->AddChild(dialogLottery);
-	dialogLottery->SetVisible(false);
+	dialogLottery->setVisible(false);
 
 }
 
@@ -720,11 +471,11 @@ void GameScene::BuyLand(Node* node)
 			Player* player = players->at(0);
 			land->SetTileGID(3+land_id, Vec2(buy_land_x, buy_land_y));
 			image1 = Sprite::Create("house1.png");
-			image1->SetPosition(Ui::chang_map_to_GL( Vec2(buy_land_x, buy_land_y),map).x+16,Ui::chang_map_to_GL(Vec2(buy_land_x,buy_land_y),map).y+16);
-			image1->SetVisible(true);
+			image1->setPosition(Ui::chang_map_to_GL( Vec2(buy_land_x, buy_land_y),map).x+16,Ui::chang_map_to_GL(Vec2(buy_land_x,buy_land_y),map).y+16);
+			image1->setVisible(true);
 			map->AddChild(image1);
-			image1->SetAnchorPoint(Vec2(0.5, 0.5));
-			dialog->SetVisible(false);
+			image1->setAnchorPoint(Vec2(0.5, 0.5));
+			dialog->setVisible(false);
 
 			CocosDenshion::SimpleAudioEngine::GetInstance()->PlayEffect("Sounding/Godbless.wav");
 			UpdateMoney(player, -1000);
@@ -736,11 +487,11 @@ void GameScene::BuyLand(Node* node)
 			Player* player = players->at(0);
 		    land->SetTileGID(6+land_id, Vec2(buy_land_x, buy_land_y));
 			image1 = Sprite::Create("house2.png");
-			image1->SetPosition(Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).x + 16, Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).y + 16);
-			image1->SetVisible(true);
+			image1->setPosition(Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).x + 16, Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).y + 16);
+			image1->setVisible(true);
 			map->AddChild(image1);
-			image1->SetAnchorPoint(Vec2(0.5, 0.5));
-			dialog->SetVisible(false);
+			image1->setAnchorPoint(Vec2(0.5, 0.5));
+			dialog->setVisible(false);
 
 			CocosDenshion::SimpleAudioEngine::GetInstance()->PlayEffect("Sounding/Speaking_00458.wav");
 
@@ -753,11 +504,11 @@ void GameScene::BuyLand(Node* node)
 			Player* player = players->at(0);
 			land->SetTileGID(9+land_id, Vec2(buy_land_x, buy_land_y));
 			image1 = Sprite::Create("house3.png");
-			image1->SetPosition(Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).x + 16, Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).y + 16);
-			image1->SetVisible(true);
+			image1->setPosition(Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).x + 16, Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).y + 16);
+			image1->setVisible(true);
 			map->AddChild(image1);
-			image1->SetAnchorPoint(Vec2(0.5, 0.5));
-			dialog->SetVisible(false);
+			image1->setAnchorPoint(Vec2(0.5, 0.5));
+			dialog->setVisible(false);
 
 			CocosDenshion::SimpleAudioEngine::GetInstance()->PlayEffect("Sounding/Speaking_00458.wav");
 
@@ -770,7 +521,7 @@ void GameScene::BuyLand(Node* node)
 	}
 	else
 	{
-		dialog->SetVisible(false);
+		dialog->setVisible(false);
 		NotificationCenter::GetInstance()->PostNotification("one_go", String::CreateWithFormat("%d", 5));
 	}
 }
@@ -783,21 +534,21 @@ void GameScene::show_buy_land_dialog(int tag)
 		show = "Purchase The Area? $1000 Needed!";
 		dialog->SetDataTag(2);
 		dialog->GetLabelContentText()->SetString(show.GetCString());
-		dialog->SetVisible(true);
+		dialog->setVisible(true);
 	}
 	else if (tag == 3)
 	{
 		show = "Upgrade Your Estate to Level 2? $ 2000 Needed";
 		dialog->SetDataTag(3);
 		dialog->GetLabelContentText()->SetString(show.GetCString());
-		dialog->SetVisible(true);
+		dialog->setVisible(true);
 	}
 	else if (tag == 4)
 	{
 		show = "Upgrade Your Estate to Level 3? $ 3000 Needed";
 		dialog->SetDataTag(4);
 		dialog->GetLabelContentText()->SetString(show.GetCString());
-		dialog->SetVisible(true);
+		dialog->setVisible(true);
 	}
 	else if (tag == 1000)
 	{
@@ -851,10 +602,10 @@ void GameScene::Received_MSG(Object* data)
 			}
 			CocosDenshion::SimpleAudioEngine::GetInstance()->PlayEffect("Sounding/p2_buyit.wav");
 
-			image->SetPosition(Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).x + 16, Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).y + 16);
-			image->SetVisible(true);
+			image->setPosition(Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).x + 16, Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).y + 16);
+			image->setVisible(true);
 			map->AddChild(image);
-			image->SetAnchorPoint(Vec2(0.5, 0.5));
+			image->setAnchorPoint(Vec2(0.5, 0.5));
 			UpdateMoney(player, -money);
 			NotificationCenter::GetInstance()->PostNotification("one_go", String::CreateWithFormat("%d", 5));
 		}
@@ -890,10 +641,10 @@ void GameScene::Received_MSG(Object* data)
 				image = Sprite::Create("house11.png");
 			}
 			CocosDenshion::SimpleAudioEngine::GetInstance()->PlayEffect("Sounding/p2_tiger.wav");
-			image->SetPosition(Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).x + 16, Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).y + 16);
-			image->SetVisible(true);
+			image->setPosition(Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).x + 16, Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).y + 16);
+			image->setVisible(true);
 			map->AddChild(image);
-			image->SetAnchorPoint(Vec2(0.5, 0.5));
+			image->setAnchorPoint(Vec2(0.5, 0.5));
 			UpdateMoney(player, -money);
 			NotificationCenter::GetInstance()->PostNotification("one_go", String::CreateWithFormat("%d", 5));
 		}
@@ -930,10 +681,10 @@ void GameScene::Received_MSG(Object* data)
 			}
 			CocosDenshion::SimpleAudioEngine::GetInstance()->PlayEffect("Sounding/p2_tiger.wav");
 
-			image->SetPosition(Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).x + 16, Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).y + 16);
-			image->SetVisible(true);
+			image->setPosition(Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).x + 16, Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).y + 16);
+			image->setVisible(true);
 			map->AddChild(image);
-			image->SetAnchorPoint(Vec2(0.5, 0.5));
+			image->setAnchorPoint(Vec2(0.5, 0.5));
 			UpdateMoney(player, -money);
 			NotificationCenter::GetInstance()->PostNotification("one_go", String::CreateWithFormat("%d", 5));
 		}

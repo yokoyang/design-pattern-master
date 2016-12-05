@@ -30,49 +30,37 @@ bool HelloWorld::Init()
         return false;
     }
     
-	Size visibleSize = Director::GetInstance()->GetVisibleSize();
+	Size visibleSize = Director::GetInstance()->GetvisibleSize();
 	Vec2 origin = Director::GetInstance()->GetVisibleOrigin();
 
 
 	Sprite* background = Sprite::Create("Shanghai.jpg");
 	background->SetScale(visibleSize.width / background->GetContentSize().width, visibleSize.height / background->GetContentSize().height);
-	background->SetAnchorPoint(Vec2(0.5, 0.5));
-	background->SetPosition(visibleSize / 2);
+	background->setAnchorPoint(Vec2(0.5, 0.5));
+	background->setPosition(visibleSize / 2);
 
 	AddChild(background);
 
 	auto mainmenu = MainMenu::Create();
-	mainmenu->SetPosition(visibleSize / 2);
+	mainmenu->setPosition(visibleSize / 2);
 	AddChild(mainmenu);
 
 	CocosDenshion::SimpleAudioEngine::GetInstance()->PreloadBackgroundMusic("Flo Rida - Whistle.wav");
-	CocosDenshion::SimpleAudioEngine::GetInstance()->PreloadEffect("Sounding/Godbless.wav");
-	CocosDenshion::SimpleAudioEngine::GetInstance()->PreloadEffect("Sounding/Nodazhen.wav");
-	CocosDenshion::SimpleAudioEngine::GetInstance()->PreloadEffect("Sounding/p2_baochou.wav");
-	CocosDenshion::SimpleAudioEngine::GetInstance()->PreloadEffect("Sounding/p2_bieguaiwo.wav");
-	CocosDenshion::SimpleAudioEngine::GetInstance()->PreloadEffect("Sounding/p2_buhuiba.wav");
-	CocosDenshion::SimpleAudioEngine::GetInstance()->PreloadEffect("Sounding/p2_buyit.wav");
-	CocosDenshion::SimpleAudioEngine::GetInstance()->PreloadEffect("Sounding/p2_buyongzhaole.wav");
-	CocosDenshion::SimpleAudioEngine::GetInstance()->PreloadEffect("Sounding/p2_deyideyitian.wav");
-	CocosDenshion::SimpleAudioEngine::GetInstance()->PreloadEffect("Sounding/p2_duogei.wav");
-	CocosDenshion::SimpleAudioEngine::GetInstance()->PreloadEffect("Sounding/p2_duoxiuxi.wav");
-	CocosDenshion::SimpleAudioEngine::GetInstance()->PreloadEffect("Sounding/p2_falvzhicai.wav");
-	CocosDenshion::SimpleAudioEngine::GetInstance()->PreloadEffect("Sounding/p2_hairenjing.wav");
-	CocosDenshion::SimpleAudioEngine::GetInstance()->PreloadEffect("Sounding/p2_qifurenjia.wav");
-	CocosDenshion::SimpleAudioEngine::GetInstance()->PreloadEffect("Sounding/p2_qiangqiana.wav");
-	CocosDenshion::SimpleAudioEngine::GetInstance()->PreloadEffect("Sounding/p2_tiger.wav");
-	CocosDenshion::SimpleAudioEngine::GetInstance()->PreloadEffect("Sounding/p2_zhenmianmu.wav");
-	CocosDenshion::SimpleAudioEngine::GetInstance()->PreloadEffect("Sounding/Taisuidongtu.wav");
-	CocosDenshion::SimpleAudioEngine::GetInstance()->PreloadEffect("Sounding/Xiaobenjingying.wav");
-	CocosDenshion::SimpleAudioEngine::GetInstance()->PreloadEffect("Sounding/Speaking_00458.wav");
+	//ศฅณýศ฿ำเด๚ย๋
+	for (int i = 1; i < 20; i++)
+	{
+		CocosDenshion::SimpleAudioEngine::GetInstance()->PreloadEffect("Sounding/audio%02d.wav", i);
+
+	}
+	
 
 	CocosDenshion::SimpleAudioEngine::GetInstance()->PlayBackgroundMusic("Flo Rida - Whistle.wav", true);
 	CocosDenshion::SimpleAudioEngine::GetInstance()->SetBackgroundMusicVolume(0.5);
 	
 
 	developer = Label::CreateWithTTF("Rafael Marmalade, Yu Yifan, Yan Xiongbaixue", "fonts/Gothic Flames.ttf", 40);
-	developer->SetAnchorPoint(Vec2(0, 0));
-	developer->SetPosition(Vec2(20,20));
+	developer->setAnchorPoint(Vec2(0, 0));
+	developer->setPosition(Vec2(20,20));
 	
 	AddChild(developer);
 	Schedule(schedule_selector(HelloWorld::TimerDeveloper), 3.0f);

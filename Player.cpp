@@ -71,8 +71,8 @@ void Player::Go(std::vector<int>pathrowcopy,std::vector<int>pathcolcopy)
 		}
 		auto layer = FinalScene::Create();
 		GameScene::Getmap()->AddChild(layer);
-		layer->SetPosition(Director::GetInstance()->GetVisibleSize() / 2);
-		layer->SetAnchorPoint(Vec2(0.5, 0.5));
+		layer->setPosition(Director::GetInstance()->GetvisibleSize() / 2);
+		layer->setAnchorPoint(Vec2(0.5, 0.5));
 	}
 	else
 	{
@@ -107,9 +107,9 @@ void Player::AddStep_image_running(std::vector<int>pathRow, std::vector<int>path
 	for (int i = 1; i < pathRow.size(); i++)
 	{
 		Point p = Point(pathCol[i]*tilewidth, pathRow[i]*tileheigh);
-		GameScene::GetStep_image()->at(i - 1)->SetPosition(p);
-		GameScene::GetStep_image()->at(i - 1)->SetVisible(true);
-		GameScene::GetStep_image()->at(i - 1)->SetAnchorPoint(Vec2(0, 0));
+		GameScene::GetStep_image()->at(i - 1)->setPosition(p);
+		GameScene::GetStep_image()->at(i - 1)->setVisible(true);
+		GameScene::GetStep_image()->at(i - 1)->setAnchorPoint(Vec2(0, 0));
 	}
 }
 

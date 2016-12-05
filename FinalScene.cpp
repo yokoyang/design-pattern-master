@@ -22,9 +22,9 @@ bool FinalScene::Init()
 	{
 		return false;
 	}
-	auto Size = Director::GetInstance()->GetVisibleSize();
-	this->SetAnchorPoint(Vec2(0.5, 0.5));
-	this->SetPosition(Size / 2);
+	auto Size = Director::GetInstance()->GetvisibleSize();
+	this->setAnchorPoint(Vec2(0.5, 0.5));
+	this->setPosition(Size / 2);
 
 
 	auto congrats = Label::CreateWithTTF("Congratulations! You Win!!", "fonts/Gazzarel.ttf", 50);
@@ -39,10 +39,10 @@ bool FinalScene::Init()
 	auto backToMain = MenuItemLabel::Create(backToMainText, [](Ref* sender){
 		Director::GetInstance()->End();
 	});
-	backToMain->SetPosition(Vec2(0, 0));
+	backToMain->setPosition(Vec2(0, 0));
 
 	auto MenuIcon = Menu::CreateWithItem(backToMain);
-	MenuIcon->SetPosition(ConvertToNodeSpace(Vec2(Size.width / 2, Size.height / 2 - 70)));
+	MenuIcon->setPosition(ConvertToNodeSpace(Vec2(Size.width / 2, Size.height / 2 - 70)));
 	AddChild(MenuIcon);
 
 	return true;
