@@ -1,4 +1,4 @@
-#include"player.h"
+#include"Player.h"
 #include"control.h"
 #include"GameSceneScene.h"
 #include"route.h"
@@ -6,7 +6,7 @@
 #include"FinalScene.h"
 
 
-player::player()
+Player::Player()
 {
 	comex = -1; comey = -1;
 	_money = 0;
@@ -18,11 +18,11 @@ player::player()
 	stayRounds = 0;
 }
 
-player::~player()
+Player::~Player()
 {
 }
 
-bool player::init()
+bool Player::init()
 {
 	if (!Sprite::init())
 	{
@@ -30,8 +30,8 @@ bool player::init()
 	}
 	return true;
 }
-//Initaite the player info
-player* player::createwith(char* name, int tag, SpriteFrame* imag, float& money)
+//Initaite the Player info
+Player* Player::createwith(char* name, int tag, SpriteFrame* imag, float& money)
 {
 	auto temp = create();
 	temp->setTag(tag);
@@ -51,21 +51,21 @@ player* player::createwith(char* name, int tag, SpriteFrame* imag, float& money)
 
 
 
-void player::settilesize(float tilewidth, float tileheigh)
+void Player::settilesize(float tilewidth, float tileheigh)
 {
 	this->tilewidth = tilewidth;
 	this->tileheigh = tileheigh;
 }
 
-//Begin the player's motion
-void player::go(std::vector<int>pathrowcopy,std::vector<int>pathcolcopy)
+//Begin the Player's motion
+void Player::go(std::vector<int>pathrowcopy,std::vector<int>pathcolcopy)
 {
 	if (this->getmoney() <= 0)
 	{
-		auto it = GameScene::getplayers()->begin();
-		for (; it != GameScene::getplayers()->end(); it++)
+		auto it = GameScene::getPlayers()->begin();
+		for (; it != GameScene::getPlayers()->end(); it++)
 		{
-			if ((*it)->getmoney() > GameScene::getplayers()->at(FinalScene::status - 1)->getmoney())
+			if ((*it)->getmoney() > GameScene::getPlayers()->at(FinalScene::status - 1)->getmoney())
 				FinalScene::status = (*it)->getTag();
 		}
 		auto layer = FinalScene::create();
@@ -101,7 +101,7 @@ void player::go(std::vector<int>pathrowcopy,std::vector<int>pathcolcopy)
 }
 
 //The number animation to show the steps to take
-void player::addstep_image_running(std::vector<int>pathrow, std::vector<int>pathcol)
+void Player::addstep_image_running(std::vector<int>pathrow, std::vector<int>pathcol)
 {
 	for (int i = 1; i < pathrow.size(); i++)
 	{
@@ -113,7 +113,7 @@ void player::addstep_image_running(std::vector<int>pathrow, std::vector<int>path
 }
 
 
-void player::initpathrowandcol()
+void Player::initpathrowandcol()
 {
 	pathcol.clear();
 	pathrow.clear();
@@ -123,32 +123,32 @@ void player::initpathrowandcol()
 
 
 //Initiate the animation
-void player::initAnimate()
+void Player::initAnimate()
 {
-	auto player_spriteFrameCache = SpriteFrameCache::getInstance();
+	auto Player_spriteFrameCache = SpriteFrameCache::getInstance();
 
 	int tag = getTag();
 	switch (tag)
 	{
 	case 1:
 	{
-			  player_spriteFrameCache->addSpriteFramesWithFile("player1_anim.plist", "player1_anim.png");
-			  break;
+		Player_spriteFrameCache->addSpriteFramesWithFile("Player1_anim.plist", "Player1_anim.png");
+	    break;
 	}
 	case 2:
 	{
-			  player_spriteFrameCache->addSpriteFramesWithFile("player2_anim.plist", "player2_anim.png");
-			  break;
+		Player_spriteFrameCache->addSpriteFramesWithFile("Player2_anim.plist", "Player2_anim.png");
+		break;
 	}
 	case 3:
 	{
-			  player_spriteFrameCache->addSpriteFramesWithFile("player3_anim.plist", "player3_anim.png");
-			  break;
+		Player_spriteFrameCache->addSpriteFramesWithFile("Player3_anim.plist", "Player3_anim.png");
+		break;
 	}
 	case 4:
 	{
-			  player_spriteFrameCache->addSpriteFramesWithFile("player4_anim.plist", "player4_anim.png");
-			  break;
+		Player_spriteFrameCache->addSpriteFramesWithFile("Player4_anim.plist", "Player4_anim.png");
+		break;
 	}
 	}
 
@@ -159,15 +159,15 @@ void player::initAnimate()
 	for (int i = 1; i <= 4; i++)
 	{
 		
-		sprintf(name, "player%d_anim_0%d.png", tag, i);
-		Left.pushBack(player_spriteFrameCache->getSpriteFrameByName(name));
+		sprintf(name, "Player%d_anim_0%d.png", tag, i);
+		Left.pushBack(Player_spriteFrameCache->getSpriteFrameByName(name));
 
 	}
 	for (int i = 5; i <= 8; i++)
 	{
 		
-		sprintf(name, "player%d_anim_0%d.png", tag, i);
-		Right.pushBack(player_spriteFrameCache->getSpriteFrameByName(name));
+		sprintf(name, "Player%d_anim_0%d.png", tag, i);
+		Right.pushBack(Player_spriteFrameCache->getSpriteFrameByName(name));
 
 
 	}
@@ -175,27 +175,27 @@ void player::initAnimate()
 	{
 		if (i == 9)
 		{
-			sprintf(name, "player%d_anim_0%d.png", tag, i);
+			sprintf(name, "Player%d_anim_0%d.png", tag, i);
 		}
 		else
 		{
-			sprintf(name, "player%d_anim_%d.png", tag, i);
+			sprintf(name, "Player%d_anim_%d.png", tag, i);
 		}
-		Down.pushBack(player_spriteFrameCache->getSpriteFrameByName(name));
+		Down.pushBack(Player_spriteFrameCache->getSpriteFrameByName(name));
 
 	}
 	for (int i = 13; i <= 16; i++)
 	{
 		
-		sprintf(name, "player%d_anim_%d.png", tag, i);
-		Up.pushBack(player_spriteFrameCache->getSpriteFrameByName(name));
+		sprintf(name, "Player%d_anim_%d.png", tag, i);
+		Up.pushBack(Player_spriteFrameCache->getSpriteFrameByName(name));
 
 	}
 
 }
 
 
-void player::setAnimate()
+void Player::setAnimate()
 {
 	int tag = getTag();
 	sprintf(left_animation, "left_animation_%d", tag);
@@ -237,7 +237,7 @@ void player::setAnimate()
 
 
 //Acquire a lottery
-void player::getLottery()
+void Player::getLottery()
 {
 	srand(clock());
 	for (int i = 0; i < 1; i++)
