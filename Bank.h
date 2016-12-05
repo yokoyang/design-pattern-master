@@ -14,7 +14,7 @@ public:
 	~Bank();
 	float Getwage(){ return _wage; };
 	virtual bool Init();
-	Create_FUNC(CBank);
+	CREATE_FUNC(CBank);
 	void PayMoney();
 	void HappenAccident();
 };

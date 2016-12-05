@@ -38,7 +38,7 @@ void Control::ReceiveMsg(Object* node)
 	int res = ((String*)node)->IntValue();
 	if (res == 5)
 	{
-		RobotWalk();
+		Robotwalk();
 	}
 }
 
@@ -106,10 +106,10 @@ void Control::StartGo(std::vector<int>pathRow,std::vector<int>pathCol,Player* pl
 	this->pathCol = pathCol;
 	this->player = player;
 	_step = 0;
-	_stepcount = pathRow.size() - 1;
-	if (_stepcount == 0)
+	_stepCount = pathRow.size() - 1;
+	if (_stepCount == 0)
 	{
-		endevent();
+		Endevent();
 	}
 	else
 	{
@@ -118,11 +118,11 @@ void Control::StartGo(std::vector<int>pathRow,std::vector<int>pathCol,Player* pl
 }
 
 //Deal with the events when the character has finished moving and ended up in one specific tile
-void Control::endGo()
+void Control::EndGo()
 {
 	GameScene::GetStep_image()->at(_step)->setVisible(false);
 	_step++;
-	if (_step >= _stepcount)
+	if (_step >= _stepCount)
 	{
 		float x = pathCol[_step] * tilewidth;
 		float y = pathRow[_step] * tileheigh + tileheigh;
@@ -137,7 +137,7 @@ void Control::endGo()
 			image->RunAction(Spawn::Create(FadeIn::Create(1.0f),FadeOut::Create(3.0f),NULL));
 			
 		}
-		if (id == GameScene::Get_wenhao_id())
+		if (id == GameScene::GetQuesMark_id())
 		{
 			srand(clock());
 			log("card");
@@ -155,7 +155,7 @@ void Control::endGo()
 			{
 					  int number = random() % 7;
 					  Delay::GetInstance()->at(number)->RunAction(player);
-					  endevent();
+					  Endevent();
 			}; break;
 			case 4:
 			case 5:
@@ -164,14 +164,14 @@ void Control::endGo()
 			{
 					  int number = random() % 9;
 					  Wealth::GetInstance()->at(number)->RunAction(player);
-					  endevent();
+					  Endevent();
 			}; break;
 			case 8:
 			{
 					  player->GetLottery();
 					  poplottery();
 					  player->RunAction(Sequence::Create(DelayTime::Create(2.0f), CallFunc::Create([this]{
-						  endevent();
+						  Endevent();
 					  }), NULL));
 			}; break;
 			}
@@ -179,7 +179,7 @@ void Control::endGo()
 		}
 		else
 
-		    endevent();
+		    Endevent();
 		return;
 	}
 	nowcol = col;
@@ -192,18 +192,18 @@ void Control::poplottery()
 {
 	GameScene::Get_dialoglottery()->setVisible(true);
 	GameScene::Get_dialoglottery()->AddPlayerLottery();
-	GameScene::Get_dialoglottery()->runAnmi();
+	GameScene::Get_dialoglottery()->RunAnmi();
 }
 
 
 //Non-player characters Move
-void Control::robotwalk()
+void Control::Robotwalk()
 {
 	for (auto it = GameScene::GetPlayers()->Begin(); it != GameScene::GetPlayers()->End(); it++)
 	{
 		auto Player1 = dynamic_cast<Player*>(*it);
 
-		if (Player1->Getturnme())
+		if (Player1->GetTurnMe())
 		{
 			int randNumber = rand() % 6 + 1;
 			Route::GetInstance()->GetPath(Player1,GameScene::isWalk, randNumber,GameScene::Getcol_count(),GameScene::Getrow_count());
@@ -215,11 +215,11 @@ void Control::robotwalk()
 	GameScene::Get_go()->setPosition(GameScene::Get_go()->GetPosition() + Vec2(0, 500));
 	GameScene::Get_go()->setVisible(true);
 	oneRoundend = true;
-	reSetPlayerGoTurn();
+	ReSetPlayerGoTurn();
 }
 
 //The remaining characters initiation
-void Control::reSetPlayerGoTurn()
+void Control::ReSetPlayerGoTurn()
 {
 	for (auto it = GameScene::GetPlayers()->Begin(); it != GameScene::GetPlayers()->End(); it++)
 	{
@@ -229,7 +229,7 @@ void Control::reSetPlayerGoTurn()
 	}
 }
 
-void Control::endevent()
+void Control::Endevent()
 {
 	oneRoundend = false;
 	float x = pathCol[_step] * tilewidth;

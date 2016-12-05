@@ -16,7 +16,7 @@ public:
 	~Prison();
 	float Get_wage(){ return _wage; };
 	virtual bool Init();
-	Create_FUNC(Prison);
+	CREATE_FUNC(Prison);
 	void PayMoney();
 	void HappenAccident();
 

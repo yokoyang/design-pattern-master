@@ -14,12 +14,12 @@ Bank::~Bank()
 void PayMoney(){
 	auto ps = Player::GetPlayers();
 	auto it = ps->Begin();
-	(*it)->Getproperty() -= _wage;
+	(*it)->GetProperty() -= _wage;
 	it->_saveMoney += _wage;
 }
 
 //下次来银行时，银行发红利
 void HappenAccident(){
 	auto it = ps->Begin();
-	(*it)->Getproperty() += it->_saveMony * 0.2;
+	(*it)->GetProperty() += it->_saveMony * 0.2;
 }

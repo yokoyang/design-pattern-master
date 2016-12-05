@@ -28,14 +28,14 @@ public:
 
 	//Deal with the events when the character has finished moving and ended up in one specific tile
 	void EndGo();
-	void EndEvent();
+	void Endevent();
 
 	//Return an autoreleases control object
-	Create_FUNC(Control);
+	CREATE_FUNC(Control);
 	virtual bool Init();
 
 	//Non-player characters Move
-	void RobotWalk();
+	void Robotwalk();
 
 	//Add a registry in order to call some certain functions
 	void Res_Notification_Observe();

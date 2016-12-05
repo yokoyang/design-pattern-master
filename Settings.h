@@ -14,7 +14,7 @@ public:
 	~Settings();
 	static Scene* CreateScene();
 	virtual bool Init();
-	Create_FUNC(Settings);
+	CREATE_FUNC(Settings);
 	void SliderEvent(Ref*, Slider::EventType);
 private:
 	Label* percentAge;

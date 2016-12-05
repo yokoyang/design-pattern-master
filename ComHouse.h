@@ -17,9 +17,9 @@ public:
 	virtual void Promote();
 	virtual void PayMoney();
 	virtual void HappenAccident();
-	virtual void ChanGetype(int type);
+	virtual void ChangeType(int type);
 	virtual bool Init();
-	Create_FUNC(ComHouse);
+	CREATE_FUNC(ComHouse);
 protected:
 
 };

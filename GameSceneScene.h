@@ -22,7 +22,7 @@ public:
    
     
     // implement the "static Create()" method manually
-    Create_FUNC(GameScene);
+    CREATE_FUNC(GameScene);
 
 	//Get the coordinate in the map where the character can move to
 	void GetWayGild();

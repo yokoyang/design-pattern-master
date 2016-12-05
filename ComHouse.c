@@ -30,7 +30,7 @@ void ComHouse::PayMoney()
 		auto it = ps->Begin();
 		for (; it != ps->End(); it++)
 		{
-			if ((*it)->Getname() == _name)
+			if ((*it)->GetName() == _name)
 			{
 				break;
 			}
@@ -39,13 +39,13 @@ void ComHouse::PayMoney()
 		{
 			_owner = name;
 			_rentMoney = rentPrice;
-			(*it)->Setproperty((*it)->Getproperty() - _nowPri);
+			(*it)->SetProperty((*it)->GetProperty() - _nowPri);
 		}
 		else
 		{
 			_owner = name;
 			_rentMoney = rentPrice;
-			(*it)->Setproperty((*it)->Getproperty() - _nowPri - _promotePrice);
+			(*it)->SetProperty((*it)->GetProperty() - _nowPri - _promotePrice);
 		}
 		_rank = 1;
 	}
@@ -59,9 +59,9 @@ void ComHouse::Mortgage()
 	auto ps = Player::GetPlayers();
 	for (auto it = ps->Begin(); it != ps->End(); it++)
 	{
-		if ((*it)->Getname() == _name)
+		if ((*it)->GetName() == _name)
 		{
-			(*it)->Setproperty((*it)->Getproperty() + _nowPri / 2);
+			(*it)->SetProperty((*it)->GetProperty() + _nowPri / 2);
 			break;
 		}
 	}
@@ -72,10 +72,10 @@ void ComHouse::Ransom()
 	auto ps = Player::GetPlayers();
 	for (auto it = ps->Begin(); it != ps->End(); it++)
 	{
-		if ((*it)->Getname() == _name)
+		if ((*it)->GetName() == _name)
 		{
 			_ismortgage = false;
-			(*it)->Setproperty((*it)->Getproperty() - _nowPri * 0.6);
+			(*it)->SetProperty((*it)->GetProperty() - _nowPri * 0.6);
 			break;
 		}
 	}
@@ -100,7 +100,7 @@ void ComHouse::Promote()
 	}
 }
 
-void ComHouse::ChanGetype(int type)
+void ComHouse::ChangeType(int type)
 {
 	//TODO
 }
@@ -112,9 +112,9 @@ void ComHouse::Auction()
 		auto ps = Player::GetPlayers();
 		for (auto it = ps->Begin(); it != ps->End(); it++)
 		{
-			if ((*it)->Getname() == _name)
+			if ((*it)->GetName() == _name)
 			{
-				(*it)->Setproperty((*it)->Getproperty() + _nowPri);
+				(*it)->SetProperty((*it)->GetProperty() + _nowPri);
 				break;
 			}
 		}
@@ -150,9 +150,9 @@ void ComHouse::Rent()
 		auto ps = Player::GetPlayers();
 		for (auto it = ps->Begin(); it != ps->End(); it++)
 		{
-			if ((*it)->Getname() == _name)
+			if ((*it)->GetName() == _name)
 			{
-				(*it)->Setproperty((*it)->Getproperty() + _rentMoney);
+				(*it)->SetProperty((*it)->GetProperty() + _rentMoney);
 				break;
 			}
 		}

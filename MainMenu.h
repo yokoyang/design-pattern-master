@@ -10,6 +10,6 @@ public:
 	MainMenu();
 	~MainMenu();
 	virtual bool Init();
-	Create_FUNC(MainMenu);
+	CREATE_FUNC(MainMenu);
 };
 

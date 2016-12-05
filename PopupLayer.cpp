@@ -231,7 +231,7 @@ void PopupLayer::AddPlayerLottery()
 }
 
 
-void PopupLayer::runAnmi()
+void PopupLayer::RunAnmi()
 {
 	ScheduleOnce(schedule_selector(PopupLayer::realRunAnmi), 0.2f);
 }

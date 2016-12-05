@@ -21,7 +21,7 @@ public:
     void MenuCloseCallback(cocos2d::Ref* pSender);
     
     // implement the "static Create()" method manually
-    Create_FUNC(HelloWorld);
+    CREATE_FUNC(HelloWorld);
 
 	void TimerDeveloper(float dt);
 	

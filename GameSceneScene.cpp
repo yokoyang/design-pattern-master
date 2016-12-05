@@ -83,7 +83,7 @@ void GameScene::Add_infor(float t)
 	GetWayGild();
 	AddStep_image();
 	AddPlayer(playerNumber);
-	AddShaiZi(layer);
+	AddDice(layer);
 	reg_notification_Observe();
 	AddChild(layer);
 	AddDialog();
@@ -362,7 +362,7 @@ void GameScene::GetWayGild()
 	}
 }
 
-void GameScene::AddShaiZi(Layer* layer)
+void GameScene::AddDice(Layer* layer)
 {
 	srand(clock());
 	int i = 0;

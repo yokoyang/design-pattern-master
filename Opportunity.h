@@ -44,7 +44,7 @@ public:
 	~Forwards();
 
 	virtual bool Init();
-	Create_FUNC(Forwards);
+	CREATE_FUNC(Forwards);
 
 	//Realize the event
 	virtual bool RunAction(Player*) override;
@@ -69,7 +69,7 @@ public:
 
 
 	virtual bool Init();
-	Create_FUNC(Delay);
+	CREATE_FUNC(Delay);
 
 	//Realize the event
 	virtual bool RunAction(Player*) override;
@@ -92,7 +92,7 @@ public:
 	~Wealth();
 
 	virtual bool Init();
-	Create_FUNC(Wealth);
+	CREATE_FUNC(Wealth);
 
 	//Realize the event
 	virtual bool RunAction(Player*) override;
@@ -119,7 +119,7 @@ public:
 	void AddAnimation();
 
 	virtual bool Init();
-	Create_FUNC(Lottery);
+	CREATE_FUNC(Lottery);
 	CC_SYNTHESIZE(Animate*, normal_anmi, Normal_anmi);
 private:
 	SpriteFrameCache* spriteFrame;

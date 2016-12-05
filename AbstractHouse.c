@@ -32,7 +32,7 @@ void AbstractHouse::Buy(std::string& name)
 		auto it = ps->Begin();
 		for (; it != ps->End(); it++)
 		{
-			if ((*it)->Getname() == _name)
+			if ((*it)->GetName() == _name)
 			{
 				break;
 			}
@@ -41,13 +41,13 @@ void AbstractHouse::Buy(std::string& name)
 		{
 			_owner = name;
 			_rentMoney = 300;
-			(*it)->Setproperty((*it)->Getproperty() - _nowPri);
+			(*it)->SetProperty((*it)->GetProperty() - _nowPri);
 		}
 		else
 		{
 			_owner = name;
 			_rentMoney = 300;
-			(*it)->Setproperty((*it)->Getproperty() - _nowPri - 500);
+			(*it)->SetProperty((*it)->GetProperty() - _nowPri - 500);
 		}
 		_rank = 1;
 	}
@@ -78,7 +78,7 @@ void AbstractHouse::Promote()
 
 }
 
-void AbstractHouse::ChanGetype(int type)
+void AbstractHouse::ChangeType(int type)
 {
 
 }

@@ -92,7 +92,7 @@ public:
 	//Initaite the player info
 	virtual bool Init();
 	static Player* Createwith (char* name, int tag, SpriteFrame* imag, float& money);
-	Create_FUNC(player);
+	CREATE_FUNC(player);
 
 	//Set pathRow and pathCol after the acquisition of the path
 	void InitPathRowAndCol();

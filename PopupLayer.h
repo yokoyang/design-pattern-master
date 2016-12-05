@@ -19,7 +19,7 @@ public:
 	PopupLayer();
 	~PopupLayer();
 	virtual bool Init();
-	Create_FUNC(PopupLayer);
+	CREATE_FUNC(PopupLayer);
 	Vector<Player*> players_vec;
 	std::vector<int>lotterynum;
 	static PopupLayer * Create(const char* backgroundImage);
@@ -30,7 +30,7 @@ public:
 	bool AddButton(const char* normalImage, const char* selectedImage, const char* title, int tag = 0);
 
 	void AddPlayerLottery();
-	void runAnmi();
+	void RunAnmi();
 	virtual void OnEnter();
 	virtual void OnExit();
 	void AddPlayerInfo(Size size);

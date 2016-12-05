@@ -12,7 +12,7 @@ public:
 	FinalScene();
 	~FinalScene();
 	virtual bool Init();
-	Create_FUNC(FinalScene);
+	CREATE_FUNC(FinalScene);
 
 	//Final status to show whether the player has won or lost
 	static int status;
