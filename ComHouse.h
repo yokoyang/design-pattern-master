@@ -20,6 +20,7 @@ public:
 	virtual void Changetype(int type);
 	virtual bool Init();
 	CREATE_FUNC(ComHouse);
+	
 protected:
 
 };
