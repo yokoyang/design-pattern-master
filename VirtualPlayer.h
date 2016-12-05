@@ -65,23 +65,23 @@ public:
     Player();
     ~Player();
     //Deal with turnme,whether the character can move
-    void Setturnme(bool turn){ turnme = turn; };
-    bool Getturnme(){ return turnme; };
+    virtual void Setturnme(bool turn){ turnme = turn; };
+    virtual bool Getturnme(){ return turnme; };
     //Deal with the coming directon coordinate
-    int Getcomex(){ return comex; };
-    int Getcomey(){ return comey; };
-    void Setcomex(int comex){ this->comex = comex; };
-    void Setcomey(int comey){ this->comey = comey; };
+    virtual int Getcomex(){ return comex; };
+    virtual int Getcomey(){ return comey; };
+    virtual void Setcomex(int comex){ this->comex = comex; };
+    virtual void Setcomey(int comey){ this->comey = comey; };
     static player* Createwith (char* name, int tag, SpriteFrame* imag, float& money);
     CREATE_FUNC(player);
     //Set pathrow and pathcol after the acquisition of the path
-    void Initpathrowandcol();
-    int Get_stayRounds(){ return stayRounds; };
-    void Set_stayRounds(int i){ stayRounds = i; };
+    virtual void Initpathrowandcol();
+    virtual int Get_stayRounds(){ return stayRounds; };
+    virtual void Set_stayRounds(int i){ stayRounds = i; };
     //Begin the player's motion
-    void Go(std::vector<int>pathrow,std::vector<int>pathcol);
+    virtual void Go(std::vector<int>pathrow,std::vector<int>pathcol);
     //Acquire a lottery
-    void GetLottery();
+    virtual void GetLottery();
     //Set the ID of the estates of the player of level 1,2,3
     virtual void Set_id(int id1, int id2, int id3){ id.push_back(id1); id.push_back(id2); id.push_back(id3); };
     virtual std::vector<int> Get_id(){ return id; };
@@ -94,4 +94,5 @@ public:
     virtual float Getmoney(){ return _money; };
     //Initaite the player info
     virtual bool Init();
+    virtual void AddPlayerAnimation(char* left_animation, char* right_animation, char* down_animation, char* up_animation);
 };

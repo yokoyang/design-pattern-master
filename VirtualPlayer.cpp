@@ -121,121 +121,6 @@ void Player::initpathrowandcol()
 	pathrow = route::getInstance()->getpathrow();
 }
 
-
-//Initiate the animation
-void Player::initAnimate()
-{
-	auto Player_spriteFrameCache = SpriteFrameCache::getInstance();
-
-	int tag = getTag();
-	switch (tag)
-	{
-	case 1:
-	{
-		Player_spriteFrameCache->addSpriteFramesWithFile("Player1_anim.plist", "Player1_anim.png");
-	    break;
-	}
-	case 2:
-	{
-		Player_spriteFrameCache->addSpriteFramesWithFile("Player2_anim.plist", "Player2_anim.png");
-		break;
-	}
-	case 3:
-	{
-		Player_spriteFrameCache->addSpriteFramesWithFile("Player3_anim.plist", "Player3_anim.png");
-		break;
-	}
-	case 4:
-	{
-		Player_spriteFrameCache->addSpriteFramesWithFile("Player4_anim.plist", "Player4_anim.png");
-		break;
-	}
-	}
-
-	
-	char name[20];
-	memset(name, 0, 20);
-	
-	for (int i = 1; i <= 4; i++)
-	{
-		
-		sprintf(name, "Player%d_anim_0%d.png", tag, i);
-		Left.pushBack(Player_spriteFrameCache->getSpriteFrameByName(name));
-
-	}
-	for (int i = 5; i <= 8; i++)
-	{
-		
-		sprintf(name, "Player%d_anim_0%d.png", tag, i);
-		Right.pushBack(Player_spriteFrameCache->getSpriteFrameByName(name));
-
-
-	}
-	for (int i = 9; i <= 12; i++)
-	{
-		if (i == 9)
-		{
-			sprintf(name, "Player%d_anim_0%d.png", tag, i);
-		}
-		else
-		{
-			sprintf(name, "Player%d_anim_%d.png", tag, i);
-		}
-		Down.pushBack(Player_spriteFrameCache->getSpriteFrameByName(name));
-
-	}
-	for (int i = 13; i <= 16; i++)
-	{
-		
-		sprintf(name, "Player%d_anim_%d.png", tag, i);
-		Up.pushBack(Player_spriteFrameCache->getSpriteFrameByName(name));
-
-	}
-
-}
-
-
-void Player::setAnimate()
-{
-	int tag = getTag();
-	sprintf(left_animation, "left_animation_%d", tag);
-
-
-	sprintf(right_animation, "right_animation_%d", tag);
-
-
-	sprintf(down_animation, "down_animation_%d", tag);
-
-	sprintf(up_animation, "up_animation_%d", tag);
-
-	if (!AnimationCache::getInstance()->getAnimation(left_animation))
-	{
-		AnimationCache::getInstance()->addAnimation(Animation::createWithSpriteFrames(Left, 0.3f), left_animation);
-	}
-	if (!AnimationCache::getInstance()->getAnimation(right_animation))
-	{
-		AnimationCache::getInstance()->addAnimation(Animation::createWithSpriteFrames(Right, 0.3f), right_animation);
-	}
-	if (!AnimationCache::getInstance()->getAnimation(down_animation))
-	{
-		AnimationCache::getInstance()->addAnimation(Animation::createWithSpriteFrames(Down, 0.3f), down_animation);
-	}
-	if (!AnimationCache::getInstance()->getAnimation(up_animation))
-	{
-		AnimationCache::getInstance()->addAnimation(Animation::createWithSpriteFrames(Up, 0.3f), up_animation);
-	}
-
-	left = Animate::create(AnimationCache::getInstance()->getAnimation(left_animation));
-	right = Animate::create(AnimationCache::getInstance()->getAnimation(right_animation));
-	down = Animate::create(AnimationCache::getInstance()->getAnimation(down_animation));
-	up = Animate::create(AnimationCache::getInstance()->getAnimation(up_animation));
-	left->retain();
-	right->retain();
-	down->retain();
-	up->retain();
-}
-
-
 //Acquire a lottery
 void Player::getLottery()
 {
@@ -246,4 +131,28 @@ void Player::getLottery()
 	}
 	auto s = String::createWithFormat("You get a Lottery : %d", vec[0]);
 	toast::addtoast(GameScene::getmap(), this->getPosition(), s->getCString() ,2);
+}
+
+//角色动画效果
+virtual void AddPlayerAnimation(char* left_animation, char* right_animation,char* down_animation,char* up_animation){
+	//如果之前没有的话
+	if (!AnimationCache::getInstance()->getAnimation(left_animation))
+	{
+		AnimationCache::getInstance()->addAnimation(Animation::createWithSpriteFrames(Left, 0.3f), left_animation);
+	}
+
+	if (!AnimationCache::getInstance()->getAnimation(right_animation))
+	{
+		AnimationCache::getInstance()->addAnimation(Animation::createWithSpriteFrames(Right, 0.3f), right_animation);
+	}
+
+	if (!AnimationCache::getInstance()->getAnimation(down_animation))
+	{
+		AnimationCache::getInstance()->addAnimation(Animation::createWithSpriteFrames(Down, 0.3f), down_animation);
+	}
+	
+	if (!AnimationCache::getInstance()->getAnimation(up_animation))
+	{
+		AnimationCache::getInstance()->addAnimation(Animation::createWithSpriteFrames(Up, 0.3f), up_animation);
+	}
 }
