@@ -1,16 +1,18 @@
 #include "GameSceneScene.h"
-#include"toast.h"
-#include"FinalScene.h"
-#include<string>
-#include<Opportunity.h>
-#include<SimpleAudioEngine.h>
+#include "toast.h"
+#include "FinalScene.h"
+#include <string>
+#include <Opportunity.h>
+#include <SimpleAudioEngine.h>
+#include "VirtualPlayer.h"
+#include "Factory.h"
 
 USING_NS_CC;
+//统一处理父类和子类，利用多态机制，Vector中存放父类指针
+Vector<VirtualPlayer*>* GameScene::players = new Vector<VirtualPlayer*>();
 
 //全局变量 global
 Vector<Sprite*>* GameScene::playerimg = new Vector<Sprite*>();
-
-Vector<player*>* GameScene::players = new Vector<player*>();
 Vector<Sprite*>* GameScene::step_image = new Vector<Sprite*>();
 Vector<Sprite*> GameScene::area_land;
 Vector<Sprite*> * GameScene::location_image = new Vector<Sprite*>();
@@ -225,10 +227,13 @@ void GameScene::addplayerinformation(int number)
 void GameScene::addplayerimg()
 {
 	playerimg->clear();
-	auto player1 = Sprite::create("player1.jpg");
-	auto player2 = Sprite::create("player2.png");
-	auto player3 = Sprite::create("player3.png");
-	auto player4 = Sprite::create("player4.png");
+
+	//四种不同的角色通过工厂的方法进行创建
+	PlayerA* player1 = FactoryA::CreatePlayer();
+	PlayerB* player2 = FactoryB::CreatePlayer();
+	PlayerC* player3 = FactoryC::CreatePlayer();
+	PlayerD* player4 = FactoryD::CreatePlayer();
+
 	playerimg->pushBack(player1);
 	playerimg->pushBack(player2);
 	playerimg->pushBack(player3);
@@ -261,21 +266,23 @@ void GameScene::addplayer(int number)
 {
 	playernumber = number;
 	float money = 10000;
+	initAnimate();
+
 	auto framecache = SpriteFrameCache::getInstance();
-	framecache->addSpriteFramesWithFile("player1_anim.plist", "player1_anim.png");
 	auto s1 = framecache->getSpriteFrameByName("player1_anim_01.png");
-	player1 = player::createwith("player1", 1, s1, money);
+	player1 = PlayerA::createwith("player1", 1, s1, money);
 	player1->settilesize(tilewidth, tileheigh);
 	player1->setAnchorPoint(Point(0, 0.5));
+
 	Point q = point[0];
 	q.y = tileheigh + q.y;
 	map->addChild(player1);
 	player1->setPosition(q);
 	player1->setturnme(true);
 	player1->set_id(3, 6, 9);
-	framecache->addSpriteFramesWithFile("player2_anim.plist", "player2_anim.png");
+
 	auto s2 = framecache->getSpriteFrameByName("player2_anim_01.png");
-	auto player2 = player::createwith("player2", 2, s2, money);
+	auto player2 = PlayerB::createwith("player2", 2, s2, money);
 	player2->settilesize(tilewidth, tileheigh);
 	Point q1 = point[39];
 	q1.y = tileheigh + q1.y;
@@ -284,9 +291,8 @@ void GameScene::addplayer(int number)
 	player2->setAnchorPoint(Point(0, 0.5));
 	player2->setturnme(true);
 	player2->set_id(1, 4, 7);
-	framecache->addSpriteFramesWithFile("player3_anim.plist", "player3_anim.png");
 	auto s3 = framecache->getSpriteFrameByName("player3_anim_01.png");
-	auto player3 = player::createwith("player3", 3, s3, money);
+	auto player3 = PlayerC::createwith("player3", 3, s3, money);
 	player3->settilesize(tilewidth, tileheigh);
 	Point q2 = point[10];
 	q2.y = tileheigh + q2.y;
@@ -295,9 +301,8 @@ void GameScene::addplayer(int number)
 	player3->setAnchorPoint(Point(0, 0.5));
 	player3->setturnme(true);
 	player3->set_id(2, 5, 8);
-	framecache->addSpriteFramesWithFile("player4_anim.plist", "player4_anim.png");
 	auto s4 = framecache->getSpriteFrameByName("player4_anim_01.png");
-	auto player4 = player::createwith("player4", 4, s4, money);
+	auto player4 = PlayerD::createwith("player4", 4, s4, money);
 	player4->settilesize(tilewidth, tileheigh);
 	Point q3 = point[29];
 	q3.y = tileheigh + q3.y;

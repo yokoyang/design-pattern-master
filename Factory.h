@@ -1,14 +1,14 @@
-#include"control.h"
-#include"GameSceneScene.h"
-#include"route.h"
-#include"toast.h"
-#include"FinalScene.h"
+#include "control.h"
+#include "GameSceneScene.h"
+#include "route.h"
+#include "toast.h"
+#include "FinalScene.h"
 
 
 class Factory    
 {    
 public:    
-    virtual Player* CreatePlayer() = 0;  
+    virtual VirtualPlayer* CreatePlayer() = 0;  
 };
 
 //A B C D 四种不同样式的Player
@@ -16,7 +16,7 @@ class FactoryA
 {
 public:    
     PlayerA* CreatePlayer(){
-    	return new PlayerA();
+    	return create("player1.jpg");
     }
 }
 
@@ -24,7 +24,7 @@ class FactoryB
 {
 public:    
     PlayerB* CreatePlayer(){
-    	return new PlayerB();
+    	return create("player2.jpg");
     }
 }
 
@@ -32,7 +32,7 @@ class FactoryC
 {
 public:    
     PlayerC* CreatePlayer(){
-    	return new PlayerC();
+    	return create("player3.jpg");
     }
 }
 
@@ -40,6 +40,6 @@ class FactoryD
 {
 public:    
     PlayerD* CreatePlayer(){
-    	return new PlayerD();
+    	return create("player4.jpg");
     }
 }

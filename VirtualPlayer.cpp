@@ -1,12 +1,12 @@
-#include"Player.h"
-#include"control.h"
-#include"GameSceneScene.h"
-#include"route.h"
-#include"toast.h"
-#include"FinalScene.h"
+#include "VirtualPlayer.h"
+#include "control.h"
+#include "GameSceneScene.h"
+#include "route.h"
+#include "toast.h"
+#include "FinalScene.h"
+#include "VirtualPlayer.h"
 
-
-Player::Player()
+VirtualPlayer::VirtualPlayer()
 {
 	comex = -1; comey = -1;
 	_money = 0;
@@ -18,11 +18,11 @@ Player::Player()
 	stayRounds = 0;
 }
 
-Player::~Player()
+VirtualPlayer::~VirtualPlayer()
 {
 }
 
-bool Player::init()
+bool VirtualPlayer::init()
 {
 	if (!Sprite::init())
 	{
@@ -30,8 +30,8 @@ bool Player::init()
 	}
 	return true;
 }
-//Initaite the Player info
-Player* Player::createwith(char* name, int tag, SpriteFrame* imag, float& money)
+//Initaite the VirtualPlayer info
+VirtualPlayer* VirtualPlayer::createwith(char* name, int tag, SpriteFrame* imag, float& money)
 {
 	auto temp = create();
 	temp->setTag(tag);
@@ -51,14 +51,14 @@ Player* Player::createwith(char* name, int tag, SpriteFrame* imag, float& money)
 
 
 
-void Player::settilesize(float tilewidth, float tileheigh)
+void VirtualPlayer::settilesize(float tilewidth, float tileheigh)
 {
 	this->tilewidth = tilewidth;
 	this->tileheigh = tileheigh;
 }
 
-//Begin the Player's motion
-void Player::go(std::vector<int>pathrowcopy,std::vector<int>pathcolcopy)
+//Begin the VirtualPlayer's motion
+void VirtualPlayer::go(std::vector<int>pathrowcopy,std::vector<int>pathcolcopy)
 {
 	if (this->getmoney() <= 0)
 	{
@@ -101,7 +101,7 @@ void Player::go(std::vector<int>pathrowcopy,std::vector<int>pathcolcopy)
 }
 
 //The number animation to show the steps to take
-void Player::addstep_image_running(std::vector<int>pathrow, std::vector<int>pathcol)
+void VirtualPlayer::addstep_image_running(std::vector<int>pathrow, std::vector<int>pathcol)
 {
 	for (int i = 1; i < pathrow.size(); i++)
 	{
@@ -113,7 +113,7 @@ void Player::addstep_image_running(std::vector<int>pathrow, std::vector<int>path
 }
 
 
-void Player::initpathrowandcol()
+void VirtualPlayer::initpathrowandcol()
 {
 	pathcol.clear();
 	pathrow.clear();
@@ -122,7 +122,7 @@ void Player::initpathrowandcol()
 }
 
 //Acquire a lottery
-void Player::getLottery()
+void VirtualPlayer::getLottery()
 {
 	srand(clock());
 	for (int i = 0; i < 1; i++)
@@ -134,7 +134,7 @@ void Player::getLottery()
 }
 
 //角色动画效果
-virtual void AddPlayerAnimation(char* left_animation, char* right_animation,char* down_animation,char* up_animation){
+void VirtualPlayer::AddPlayerAnimation(char* left_animation, char* right_animation,char* down_animation,char* up_animation){
 	//如果之前没有的话
 	if (!AnimationCache::getInstance()->getAnimation(left_animation))
 	{
@@ -150,7 +150,7 @@ virtual void AddPlayerAnimation(char* left_animation, char* right_animation,char
 	{
 		AnimationCache::getInstance()->addAnimation(Animation::createWithSpriteFrames(Down, 0.3f), down_animation);
 	}
-	
+
 	if (!AnimationCache::getInstance()->getAnimation(up_animation))
 	{
 		AnimationCache::getInstance()->addAnimation(Animation::createWithSpriteFrames(Up, 0.3f), up_animation);

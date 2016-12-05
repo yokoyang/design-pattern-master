@@ -30,7 +30,7 @@ bool PlayerA::init()
 	return true;
 }
 
-//Initiate the animation
+//Initiate the SpriteFrame
 void PlayerA::initAnimate()
 {
 	auto Player_spriteFrameCache = SpriteFrameCache::getInstance();
