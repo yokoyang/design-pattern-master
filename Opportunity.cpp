@@ -76,7 +76,7 @@ bool Wealth::init()
 //Adds particle system
 void Opportunity::addparticle()
 {
-	auto particle = ParticleSystemQuad::create("particle_texture.plist");
+	auto particle = ParticleSystemQuad::create(PARTICLE_SYSTEM);
 	auto batch = ParticleBatchNode::createWithTexture(particle->getTexture());
 	batch->addChild(particle);
 	GameScene::getmap()->addChild(batch);
@@ -119,7 +119,7 @@ Layer*Opportunity::getShowOnScreen()
 
 	auto VisibleSize = Director::getInstance()->getVisibleSize();
 
-	auto causeLabel = Label::createWithSystemFont(getCauses(), "Gothic", 50);
+	auto causeLabel = Label::createWithSystemFont(getCauses(), SETTING_FONT, 50);
 	causeLabel->setAnchorPoint(Vec2(0.5, 0.5));
 	causeLabel->setPosition(VisibleSize / 2);
 	addChild(causeLabel);
@@ -152,12 +152,12 @@ bool Wealth::RunAction(player* p)
 //Preload all the pictures needed to show on screen
 void Opportunity::Load()
 {
-	auto temp1 = Forwards::createWithSteps("Take A Bus, Go Two Steps Ahead", 2); temp1->retain();
-	auto temp2 = Forwards::createWithSteps("Take The Subway,Go Six Steps Ahead", 6); temp2->retain();
-	auto temp3 = Forwards::createWithSteps("Came Across An Old Friend,Take You For A Ride For Five Steps", 5); temp3->retain();
-	auto temp4 = Forwards::createWithSteps("Take A Taxi, Go Three Steps Ahead", 3); temp4->retain();
-	auto temp5 = Forwards::createWithSteps("Ride A Bicycle,Go One Steps,Ahead", 1); temp5->retain();
-	auto temp6 = Forwards::createWithSteps("Across The Street, Four Steps Ahead", 4); temp6->retain();
+	auto temp1 = Forwards::createWithSteps(FORWARD_MESSAGE1, FORWARD_MESSAGE1_STEP); temp1->retain();
+	auto temp2 = Forwards::createWithSteps(FORWARD_MESSAGE2, FORWARD_MESSAGE2_STEP); temp2->retain();
+	auto temp3 = Forwards::createWithSteps(FORWARD_MESSAGE3, FORWARD_MESSAGE3_STEP); temp3->retain();
+	auto temp4 = Forwards::createWithSteps(FORWARD_MESSAGE4, FORWARD_MESSAGE4_STEP); temp4->retain();
+	auto temp5 = Forwards::createWithSteps(FORWARD_MESSAGE5, FORWARD_MESSAGE5_STEP); temp5->retain();
+	auto temp6 = Forwards::createWithSteps(FORWARD_MESSAGE6, FORWARD_MESSAGE6_STEP); temp6->retain();
 	Forwards::getInstance()->push_back(temp1);
 	Forwards::getInstance()->push_back(temp2);
 	Forwards::getInstance()->push_back(temp3);
@@ -165,13 +165,13 @@ void Opportunity::Load()
 	Forwards::getInstance()->push_back(temp5);
 	Forwards::getInstance()->push_back(temp6);
 
-	auto temp7 = Delay::createWithRoundsAndStatus("Biten By A Fierce Dog, Stay In Hospital For Two Days", 2, 1); temp7->retain();
-	auto temp8 = Delay::createWithRoundsAndStatus("Arrested For Tax Evasion,Being in Jail For Two Days", 2, 2); temp8->retain();
-	auto temp9 = Delay::createWithRoundsAndStatus("Stay In A Five-Star Hotel For One Night", 1, 0); temp9->retain();
-	auto temp10 = Delay::createWithRoundsAndStatus("Raining! Stay Where You Are For One Day", 1, 0); temp10->retain();
-	auto temp11 = Delay::createWithRoundsAndStatus("Under Construction Ahead, Stop! Stay For Two Days", 2, 0); temp11->retain();
-	auto temp12 = Delay::createWithRoundsAndStatus("Caught A Cold! Stay In Hospital For One Day", 1, 1); temp12->retain();
-	auto temp13 = Delay::createWithRoundsAndStatus("Arrested For Overspeed, Stay In Jail For One Day", 1, 2); temp13->retain();
+	auto temp7 = Delay::createWithRoundsAndStatus(DELAY_MESSAGE1, DELAY_MESSAGE1_ROUND, DELAY_MESSAGE1_STATUS); temp7->retain();
+	auto temp8 = Delay::createWithRoundsAndStatus(DELAY_MESSAGE2, DELAY_MESSAGE2_ROUND, DELAY_MESSAGE2_STATUS); temp8->retain();
+	auto temp9 = Delay::createWithRoundsAndStatus(DELAY_MESSAGE3, DELAY_MESSAGE3_ROUND, DELAY_MESSAGE3_STATUS); temp9->retain();
+	auto temp10 = Delay::createWithRoundsAndStatus(DELAY_MESSAGE4, DELAY_MESSAGE4_ROUND, DELAY_MESSAGE4_STATUS); temp10->retain();
+	auto temp11 = Delay::createWithRoundsAndStatus(DELAY_MESSAGE5, DELAY_MESSAGE5_ROUND, DELAY_MESSAGE5_STATUS); temp11->retain();
+	auto temp12 = Delay::createWithRoundsAndStatus(DELAY_MESSAGE6, DELAY_MESSAGE6_ROUND, DELAY_MESSAGE6_STATUS); temp12->retain();
+	auto temp13 = Delay::createWithRoundsAndStatus(DELAY_MESSAGE7, DELAY_MESSAGE7_ROUND, DELAY_MESSAGE7_STATUS); temp13->retain();
 	Delay::getInstance()->push_back(temp7);
 	Delay::getInstance()->push_back(temp8);
 	Delay::getInstance()->push_back(temp9);
@@ -180,15 +180,15 @@ void Opportunity::Load()
 	Delay::getInstance()->push_back(temp12);
 	Delay::getInstance()->push_back(temp13);
 
-	auto temp14 = Wealth::createWithProfit("In A High-Class French Restaurant, cost $500", -500); temp14->retain();
-	auto temp15 = Wealth::createWithProfit("Win A Lottery, get $500", 500); temp15->retain();
-	auto temp16 = Wealth::createWithProfit("Tax Paying Day, cost $1000", -1000); temp16->retain();
-	auto temp17 = Wealth::createWithProfit("Buy Something In The Department Store , cost $1500", -1500); temp17->retain();
-	auto temp18 = Wealth::createWithProfit("Get Fund, get $2000", 2000); temp18->retain();
-	auto temp19 = Wealth::createWithProfit("Birthday! Get Present, $800, get $800", 800); temp19->retain();
-	auto temp20 = Wealth::createWithProfit("Bank interests! Get $1000", 1000); temp20->retain();
-	auto temp21 = Wealth::createWithProfit("Lucky Money! Get $1000",1000); temp21->retain();
-	auto temp22 = Wealth::createWithProfit("Salary Day! Get $1500", 1500); temp22->retain();
+	auto temp14 = Wealth::createWithProfit(WEALTH_MESSAGE1, WEALTH_MESSAGE1_MONEY); temp14->retain();
+	auto temp15 = Wealth::createWithProfit(WEALTH_MESSAGE2, WEALTH_MESSAGE2_MONEY); temp15->retain();
+	auto temp16 = Wealth::createWithProfit(WEALTH_MESSAGE3, WEALTH_MESSAGE3_MONEY); temp16->retain();
+	auto temp17 = Wealth::createWithProfit(WEALTH_MESSAGE4, WEALTH_MESSAGE4_MONEY); temp17->retain();
+	auto temp18 = Wealth::createWithProfit(WEALTH_MESSAGE5, WEALTH_MESSAGE5_MONEY); temp18->retain();
+	auto temp19 = Wealth::createWithProfit(WEALTH_MESSAGE6, WEALTH_MESSAGE6_MONEY); temp19->retain();
+	auto temp20 = Wealth::createWithProfit(WEALTH_MESSAGE7, WEALTH_MESSAGE7_MONEY); temp20->retain();
+	auto temp21 = Wealth::createWithProfit(WEALTH_MESSAGE8, WEALTH_MESSAGE8_MONEY); temp21->retain();
+	auto temp22 = Wealth::createWithProfit(WEALTH_MESSAGE9, WEALTH_MESSAGE9_MONEY); temp22->retain();
 
 	Wealth::getInstance()->push_back(temp14);
 	Wealth::getInstance()->push_back(temp15);

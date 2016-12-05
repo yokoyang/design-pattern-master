@@ -201,7 +201,7 @@ void PopupLayer::setPlayerVector(Vector<player*> _vector)
 
 void PopupLayer::addplayerlottery()
 {
-	for (int i = 1; i <= 30; i++)
+	for (int i = 1; i <= POPUPLAYER_BALL_NUMBER; i++)
 	{
 		if (this->getChildByTag(1000 + i) != NULL)
 		{
@@ -243,7 +243,7 @@ void PopupLayer::realRunAnmi(float t)
 	{
 		int lott = rand() % (30) + 1;
 		scheduleOnce(schedule_selector(PopupLayer::dismissFromParent), 0.2f);
-		Sprite* ball = Sprite::create("orange_ball.png");
+		Sprite* ball = Sprite::create(BALL);
 		ball->setPosition(lp->getPosition() - lp->getContentSize() / 2 + Vec2(0, 13));
 		ball->setAnchorPoint(Vec2(0, 0));
 		addChild(ball);
@@ -264,7 +264,7 @@ void PopupLayer::realRunAnmi(float t)
 				if (Player->vec.at(i) == lott)
 				{
 					Opportunity::addparticle();
-					GameScene::update_money(Player, 50000);
+					GameScene::update_money(Player, LOTTERY_WIN_MONEY);
 				}
 			}
 			Player->vec.clear();
@@ -293,19 +293,19 @@ void PopupLayer::addplayerinfo(Size size)
 		int tag = Player->getTag();
 		if (tag == 1)
 		{
-			playerSprite = Sprite::create("player1.jpg");
+			playerSprite = Sprite::create(PLAYER_ME);
 		}
 		else if (tag == 2)
 		{
-			playerSprite = Sprite::create("player2.png");
+			playerSprite = Sprite::create(PLAYER_ENEMY1);
 		}
 		else if (tag == 3)
 		{
-			playerSprite = Sprite::create("player3.png");
+			playerSprite = Sprite::create(PLAYER_ENEMY2);
 		}
 		else if (tag == 4)
 		{
-			playerSprite = Sprite::create("player4.png");
+			playerSprite = Sprite::create(PLAYER_ENEMY3);
 		}
 		playerSprite->setPosition(center.width + 20, (winSize.height / 2 + 50) + j * 50);
 		addChild(playerSprite);

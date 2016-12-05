@@ -26,32 +26,32 @@ bool Settings::init()
 	}
 	auto VisibleSize = Director::getInstance()->getVisibleSize();
 
-	auto bk = Sprite::create("wenli.jpg");
+	auto bk = Sprite::create(SETTING_PAGE);
 	bk->setScale(VisibleSize.width / bk->getContentSize().width, VisibleSize.height / bk->getContentSize().height);
 	bk->setPosition(VisibleSize / 2);
 	addChild(bk);
 
 	auto settings_Menu = Menu::create();
 
-	auto MusicText = Label::createWithTTF("Music", "fonts/Gazzarel.TTF",40);
+	auto MusicText = Label::createWithTTF(MUSIC, SETTING_FONT, 40);
 	MusicText->setColor(Color3B::BLACK);
 	auto MusicItem = MenuItemLabel::create(MusicText);
 	MusicItem->setAnchorPoint(Vec2(0, 0));
 
-	auto ModeText = Label::createWithTTF("Mode", "fonts/Gazzarel.TTF", 40);
+	auto ModeText = Label::createWithTTF(MODE, SETTING_FONT, 40);
 	ModeText->setColor(Color3B::BLACK);
 	auto ModeItem = MenuItemLabel::create(ModeText, [](Ref* sender){
 	});
 	ModeItem->setAnchorPoint(Vec2(0, 0));
 
-	auto DifficultyText = Label::createWithTTF("Difficulty", "fonts/Gazzarel.TTF", 40);
+	auto DifficultyText = Label::createWithTTF(DIFFICULTY, SETTING_FONT, 40);
 	DifficultyText->setColor(Color3B::BLACK);
 	auto DifficultyItem = MenuItemLabel::create(DifficultyText, [](Ref* sender){
 	});
 	DifficultyItem->setAnchorPoint(Vec2(0, 0));
 
 
-	auto BackText = Label::createWithTTF("Back to Main Menu", "fonts/Gazzarel.TTF", 40);
+	auto BackText = Label::createWithTTF(BACK, SETTING_FONT, 40);
 	BackText->setColor(Color3B::BLACK);
 	auto BackItem = MenuItemLabel::create(BackText, [](Ref* sender){
 		auto scene = HelloWorld::createScene();
@@ -69,8 +69,8 @@ bool Settings::init()
 	addChild(settings_Menu);
 
 	auto slider = Slider::create();
-	slider->loadBarTexture("slider.png");
-	slider->loadSlidBallTextures("xiaoqiu.png", "xiaoqiu.png", "");
+	slider->loadBarTexture(SLIDER);
+	slider->loadSlidBallTextures(SLIDER_BALL, SLIDER_BALL, "");
 	//slider->loadProgressBarTexture();
 	slider->setAnchorPoint(Vec2(1, 0));
 	slider->setPosition(Vec2(VisibleSize.width - 50, MusicItem->getPositionY() + settings_Menu->getPositionY()));
@@ -78,19 +78,19 @@ bool Settings::init()
 	slider->addEventListener(CC_CALLBACK_2(Settings::sliderEvent, this));
 	addChild(slider);
 
-	percentage=Label::createWithTTF("50%", "fonts/Gazzarel.ttf", 40);
+	percentage = Label::createWithTTF("50%", SETTING_FONT, 40);
 	percentage->setColor(Color3B::BLACK);
 	percentage->setPosition(convertToWorldSpace(Vec2(slider->getPosition().x-150,slider->getPosition().y - 20)));
 	addChild(percentage);
 
 
-	auto ModeSelection = Label::createWithTTF("Normal Mode", "fonts/Gazzarel.TTF", 40);
+	auto ModeSelection = Label::createWithTTF(NORMAL_MODE, SETTING_FONT, 40);
 	ModeSelection->setColor(Color3B::BLACK);
 	ModeSelection->setAnchorPoint(Vec2(1, 0));
 	ModeSelection->setPosition(Vec2(VisibleSize.width - 50, ModeItem->getPositionY() + settings_Menu->getPositionY()));
 	addChild(ModeSelection);
 
-	auto DifficultySelection = Label::createWithTTF("Easy", "fonts/Gazzarel.TTF", 40);
+	auto DifficultySelection = Label::createWithTTF(EASY, SETTING_FONT, 40);
 	DifficultySelection->setColor(Color3B::BLACK);
 	DifficultySelection->setAnchorPoint(Vec2(1, 0));
 	DifficultySelection->setPosition(Vec2(VisibleSize.width - 50, DifficultyItem->getPositionY() + settings_Menu->getPositionY()));
@@ -100,19 +100,19 @@ bool Settings::init()
 	listener->onTouchBegan = [ModeSelection](Touch* t, Event *e){
 		if (e->getCurrentTarget()->getBoundingBox().containsPoint(t->getLocation()))
 		{
-			if (ModeSelection->getString() == "Normal Mode")
+			if (ModeSelection->getString() == NORMAL_MODE)
 			{
-				ModeSelection->setString("Dual");
+				ModeSelection->setString(DUAL_MODE);
 				GameScene::setplayernumber(2);
 			}
-			else if (ModeSelection->getString() == "Dual")
+			else if (ModeSelection->getString() == DUAL_MODE)
 			{
-				ModeSelection->setString("Triple");
+				ModeSelection->setString(TRIPLE_MODE);
 				GameScene::setplayernumber(3);
 			}
-			else if (ModeSelection->getString() == "Triple")
+			else if (ModeSelection->getString() == TRIPLE_MODE)
 			{
-				ModeSelection->setString("Normal Mode");
+				ModeSelection->setString(NORMAL_MODE);
 				GameScene::setplayernumber(4);
 			}
 		}
@@ -126,19 +126,19 @@ bool Settings::init()
 	listener1->onTouchBegan = [DifficultySelection](Touch* t, Event *e){
 		if (e->getCurrentTarget()->getBoundingBox().containsPoint(t->getLocation()))
 		{
-			if (DifficultySelection->getString() == "Easy")
+			if (DifficultySelection->getString() == EASY)
 			{
-				DifficultySelection->setString("Middle");
+				DifficultySelection->setString(MIDDLE);
 				GameScene::set_maptype(2);
 			}
-			else if (DifficultySelection->getString() == "Middle")
+			else if (DifficultySelection->getString() == MIDDLE)
 			{
-				DifficultySelection->setString("Difficult");
+				DifficultySelection->setString(DIFFICULT);
 				GameScene::set_maptype(3);
 			}
-			else if (DifficultySelection->getString() == "Difficult")
+			else if (DifficultySelection->getString() == DIFFICULT)
 			{
-				DifficultySelection->setString("Easy");
+				DifficultySelection->setString(EASY);
 				GameScene::set_maptype(1);
 			}
 		}

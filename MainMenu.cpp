@@ -22,20 +22,20 @@ bool MainMenu::init()
 		return false;
 	}
 	//Start game button
-	auto StartGameText = Sprite::create("Start Button.png");
+	auto StartGameText = Sprite::create(START_BUTTON);
 	auto StartGameItem = MenuItemSprite::create(StartGameText, StartGameText, StartGameText,[this](Ref* sender){
 		auto scene = GameScene::createScene();
 		auto transitionscene = TransitionCrossFade::create(0.1f, scene);
 		Director::getInstance()->replaceScene(transitionscene);
 	});
 	//End button
-	auto EndGameText = Sprite::create("Quit Button.png");
+	auto EndGameText = Sprite::create(QUIT_BUTTON);
 	auto EndGameItem = MenuItemSprite::create(EndGameText, EndGameText, EndGameText,[](Ref* sender){
 		Director::getInstance()->end();
 	});
 
 	//Enter settings
-	auto SettingsText =Sprite::create("Settings Button.png");
+	auto SettingsText =Sprite::create(SETTING_BUTTON);
 	auto SettingsItem = MenuItemSprite::create(SettingsText, SettingsText, SettingsText,[](Ref* sender){
 		auto scene = Settings::createScene();
 		auto transitionscene = TransitionPageTurn::create(2, scene, false);

@@ -27,15 +27,15 @@ bool FinalScene::init()
 	this->setPosition(Size / 2);
 
 
-	auto congrats = Label::createWithTTF("Congratulations! You Win!!", "fonts/Gazzarel.ttf", 50);
+	auto congrats = Label::createWithTTF(SUCCEEFUL_MESSAGE, SETTING_FONT, 50);
 	if (status != 1)
 	{
-		congrats->setString("Sorry! You Lose!");
+		congrats->setString(LOSE_MESSAGE);
 	}
 	addChild(congrats);
 
 
-	auto BackToMainText = Label::createWithTTF("Quit The Game", "fonts/Gazzarel.ttf", 40);
+	auto BackToMainText = Label::createWithTTF(QUIT_GAME, SETTING_FONT, 40);
 	auto BackToMain = MenuItemLabel::create(BackToMainText, [](Ref* sender){
 		Director::getInstance()->end();
 	});

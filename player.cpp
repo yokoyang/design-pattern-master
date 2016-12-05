@@ -12,7 +12,7 @@ player::player()
 	_money = 0;
 	saveMony = 0;
 	_name = nullptr;
-	money_string = Label::createWithTTF("","fonts/Gazzarel.TTF",20);
+	money_string = Label::createWithTTF("", SETTING_FONT, 20);
 	turnme = false;
 	oneroundend = true;
 	stayRounds = 0;
@@ -38,7 +38,7 @@ player* player::createwith(char* name, int tag, SpriteFrame* imag, float& money)
 	temp->initAnimate();
 	temp->setAnimate();
 	temp->Sprite::initWithSpriteFrame(imag);
-	temp->_name = Label::createWithTTF(name, "fonts/Gazzarel.TTF", 20);
+	temp->_name = Label::createWithTTF(name, SETTING_FONT, 20);
 	temp->_money = money;
 	temp->turnme = false;
 	memset(temp->right_animation, 0, 20);
@@ -132,22 +132,22 @@ void player::initAnimate()
 	{
 	case 1:
 	{
-			  player_spriteFrameCache->addSpriteFramesWithFile("player1_anim.plist", "player1_anim.png");
+		player_spriteFrameCache->addSpriteFramesWithFile(PLAYER1_ANIM_PLIST, PLAYER1_ANIM_PNG);
 			  break;
 	}
 	case 2:
 	{
-			  player_spriteFrameCache->addSpriteFramesWithFile("player2_anim.plist", "player2_anim.png");
+		player_spriteFrameCache->addSpriteFramesWithFile(PLAYER2_ANIM_PLIST, PLAYER2_ANIM_PNG);
 			  break;
 	}
 	case 3:
 	{
-			  player_spriteFrameCache->addSpriteFramesWithFile("player3_anim.plist", "player3_anim.png");
+		player_spriteFrameCache->addSpriteFramesWithFile(PLAYER3_ANIM_PLIST, PLAYER3_ANIM_PNG);
 			  break;
 	}
 	case 4:
 	{
-			  player_spriteFrameCache->addSpriteFramesWithFile("player4_anim.plist", "player4_anim.png");
+		player_spriteFrameCache->addSpriteFramesWithFile(PLAYER4_ANIM_PLIST, PLAYER4_ANIM_PNG);
 			  break;
 	}
 	}

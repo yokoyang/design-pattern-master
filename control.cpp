@@ -29,13 +29,13 @@ bool control::init()
 //Add a registry in order to call some certain functions
 void control::res_notification_Observe()
 {
-	NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(control::receivemsg), "one_go", NULL);
+	NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(control::receivemsg), MSG_PICKONE_TOGO, NULL);
 }
 //Registry Callback
 void control::receivemsg(Object* node)
 {
 	int res = ((String*)node)->intValue();
-	if (res == 5)
+	if (res == MSG_PICKONE_TOGO_TAG)
 	{
 		robotwalk();
 	}
@@ -126,8 +126,8 @@ void control::endGo()
 		float x = pathcol[_step] * tilewidth;
 		float y = pathrow[_step] * tileheigh + tileheigh;
 		Point mappoint = Ui::chang_GL_to_map(Vec2(x, y), GameScene::getmap());
-		int id = GameScene::getmap()->layerNamed("wenhao")->getTileGIDAt(mappoint);
-		int id1 = GameScene::getmap()->layerNamed("way")->getTileGIDAt(mappoint);
+		int id = GameScene::getmap()->layerNamed(OPPORTUNITY)->getTileGIDAt(mappoint);
+		int id1 = GameScene::getmap()->layerNamed(WAY_BLOCK_NAME)->getTileGIDAt(mappoint);
 		int ID = GameScene::getmap()->propertiesForGID(id1).asValueMap()["location"].asInt();
 		if (ID)
 		{
@@ -248,207 +248,207 @@ void control::endevent()
 		if (id == GameScene::getland_id())
 		{
 			flag++;
-			String* str = String::createWithFormat("%d-%f-%f-%d", 2, mappoint.x, mappoint.y,Player->getTag());
-			NotificationCenter::getInstance()->postNotification("buy_land", str);
+			String* str = String::createWithFormat("%d-%f-%f-%d", MSG_BUY_BLANK_TAG, mappoint.x, mappoint.y, Player->getTag());
+			NotificationCenter::getInstance()->postNotification(MSG_BUY, str);
 			break;
 		}
-		if (id == 3 + GameScene::getland_id())
+		if (id == PLAYER1_LEVEL1_LAND_ID + GameScene::getland_id())
 		{
-			if (Player->getTag() == 1)
+			if (Player->getTag() == PLAYER1_TAG)
 			{
 				flag++;
-				String* str = String::createWithFormat("%d-%f-%f-%d", 3, mappoint.x, mappoint.y, Player->getTag());
-				NotificationCenter::getInstance()->postNotification("buy_land", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_BUY_LAND_1_TAG, mappoint.x, mappoint.y, Player->getTag());
+				NotificationCenter::getInstance()->postNotification(MSG_BUY, str);
 				break;
 			}
 			else
 			{
 				flag++;
-				String* str = String::createWithFormat("%d-%f-%f-%d", 6, mappoint.x, mappoint.y, Player->getTag());
-				NotificationCenter::getInstance()->postNotification("pay_tolls", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_PAY_TOLLS_1_TAG, mappoint.x, mappoint.y, Player->getTag());
+				NotificationCenter::getInstance()->postNotification(MSG_PAY_TOLLS, str);
 				break;
 			}
 		}
-		if (id == 1 + GameScene::getland_id())
+		if (id == PLAYER2_LEVEL1_LAND_ID + GameScene::getland_id())
 		{
 			flag++;
-			if (Player->getTag() == 2)
+			if (Player->getTag() == PLAYER2_TAG)
 			{
-				String* str = String::createWithFormat("%d-%f-%f-%d", 3, mappoint.x, mappoint.y, Player->getTag());
-				NotificationCenter::getInstance()->postNotification("buy_land", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_BUY_LAND_1_TAG, mappoint.x, mappoint.y, Player->getTag());
+				NotificationCenter::getInstance()->postNotification(MSG_BUY, str);
 				break;
 			}
 			else
 			{
-				String* str = String::createWithFormat("%d-%f-%f-%d", 6, mappoint.x, mappoint.y, Player->getTag());
-				NotificationCenter::getInstance()->postNotification("pay_tolls", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_PAY_TOLLS_1_TAG, mappoint.x, mappoint.y, Player->getTag());
+				NotificationCenter::getInstance()->postNotification(MSG_PAY_TOLLS, str);
 				break;
 			}
 		}
-		if (id == 2 + GameScene::getland_id())
+		if (id == PLAYER3_LEVEL1_LAND_ID + GameScene::getland_id())
 		{
 			flag++;
-			if (Player->getTag() == 3)
+			if (Player->getTag() == PLAYER3_TAG)
 			{
-				String* str = String::createWithFormat("%d-%f-%f-%d", 3, mappoint.x, mappoint.y, Player->getTag());
-				NotificationCenter::getInstance()->postNotification("buy_land", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_BUY_LAND_1_TAG, mappoint.x, mappoint.y, Player->getTag());
+				NotificationCenter::getInstance()->postNotification(MSG_BUY, str);
 				break;
 			}
 			else
 			{
-				String* str = String::createWithFormat("%d-%f-%f-%d", 6, mappoint.x, mappoint.y, Player->getTag());
-				NotificationCenter::getInstance()->postNotification("pay_tolls", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_PAY_TOLLS_1_TAG, mappoint.x, mappoint.y, Player->getTag());
+				NotificationCenter::getInstance()->postNotification(MSG_PAY_TOLLS, str);
 				break;
 			}
 		}
-		if (id == 10 + GameScene::getland_id())
+		if (id == PLAYER4_LEVEL1_LAND_ID + GameScene::getland_id())
 		{
 			flag++;
-			if (Player->getTag() == 4)
+			if (Player->getTag() == PLAYER4_TAG)
 			{
-				String* str = String::createWithFormat("%d-%f-%f-%d", 3, mappoint.x, mappoint.y, Player->getTag());
-				NotificationCenter::getInstance()->postNotification("buy_land", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_BUY_LAND_1_TAG, mappoint.x, mappoint.y, Player->getTag());
+				NotificationCenter::getInstance()->postNotification(MSG_BUY, str);
 				break;
 			}
 			else
 			{
-				String* str = String::createWithFormat("%d-%f-%f-%d", 6, mappoint.x, mappoint.y, Player->getTag());
-				NotificationCenter::getInstance()->postNotification("pay_tolls", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_PAY_TOLLS_1_TAG, mappoint.x, mappoint.y, Player->getTag());
+				NotificationCenter::getInstance()->postNotification(MSG_PAY_TOLLS, str);
 				break;
 			}
 		}
-		if (id == 6 + GameScene::getland_id())
+		if (id == PLAYER1_LEVEL2_LAND_ID + GameScene::getland_id())
 		{
 			flag++;
-			if (Player->getTag() == 1)
+			if (Player->getTag() == PLAYER1_TAG)
 			{
-				String* str = String::createWithFormat("%d-%f-%f-%d", 4, mappoint.x, mappoint.y, Player->getTag());
-				NotificationCenter::getInstance()->postNotification("buy_land", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_BUY_LAND_2_TAG, mappoint.x, mappoint.y, Player->getTag());
+				NotificationCenter::getInstance()->postNotification(MSG_BUY, str);
 				break;
 			}
 			else
 			{
-				String* str = String::createWithFormat("%d-%f-%f-%d", 7, mappoint.x, mappoint.y, Player->getTag());
-				NotificationCenter::getInstance()->postNotification("pay_tolls", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_PAY_TOLLS_2_TAG, mappoint.x, mappoint.y, Player->getTag());
+				NotificationCenter::getInstance()->postNotification(MSG_PAY_TOLLS, str);
 				break;
 			}
 		}
-		if (id == 4 + GameScene::getland_id())
+		if (id == PLAYER2_LEVEL2_LAND_ID + GameScene::getland_id())
 		{
 			flag++;
-			if (Player->getTag() == 2)
+			if (Player->getTag() == PLAYER2_TAG)
 			{
-				String* str = String::createWithFormat("%d-%f-%f-%d", 4, mappoint.x, mappoint.y, Player->getTag());
-				NotificationCenter::getInstance()->postNotification("buy_land", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_BUY_LAND_2_TAG, mappoint.x, mappoint.y, Player->getTag());
+				NotificationCenter::getInstance()->postNotification(MSG_BUY, str);
 				break;
 			}
 			else
 			{
-				String* str = String::createWithFormat("%d-%f-%f-%d", 7, mappoint.x, mappoint.y, Player->getTag());
-				NotificationCenter::getInstance()->postNotification("pay_tolls", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_PAY_TOLLS_2_TAG, mappoint.x, mappoint.y, Player->getTag());
+				NotificationCenter::getInstance()->postNotification(MSG_PAY_TOLLS, str);
 				break;
 			}
 		}
-		if (id == 5 + GameScene::getland_id())
+		if (id == PLAYER3_LEVEL2_LAND_ID + GameScene::getland_id())
 		{
 			flag++;
-			if (Player->getTag() == 3)
+			if (Player->getTag() == PLAYER3_TAG)
 			{
-				String* str = String::createWithFormat("%d-%f-%f-%d", 4, mappoint.x, mappoint.y, Player->getTag());
-				NotificationCenter::getInstance()->postNotification("buy_land", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_BUY_LAND_2_TAG, mappoint.x, mappoint.y, Player->getTag());
+				NotificationCenter::getInstance()->postNotification(MSG_BUY, str);
 				break;
 			}
 			else
 			{
-				String* str = String::createWithFormat("%d-%f-%f-%d", 7, mappoint.x, mappoint.y, Player->getTag());
-				NotificationCenter::getInstance()->postNotification("pay_tolls", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_PAY_TOLLS_2_TAG, mappoint.x, mappoint.y, Player->getTag());
+				NotificationCenter::getInstance()->postNotification(MSG_PAY_TOLLS, str);
 				break;
 			}
 		}
-		if (id == 11 + GameScene::getland_id())
+		if (id == PLAYER4_LEVEL2_LAND_ID + GameScene::getland_id())
 		{
 			flag++;
-			if (Player->getTag() == 4)
+			if (Player->getTag() == PLAYER4_TAG)
 			{
-				String* str = String::createWithFormat("%d-%f-%f-%d", 4, mappoint.x, mappoint.y, Player->getTag());
-				NotificationCenter::getInstance()->postNotification("buy_land", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_BUY_LAND_2_TAG, mappoint.x, mappoint.y, Player->getTag());
+				NotificationCenter::getInstance()->postNotification(MSG_BUY, str);
 				break;
 			}
 			else
 			{
-				String* str = String::createWithFormat("%d-%f-%f-%d", 7, mappoint.x, mappoint.y, Player->getTag());
-				NotificationCenter::getInstance()->postNotification("pay_tolls", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_PAY_TOLLS_2_TAG, mappoint.x, mappoint.y, Player->getTag());
+				NotificationCenter::getInstance()->postNotification(MSG_PAY_TOLLS, str);
 				break;
 			}
 		}
-		if (id == 9 + GameScene::getland_id())
+		if (id == PLAYER1_LEVEL3_LAND_ID + GameScene::getland_id())
 		{
 			flag++;
-			if (Player->getTag() == 1)
+			if (Player->getTag() == PLAYER1_TAG)
 			{
-				String* str = String::createWithFormat("%d-%f-%f-%d", 1000, mappoint.x, mappoint.y, Player->getTag());
-				NotificationCenter::getInstance()->postNotification("buy_land", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_CON_GO, mappoint.x, mappoint.y, Player->getTag());
+				NotificationCenter::getInstance()->postNotification(MSG_BUY, str);
 				break;
 			}
 			else
 			{
-				String* str = String::createWithFormat("%d-%f-%f-%d", 8, mappoint.x, mappoint.y, Player->getTag());
-				NotificationCenter::getInstance()->postNotification("pay_tolls", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_PAY_TOLLS_3_TAG, mappoint.x, mappoint.y, Player->getTag());
+				NotificationCenter::getInstance()->postNotification(MSG_PAY_TOLLS, str);
 				break;
 			}
 		}
-		if (id == 7 + GameScene::getland_id())
+		if (id == PLAYER2_LEVEL3_LAND_ID + GameScene::getland_id())
 		{
 			flag++;
-			if (Player->getTag() == 2)
+			if (Player->getTag() == PLAYER2_TAG)
 			{
-				String* str = String::createWithFormat("%d-%f-%f-%d", 1000, mappoint.x, mappoint.y, Player->getTag());
-				NotificationCenter::getInstance()->postNotification("buy_land", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_CON_GO, mappoint.x, mappoint.y, Player->getTag());
+				NotificationCenter::getInstance()->postNotification(MSG_BUY, str);
 				break;
 			}
 			else
 			{
-				String* str = String::createWithFormat("%d-%f-%f-%d", 8, mappoint.x, mappoint.y, Player->getTag());
-				NotificationCenter::getInstance()->postNotification("pay_tolls", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_PAY_TOLLS_3_TAG, mappoint.x, mappoint.y, Player->getTag());
+				NotificationCenter::getInstance()->postNotification(MSG_PAY_TOLLS, str);
 				break;
 			}
 		}
-		if (id == 8 + GameScene::getland_id())
+		if (id == PLAYER3_LEVEL3_LAND_ID + GameScene::getland_id())
 		{
 			flag++;
-			if (Player->getTag() == 3)
+			if (Player->getTag() == PLAYER3_TAG)
 			{
-				String* str = String::createWithFormat("%d-%f-%f-%d", 1000, mappoint.x, mappoint.y, Player->getTag());
-				NotificationCenter::getInstance()->postNotification("buy_land", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_CON_GO, mappoint.x, mappoint.y, Player->getTag());
+				NotificationCenter::getInstance()->postNotification(MSG_BUY, str);
 				break;
 			}
 			else
 			{
-				String* str = String::createWithFormat("%d-%f-%f-%d", 8, mappoint.x, mappoint.y, Player->getTag());
-				NotificationCenter::getInstance()->postNotification("pay_tolls", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_PAY_TOLLS_3_TAG, mappoint.x, mappoint.y, Player->getTag());
+				NotificationCenter::getInstance()->postNotification(MSG_PAY_TOLLS, str);
 				break;
 			}
 		}
-		if (id == 12 + GameScene::getland_id())
+		if (id == PLAYER4_LEVEL3_LAND_ID + GameScene::getland_id())
 		{
 			flag++;
-			if (Player->getTag() == 4)
+			if (Player->getTag() == PLAYER4_TAG)
 			{
-				String* str = String::createWithFormat("%d-%f-%f-%d", 1000, mappoint.x, mappoint.y, Player->getTag());
-				NotificationCenter::getInstance()->postNotification("buy_land", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_CON_GO, mappoint.x, mappoint.y, Player->getTag());
+				NotificationCenter::getInstance()->postNotification(MSG_BUY, str);
 				break;
 			}
 			else
 			{
-				String* str = String::createWithFormat("%d-%f-%f-%d", 8, mappoint.x, mappoint.y, Player->getTag());
-				NotificationCenter::getInstance()->postNotification("pay_tolls", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_PAY_TOLLS_3_TAG, mappoint.x, mappoint.y, Player->getTag());
+				NotificationCenter::getInstance()->postNotification(MSG_PAY_TOLLS, str);
 				break;
 			}
 		}
 	}
 	if (!flag)
 	{
-		NotificationCenter::getInstance()->postNotification("one_go", String::createWithFormat("%d", 5));
+		NotificationCenter::getInstance()->postNotification(MSG_PICKONE_TOGO, String::createWithFormat("%d", MSG_PICKONE_TOGO_TAG));
 	}
 }
 
