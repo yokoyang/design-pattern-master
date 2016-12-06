@@ -16,34 +16,34 @@ FinalScene::~FinalScene()
 {
 }
 
-bool FinalScene::Init()
+bool FinalScene::init()
 {
-	if (!Layer::Init())
+	if (!Layer::init())
 	{
 		return false;
 	}
-	auto Size = Director::GetInstance()->GetvisibleSize();
+	auto Size = Director::getInstance()->getVisibleSize();
 	this->setAnchorPoint(Vec2(0.5, 0.5));
 	this->setPosition(Size / 2);
 
 
-	auto congrats = Label::CreateWithTTF("Congratulations! You Win!!", "fonts/Gazzarel.ttf", 50);
+	auto congrats = Label::createWithTTF(SUCCEEFUL_MESSAGE, SETTING_FONT, 50);
 	if (status != 1)
 	{
-		congrats->SetString("Sorry! You Lose!");
+		congrats->setString(LOSE_MESSAGE);
 	}
-	AddChild(congrats);
+	addChild(congrats);
 
 
-	auto backToMainText = Label::CreateWithTTF("Quit The Game", "fonts/Gazzarel.ttf", 40);
-	auto backToMain = MenuItemLabel::Create(backToMainText, [](Ref* sender){
-		Director::GetInstance()->End();
+	auto BackToMainText = Label::createWithTTF(QUIT_GAME, SETTING_FONT, 40);
+	auto BackToMain = MenuItemLabel::create(BackToMainText, [](Ref* sender){
+		Director::getInstance()->end();
 	});
-	backToMain->setPosition(Vec2(0, 0));
+	BackToMain->setPosition(Vec2(0, 0));
 
-	auto MenuIcon = Menu::CreateWithItem(backToMain);
-	MenuIcon->setPosition(ConvertToNodeSpace(Vec2(Size.width / 2, Size.height / 2 - 70)));
-	AddChild(MenuIcon);
+	auto MenuIcon = Menu::createWithItem(BackToMain);
+	MenuIcon->setPosition(convertToNodeSpace(Vec2(Size.width / 2, Size.height / 2 - 70)));
+	addChild(MenuIcon);
 
 	return true;
 }

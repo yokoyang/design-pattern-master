@@ -1,7 +1,6 @@
 #include "Opportunity.h"
-#include "Toast.h"
-#include "GameSceneScene.h"
-#include "Route.h"
+#include<toast.h>
+#include<GameSceneScene.h>
 
 
 std::vector <Forwards*> Forwards::Instances;
@@ -35,9 +34,9 @@ Wealth::~Wealth()
 
 
 
-bool Opportunity::Init()
+bool Opportunity::init()
 {
-	if (!Layer::Init())
+	if (!Layer::init())
 	{
 		return false;
 	}
@@ -46,18 +45,18 @@ bool Opportunity::Init()
 
 	return true;
 }
-bool Forwards::Init()
+bool Forwards::init()
 {
-	if (!Opportunity::Init())
+	if (!Opportunity::init())
 	{
 		return false;
 	}
 	Steps = 0;
 	return true;
 }
-bool Delay::Init()
+bool Delay::init()
 {
-	if (!Opportunity::Init())
+	if (!Opportunity::init())
 	{
 		return false;
 	}
@@ -65,9 +64,9 @@ bool Delay::Init()
 	Status = 0;
 	return true;
 }
-bool Wealth::Init()
+bool Wealth::init()
 {
-	if (!Opportunity::Init())
+	if (!Opportunity::init())
 	{
 		return false;
 	}
@@ -75,36 +74,36 @@ bool Wealth::Init()
 	return true;
 }
 //Adds particle system
-void Opportunity::Addparticle()
+void Opportunity::addparticle()
 {
-	auto particle = ParticleSystemQuad::Create("particle_texture.plist");
-	auto batch = ParticleBatchNode::CreateWithTexture(particle->GetTexture());
-	batch->AddChild(particle);
-	GameScene::Getmap()->AddChild(batch);
-	particle->setPosition(Director::GetInstance()->GetvisibleSize() / 2);
+	auto particle = ParticleSystemQuad::create(PARTICLE_SYSTEM);
+	auto batch = ParticleBatchNode::createWithTexture(particle->getTexture());
+	batch->addChild(particle);
+	GameScene::getmap()->addChild(batch);
+	particle->setPosition(Director::getInstance()->getVisibleSize() / 2);
 }
 
 
-Forwards* Forwards::CreateWithSteps(std::string causes, int steps)
+Forwards* Forwards::createWithSteps(std::string causes, int steps)
 {
-	auto temp = Create();
+	auto temp = create();
 	temp->Causes = causes;
 	temp->Steps = steps;
 	return temp;
 }
 //Create a Delay object,with Opportunity::causes, rounds, status
-Delay* Delay::CreateWithRoundsAndStatus(std::string causes, int rounds, int status)
+Delay* Delay::createWithRoundsAndStatus(std::string causes, int rounds, int status)
 {
-	auto temp = Create();
+	auto temp = create();
 	temp->Causes = causes;
 	temp->Rounds = rounds;
 	temp->Status = status;
 	return temp;
 }
 //Creates the Wealth Object
-Wealth* Wealth::CreateWithProfit(std::string causes, int profit)
+Wealth* Wealth::createWithProfit(std::string causes, int profit)
 {
-	auto temp = Create();
+	auto temp = create();
 	temp->Causes = causes;
 	temp->Profit = profit;
 	return temp;
@@ -115,91 +114,91 @@ Wealth* Wealth::CreateWithProfit(std::string causes, int profit)
 
 
 //Returns a layer showing the event
-Layer*Opportunity::GetShowOnScreen()
+Layer*Opportunity::getShowOnScreen()
 {
 
-	auto visibleSize = Director::GetInstance()->GetvisibleSize();
+	auto VisibleSize = Director::getInstance()->getVisibleSize();
 
-	auto causeLabel = Label::CreateWithSystemFont(GetCauses(), "Gothic", 50);
+	auto causeLabel = Label::createWithSystemFont(getCauses(), SETTING_FONT, 50);
 	causeLabel->setAnchorPoint(Vec2(0.5, 0.5));
-	causeLabel->setPosition(visibleSize / 2);
-	AddChild(causeLabel);
+	causeLabel->setPosition(VisibleSize / 2);
+	addChild(causeLabel);
 
 	return this;
 }
 
-bool Forwards::RunAction(Player* p)
+bool Forwards::RunAction(player* p)
 {
-	Toast::AddToast(GameScene::Getmap(), p->GetPosition(), this->GetCauses(), 4.0f);
-	Route::GetInstance()->GetPath(p, GameScene::isWalk, this->Steps, GameScene::Getcol_count(), GameScene::Getrow_count());
-	p->go(Route::GetInstance()->GetPathRow(), Route::GetInstance()->GetPathCol());
+	toast::addtoast(GameScene::getmap(), p->getPosition(), this->getCauses(), 4.0f);
+	route::getInstance()->getpath(p, GameScene::iswalk, this->Steps, GameScene::getcol_count(), GameScene::getrow_count());
+	p->go(route::getInstance()->getpathrow(), route::getInstance()->getpathcol());
 	return true;
 }
 //Pure virtual function to be overrided, realize the event
-bool Delay::RunAction(Player* p)
+bool Delay::RunAction(player* p)
 {
-	Toast::AddToast(GameScene::Getmap(), p->GetPosition(), this->GetCauses(), 4.0f);
-	p->Set_stayRounds(Rounds);
+	toast::addtoast(GameScene::getmap(), p->getPosition(), this->getCauses(), 4.0f);
+	p->set_stayRounds(Rounds);
 	return true;
 
 }
 //Realize the event
-bool Wealth::RunAction(Player* p)
+bool Wealth::RunAction(player* p)
 {
-	Toast::AddToast(GameScene::Getmap(), p->GetPosition(), this->GetCauses(), 4.0f);
-	GameScene::UpdateMoney(p, Profit);
+	toast::addtoast(GameScene::getmap(), p->getPosition(), this->getCauses(), 4.0f);
+	GameScene::update_money(p, Profit);
 	return true;
 }
 //Preload all the pictures needed to show on screen
 void Opportunity::Load()
-{	
-	auto temp1 = Forwards::CreateWithSteps("Take A Bus, Go Two Steps Ahead", 2); temp1->Retain();
-	auto temp2 = Forwards::CreateWithSteps("Take The Subway,Go Six Steps Ahead", 6); temp2->Retain();
-	auto temp3 = Forwards::CreateWithSteps("Came Across An Old Friend,Take You For A Ride For Five Steps", 5); temp3->Retain();
-	auto temp4 = Forwards::CreateWithSteps("Take A Taxi, Go Three Steps Ahead", 3); temp4->Retain();
-	auto temp5 = Forwards::CreateWithSteps("Ride A Bicycle,Go One Steps,Ahead", 1); temp5->Retain();
-	auto temp6 = Forwards::CreateWithSteps("Across The Street, Four Steps Ahead", 4); temp6->Retain();
-	Forwards::GetInstance()->push_back(temp1);
-	Forwards::GetInstance()->push_back(temp2);
-	Forwards::GetInstance()->push_back(temp3);
-	Forwards::GetInstance()->push_back(temp4);
-	Forwards::GetInstance()->push_back(temp5);
-	Forwards::GetInstance()->push_back(temp6);
+{
+	auto temp1 = Forwards::createWithSteps(FORWARD_MESSAGE1, FORWARD_MESSAGE1_STEP); temp1->retain();
+	auto temp2 = Forwards::createWithSteps(FORWARD_MESSAGE2, FORWARD_MESSAGE2_STEP); temp2->retain();
+	auto temp3 = Forwards::createWithSteps(FORWARD_MESSAGE3, FORWARD_MESSAGE3_STEP); temp3->retain();
+	auto temp4 = Forwards::createWithSteps(FORWARD_MESSAGE4, FORWARD_MESSAGE4_STEP); temp4->retain();
+	auto temp5 = Forwards::createWithSteps(FORWARD_MESSAGE5, FORWARD_MESSAGE5_STEP); temp5->retain();
+	auto temp6 = Forwards::createWithSteps(FORWARD_MESSAGE6, FORWARD_MESSAGE6_STEP); temp6->retain();
+	Forwards::getInstance()->push_back(temp1);
+	Forwards::getInstance()->push_back(temp2);
+	Forwards::getInstance()->push_back(temp3);
+	Forwards::getInstance()->push_back(temp4);
+	Forwards::getInstance()->push_back(temp5);
+	Forwards::getInstance()->push_back(temp6);
 
-	auto temp7 = Delay::CreateWithRoundsAndStatus("Biten By A Fierce Dog, Stay In Hospital For Two Days", 2, 1); temp7->Retain();
-	auto temp8 = Delay::CreateWithRoundsAndStatus("Arrested For Tax Evasion,Being in Jail For Two Days", 2, 2); temp8->Retain();
-	auto temp9 = Delay::CreateWithRoundsAndStatus("Stay In A Five-Star Hotel For One Night", 1, 0); temp9->Retain();
-	auto temp10 = Delay::CreateWithRoundsAndStatus("Raining! Stay Where You Are For One Day", 1, 0); temp10->Retain();
-	auto temp11 = Delay::CreateWithRoundsAndStatus("Under Construction Ahead, Stop! Stay For Two Days", 2, 0); temp11->Retain();
-	auto temp12 = Delay::CreateWithRoundsAndStatus("Caught A Cold! Stay In Hospital For One Day", 1, 1); temp12->Retain();
-	auto temp13 = Delay::CreateWithRoundsAndStatus("Arrested For Overspeed, Stay In Jail For One Day", 1, 2); temp13->Retain();
-	Delay::GetInstance()->push_back(temp7);
-	Delay::GetInstance()->push_back(temp8);
-	Delay::GetInstance()->push_back(temp9);
-	Delay::GetInstance()->push_back(temp10);
-	Delay::GetInstance()->push_back(temp11);
-	Delay::GetInstance()->push_back(temp12);
-	Delay::GetInstance()->push_back(temp13);
+	auto temp7 = Delay::createWithRoundsAndStatus(DELAY_MESSAGE1, DELAY_MESSAGE1_ROUND, DELAY_MESSAGE1_STATUS); temp7->retain();
+	auto temp8 = Delay::createWithRoundsAndStatus(DELAY_MESSAGE2, DELAY_MESSAGE2_ROUND, DELAY_MESSAGE2_STATUS); temp8->retain();
+	auto temp9 = Delay::createWithRoundsAndStatus(DELAY_MESSAGE3, DELAY_MESSAGE3_ROUND, DELAY_MESSAGE3_STATUS); temp9->retain();
+	auto temp10 = Delay::createWithRoundsAndStatus(DELAY_MESSAGE4, DELAY_MESSAGE4_ROUND, DELAY_MESSAGE4_STATUS); temp10->retain();
+	auto temp11 = Delay::createWithRoundsAndStatus(DELAY_MESSAGE5, DELAY_MESSAGE5_ROUND, DELAY_MESSAGE5_STATUS); temp11->retain();
+	auto temp12 = Delay::createWithRoundsAndStatus(DELAY_MESSAGE6, DELAY_MESSAGE6_ROUND, DELAY_MESSAGE6_STATUS); temp12->retain();
+	auto temp13 = Delay::createWithRoundsAndStatus(DELAY_MESSAGE7, DELAY_MESSAGE7_ROUND, DELAY_MESSAGE7_STATUS); temp13->retain();
+	Delay::getInstance()->push_back(temp7);
+	Delay::getInstance()->push_back(temp8);
+	Delay::getInstance()->push_back(temp9);
+	Delay::getInstance()->push_back(temp10);
+	Delay::getInstance()->push_back(temp11);
+	Delay::getInstance()->push_back(temp12);
+	Delay::getInstance()->push_back(temp13);
 
-	auto temp14 = Wealth::CreateWithProfit("In A High-Class French Restaurant, cost $500", -500); temp14->Retain();
-	auto temp15 = Wealth::CreateWithProfit("Win A Lottery, Get $500", 500); temp15->Retain();
-	auto temp16 = Wealth::CreateWithProfit("Tax Paying Day, cost $1000", -1000); temp16->Retain();
-	auto temp17 = Wealth::CreateWithProfit("Buy Something In The Department Store , cost $1500", -1500); temp17->Retain();
-	auto temp18 = Wealth::CreateWithProfit("Get Fund, Get $2000", 2000); temp18->Retain();
-	auto temp19 = Wealth::CreateWithProfit("Birthday! Get Present, $800, Get $800", 800); temp19->Retain();
-	auto temp20 = Wealth::CreateWithProfit("Bank interests! Get $1000", 1000); temp20->Retain();
-	auto temp21 = Wealth::CreateWithProfit("Lucky Money! Get $1000",1000); temp21->Retain();
-	auto temp22 = Wealth::CreateWithProfit("Salary Day! Get $1500", 1500); temp22->Retain();
+	auto temp14 = Wealth::createWithProfit(WEALTH_MESSAGE1, WEALTH_MESSAGE1_MONEY); temp14->retain();
+	auto temp15 = Wealth::createWithProfit(WEALTH_MESSAGE2, WEALTH_MESSAGE2_MONEY); temp15->retain();
+	auto temp16 = Wealth::createWithProfit(WEALTH_MESSAGE3, WEALTH_MESSAGE3_MONEY); temp16->retain();
+	auto temp17 = Wealth::createWithProfit(WEALTH_MESSAGE4, WEALTH_MESSAGE4_MONEY); temp17->retain();
+	auto temp18 = Wealth::createWithProfit(WEALTH_MESSAGE5, WEALTH_MESSAGE5_MONEY); temp18->retain();
+	auto temp19 = Wealth::createWithProfit(WEALTH_MESSAGE6, WEALTH_MESSAGE6_MONEY); temp19->retain();
+	auto temp20 = Wealth::createWithProfit(WEALTH_MESSAGE7, WEALTH_MESSAGE7_MONEY); temp20->retain();
+	auto temp21 = Wealth::createWithProfit(WEALTH_MESSAGE8, WEALTH_MESSAGE8_MONEY); temp21->retain();
+	auto temp22 = Wealth::createWithProfit(WEALTH_MESSAGE9, WEALTH_MESSAGE9_MONEY); temp22->retain();
 
-	Wealth::GetInstance()->push_back(temp14);
-	Wealth::GetInstance()->push_back(temp15);
-	Wealth::GetInstance()->push_back(temp16);
-	Wealth::GetInstance()->push_back(temp17);
-	Wealth::GetInstance()->push_back(temp18);
-	Wealth::GetInstance()->push_back(temp19);
-	Wealth::GetInstance()->push_back(temp20);
-	Wealth::GetInstance()->push_back(temp21);
-	Wealth::GetInstance()->push_back(temp22);
+	Wealth::getInstance()->push_back(temp14);
+	Wealth::getInstance()->push_back(temp15);
+	Wealth::getInstance()->push_back(temp16);
+	Wealth::getInstance()->push_back(temp17);
+	Wealth::getInstance()->push_back(temp18);
+	Wealth::getInstance()->push_back(temp19);
+	Wealth::getInstance()->push_back(temp20);
+	Wealth::getInstance()->push_back(temp21);
+	Wealth::getInstance()->push_back(temp22);
 
 }
 
@@ -215,42 +214,42 @@ Lottery::~Lottery()
 }
 
 
-bool Lottery::Init()
+bool Lottery::init()
 {
-	if (!Sprite::Init())
+	if (!Sprite::init())
 		return false;
-	AddAnimation();
+	addAnimation();
 	SpriteFrame* spf;
-	spf = Sprite_Frame->GetSpriteFrameByName("publish_ly01.png");
+	spf = Sprite_Frame->getSpriteFrameByName("publish_ly01.png");
 
-	Sprite::InitWithSpriteFrame(spf);
-	SetItemAnimate();
+	Sprite::initWithSpriteFrame(spf);
+	setItemAnimate();
 	return true;
 }
 
 //Adds a lottery publishing animation
-void Lottery::AddAnimation()
+void Lottery::addAnimation()
 {
-	Sprite_Frame = SpriteFrameCache::GetInstance();
-	Sprite_Frame->AddSpriteFramesWithFile("publish_ly.plist", "publish_ly.png");
+	Sprite_Frame = SpriteFrameCache::getInstance();
+	Sprite_Frame->addSpriteFramesWithFile("publish_ly.plist", "publish_ly.png");
 
-	MemSet(name, 0, 20);
+	memset(name, 0, 20);
 
 	for (int i = 1; i <= 21; i++)
 	{
 		sprintf(name, "publish_ly%02d.png", i);
-		animate.PushBack(Sprite_Frame->GetSpriteFrameByName(name));
+		animate.pushBack(Sprite_Frame->getSpriteFrameByName(name));
 	}
 }
 
 
-void Lottery::SetItemAnimate()
+void Lottery::setItemAnimate()
 {
-	if (!AnimationCache::GetInstance()->GetAnimation("publish_ly_animation"))
+	if (!AnimationCache::getInstance()->getAnimation("publish_ly_animation"))
 	{
-		AnimationCache::GetInstance()->AddAnimation(Animation::CreateWithSpriteFrames(animate, 0.1f), "publish_ly_animation");
+		AnimationCache::getInstance()->addAnimation(Animation::createWithSpriteFrames(animate, 0.1f), "publish_ly_animation");
 	}
-	normal_anmi = Animate::Create(AnimationCache::GetInstance()->GetAnimation("publish_ly_animation"));
-	normal_anmi->Retain();
+	normal_anmi = Animate::create(AnimationCache::getInstance()->getAnimation("publish_ly_animation"));
+	normal_anmi->retain();
 }
 

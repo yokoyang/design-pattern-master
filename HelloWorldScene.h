@@ -9,21 +9,21 @@ USING_NS_CC;
 class HelloWorld : public cocos2d::Layer
 {
 private:
-	Label* developer = Label::CreateWithSystemFont("Rafael Marmalade, Yu Yifan, Yan Xiongbaixue", "Gothic", 70);
+	Label* developer = Label::createWithSystemFont(DEVELOPER_MESSAGE, DEVELOPER_MESSAGE_FONT, DEVELOPER_MESSAGE_FONT_SIZE);
 public:
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
-    static cocos2d::Scene* CreateScene();
+    static cocos2d::Scene* createScene();
 
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
-    virtual bool Init();
+    virtual bool init();
     
     // a selector callback
-    void MenuCloseCallback(cocos2d::Ref* pSender);
+    void menuCloseCallback(cocos2d::Ref* pSender);
     
-    // implement the "static Create()" method manually
+    // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 
-	void TimerDeveloper(float dt);
+	void timerDeveloper(float dt);
 	
 };
 

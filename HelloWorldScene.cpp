@@ -5,93 +5,105 @@
 USING_NS_CC;
 
 
-Scene* HelloWorld::CreateScene()
+Scene* HelloWorld::createScene()
 {
     // 'scene' is an autorelease object
-    auto scene = Scene::Create();
+    auto scene = Scene::create();
     
     // 'layer' is an autorelease object
-    auto layer = HelloWorld::Create();
+    auto layer = HelloWorld::create();
 
-    // Add layer as a child to scene
-    scene->AddChild(layer);
+    // add layer as a child to scene
+    scene->addChild(layer);
 	
     // return the scene
     return scene;
 }
 
 // on "init" you need to initialize your instance
-bool HelloWorld::Init()
+bool HelloWorld::init()
 {
     //////////////////////////////
     // 1. super init first
-    if ( !Layer::Init() )
+    if ( !Layer::init() )
     {
         return false;
     }
     
-	Size visibleSize = Director::GetInstance()->GetvisibleSize();
-	Vec2 origin = Director::GetInstance()->GetVisibleOrigin();
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 
-	Sprite* background = Sprite::Create("Shanghai.jpg");
-	background->SetScale(visibleSize.width / background->GetContentSize().width, visibleSize.height / background->GetContentSize().height);
+	Sprite* background = Sprite::create(START_PAGE);
+	background->setScale(visibleSize.width / background->getContentSize().width, visibleSize.height / background->getContentSize().height);
 	background->setAnchorPoint(Vec2(0.5, 0.5));
 	background->setPosition(visibleSize / 2);
 
-	AddChild(background);
+	addChild(background);
 
-	auto mainmenu = MainMenu::Create();
+	auto mainmenu = MainMenu::create();
 	mainmenu->setPosition(visibleSize / 2);
-	AddChild(mainmenu);
+	addChild(mainmenu);
 
-	CocosDenshion::SimpleAudioEngine::GetInstance()->PreloadBackgroundMusic("Flo Rida - Whistle.wav");
-	//ศฅณýศ฿ำเด๚ย๋
-	for (int i = 1; i < 20; i++)
-	{
-		CocosDenshion::SimpleAudioEngine::GetInstance()->PreloadEffect("Sounding/audio%02d.wav", i);
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic(BACKGROUND_MUSIC);
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(GOD_BLESS_MUSIC);
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(UNINJECT_MUSIC);
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(REVENGE_MUSIC);
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(DONOT_BLAME_MUSIC);
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(UNBELIEVE_MUSIC);
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(BUY_MUSIC);
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(PAY_RENT_MUSIC);
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(HEPPY_MUSIC);
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(GIVE_MORE_MUSIC);
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(RELEX_MUSIC);
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(HEPPY_MUSIC2);
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(UNHEPPY_MUSIC);
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(UNHEPPY_MUSIC2);
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(UNHEPPY_MUSIC3);
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(TIGER_MUSIC);
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(UNHEPPY_MUSIC4);
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(THREATEN_MUSIC);
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(BEG_MUSIC);
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(RANDOM_MUSCI);
 
-	}
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(BACKGROUND_MUSIC, true);
+	CocosDenshion::SimpleAudioEngine::getInstance()->setBackgroundMusicVolume(0.5);
 	
 
-	CocosDenshion::SimpleAudioEngine::GetInstance()->PlayBackgroundMusic("Flo Rida - Whistle.wav", true);
-	CocosDenshion::SimpleAudioEngine::GetInstance()->SetBackgroundMusicVolume(0.5);
-	
-
-	developer = Label::CreateWithTTF("Rafael Marmalade, Yu Yifan, Yan Xiongbaixue", "fonts/Gothic Flames.ttf", 40);
+	developer = Label::createWithTTF(DEVELOPER_MESSAGE, DEVELOPER_MESSAGE_FONT, 40);
 	developer->setAnchorPoint(Vec2(0, 0));
 	developer->setPosition(Vec2(20,20));
 	
-	AddChild(developer);
-	Schedule(schedule_selector(HelloWorld::TimerDeveloper), 3.0f);
+	addChild(developer);
+	schedule(schedule_selector(HelloWorld::timerDeveloper), 3.0f);
 	
 	return true; 
 }
 
-void HelloWorld::TimerDeveloper(float dt)
+void HelloWorld::timerDeveloper(float dt)
 {
-	if (developer->GetString() == "Rafael Marmalade, Yu Yifan, Yan Xiongbaixue")
+	if (developer->getString() == DEVELOPER_MESSAGE)
 	{
-		developer->SetString("Software Engineering School");
+		developer->setString(DEVELOPER_DEPARTMENT_MESSAGE);
 
 	}
 	else
 	{
-		developer->SetString( "Rafael Marmalade, Yu Yifan, Yan Xiongbaixue");
+		developer->setString(DEVELOPER_MESSAGE);
 	}
 }
 
 
-void HelloWorld::MenuCloseCallback(Ref* pSender)
+void HelloWorld::menuCloseCallback(Ref* pSender)
 {
-#if (CC_TARGet_PLATFORM == CC_PLATFORM_WP8) || (CC_TARGet_PLATFORM == CC_PLATFORM_WINRT)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 	MessageBox("You pressed the close button. Windows Store Apps do not implement a close button.","Alert");
     return;
 #endif
 
-    Director::GetInstance()->End();
+    Director::getInstance()->end();
 
-#if (CC_TARGet_PLATFORM == CC_PLATFORM_IOS)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     exit(0);
 #endif
 }
