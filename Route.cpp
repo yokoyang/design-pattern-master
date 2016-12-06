@@ -70,7 +70,7 @@ void route::getpath(player* playername, bool** iswalk, int step, int colcount, i
 	for (int stepnumber = 0; stepnumber < step; stepnumber++)
 	{
 		dir.clear();
-		//0´ú±íÉÏ£¬1´ú±íÏÂ£¬2´ú±í×ó£¬3´ú±íÓÒ
+		//0ä»£è¡¨ä¸Šï¼Œ1ä»£è¡¨ä¸‹ï¼Œ2ä»£è¡¨å·¦ï¼Œ3ä»£è¡¨å³
 		if (iscango(now_positionx, now_positiony, 0, pass))
 		{
 			dir.push_back(0);
