@@ -17,7 +17,7 @@ public:
 	virtual void Promote();
 	virtual void PayMoney();
 	virtual void HappenAccident();
-	virtual void Changetype(int type);
+	virtual void ChangeType(int type);
 	virtual bool Init();
 	CREATE_FUNC(ComHouse);
 	

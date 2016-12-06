@@ -22,15 +22,15 @@ ComHouse::~ComHouse()
 
 void ComHouse::PayMoney()
 {
-	std::string name = player::getplayers()->_name;
+	std::string name = Player::GetPlayers()->_name;
 	//如果此房产没有被抵押没有
 	if (!_isMortgage)
 	{
-		auto ps = player::getplayers();
-		auto it = ps->begin();
-		for (; it != ps->end(); it++)
+		auto ps = Player::GetPlayers();
+		auto it = ps->Begin();
+		for (; it != ps->End(); it++)
 		{
-			if ((*it)->getname() == _name)
+			if ((*it)->GetName() == _name)
 			{
 				break;
 			}
@@ -39,13 +39,13 @@ void ComHouse::PayMoney()
 		{
 			_owner = name;
 			_rentMoney = rentPrice;
-			(*it)->setproperty((*it)->getproperty() - _nowPri);
+			(*it)->SetProperty((*it)->GetProperty() - _nowPri);
 		}
 		else
 		{
 			_owner = name;
 			_rentMoney = rentPrice;
-			(*it)->setproperty((*it)->getproperty() - _nowPri - _promotePrice);
+			(*it)->SetProperty((*it)->GetProperty() - _nowPri - _promotePrice);
 		}
 		_rank = 1;
 	}
@@ -56,12 +56,12 @@ void ComHouse::PayMoney()
 void ComHouse::Mortgage()
 {
 	_ismortgage = true;
-	auto ps = Player::getplayers();
-	for (auto it = ps->begin(); it != ps->end(); it++)
+	auto ps = Player::GetPlayers();
+	for (auto it = ps->Begin(); it != ps->End(); it++)
 	{
-		if ((*it)->getname() == _name)
+		if ((*it)->GetName() == _name)
 		{
-			(*it)->setproperty((*it)->getproperty() + _nowPri / 2);
+			(*it)->SetProperty((*it)->GetProperty() + _nowPri / 2);
 			break;
 		}
 	}
@@ -69,13 +69,13 @@ void ComHouse::Mortgage()
 
 void ComHouse::Ransom()
 {
-	auto ps = Player::getplayers();
-	for (auto it = ps->begin(); it != ps->end(); it++)
+	auto ps = Player::GetPlayers();
+	for (auto it = ps->Begin(); it != ps->End(); it++)
 	{
-		if ((*it)->getname() == _name)
+		if ((*it)->GetName() == _name)
 		{
 			_ismortgage = false;
-			(*it)->setproperty((*it)->getproperty() - _nowPri * 0.6);
+			(*it)->SetProperty((*it)->GetProperty() - _nowPri * 0.6);
 			break;
 		}
 	}
@@ -109,12 +109,12 @@ void ComHouse::Auction()
 {
 	if (!_ismortgage)
 	{
-		auto ps = player::getplayers();
-		for (auto it = ps->begin(); it != ps->end(); it++)
+		auto ps = Player::GetPlayers();
+		for (auto it = ps->Begin(); it != ps->End(); it++)
 		{
-			if ((*it)->getname() == _name)
+			if ((*it)->GetName() == _name)
 			{
-				(*it)->setproperty((*it)->getproperty() + _nowPri);
+				(*it)->SetProperty((*it)->GetProperty() + _nowPri);
 				break;
 			}
 		}
@@ -147,12 +147,12 @@ void ComHouse::Rent()
 	//未抵押的房产
 	if (!_ismortgage)
 	{
-		auto ps = Player::getplayers();
-		for (auto it = ps->begin(); it != ps->end(); it++)
+		auto ps = Player::GetPlayers();
+		for (auto it = ps->Begin(); it != ps->End(); it++)
 		{
-			if ((*it)->getname() == _name)
+			if ((*it)->GetName() == _name)
 			{
-				(*it)->setproperty((*it)->getproperty() + _rentMoney);
+				(*it)->SetProperty((*it)->GetProperty() + _rentMoney);
 				break;
 			}
 		}

@@ -24,12 +24,12 @@ public:
 	std::vector<int>lotterynum;
 	static PopupLayer * Create(const char* backgroundImage);
 	void SetTitle(const char* title, int fontsize = Pop_FontSize);
-	void SetContentText(const char* text, int fontsize = Pop_FontSize, int padding = 50, int paddintTop = 100);
-	void SetCallbackFunc(Object* target, SEL_CallFuncN callfun);
+	void SetContentText(const char* text, int fontsize = Pop_FontSize, int pAdding = 50, int pAddintTop = 100);
+	void SetCallbackFunc(Object* tarGet, SEL_CallFuncN callfun);
 	void SetPlayerVector(Vector<Player*>_vector);
 	bool AddButton(const char* normalImage, const char* selectedImage, const char* title, int tag = 0);
 
-	void AddPlayerlottery();
+	void AddPlayerLottery();
 	void RunAnmi();
 	virtual void OnEnter();
 	virtual void OnExit();
@@ -40,8 +40,8 @@ private:
 	void ButtonCallback(Object* pSender);
 
 	//Margins
-	int m_contentPadding;
-	int m_contentPaddingTop;
+	int m_contentPAdding;
+	int m_contentPAddingTop;
 
 	Object* m_callbackListener;
 	SEL_CallFuncN m_callback;

@@ -14,7 +14,7 @@ public:
 	virtual void Ransom();
 	virtual void Auction();
 	virtual void Promote();
-	virtual void Changetype(int type);
+	virtual void ChangeType(int type);
 	virtual bool IsInit();
 	CREATE_FUNC(AbstractHouse);
 

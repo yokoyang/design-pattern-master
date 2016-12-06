@@ -9,7 +9,7 @@ USING_NS_CC;
 class HelloWorld : public cocos2d::Layer
 {
 private:
-	Label* developer = Label::createWithSystemFont("Rafael Marmalade, Yu Yifan, Yan Xiongbaixue", "Gothic", 70);
+	Label* developer = Label::CreateWithSystemFont("Rafael Marmalade, Yu Yifan, Yan Xiongbaixue", "Gothic", 70);
 public:
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
     static cocos2d::Scene* CreateScene();
@@ -20,7 +20,7 @@ public:
     // a selector callback
     void MenuCloseCallback(cocos2d::Ref* pSender);
     
-    // implement the "static create()" method manually
+    // implement the "static Create()" method manually
     CREATE_FUNC(HelloWorld);
 
 	void TimerDeveloper(float dt);

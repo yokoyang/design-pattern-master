@@ -10,13 +10,13 @@ Prison::Prison()
 
 //监狱可以交赎金
 void PayMoney(){
-	auto ps = player::getplayers();
-	auto it = ps->begin();
+	auto ps = Player::GetPlayers();
+	auto it = ps->Begin();
 	float moneyLeft;
-	moneyLeft = (*it)->getproperty() - _wage;
+	moneyLeft = (*it)->GetProperty() - _wage;
 	//能够支付得起赎金
 	if(moneyLeft > 0){
-		(*it)->setproperty(moneyLeft);
+		(*it)->SetProperty(moneyLeft);
 		acceptPunishment = true;
 	}
 	//没钱缴纳赎金
@@ -29,9 +29,9 @@ void PayMoney(){
 void HappenAccident(){
 	//没交赎金，需要玩家坐牢
 	if(acceptPunishment == false){
-		auto ps = player::getplayers();
-		auto it = ps->begin();
-		(*it)->setPrison(delayDay);
+		auto ps = Player::GetPlayers();
+		auto it = ps->Begin();
+		(*it)->SetPrison(delayDay);
 	}
 	else{
 		return;

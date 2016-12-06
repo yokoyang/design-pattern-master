@@ -13,5 +13,5 @@ public:
 	static void AddToast(Node*, Point, std::string, float);
 
 	//Remove the toast
-	void RemoveToast(Node* node);
+	void Removetoast(Node* node);
 };

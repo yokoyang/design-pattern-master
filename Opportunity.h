@@ -3,7 +3,7 @@
 #include<cocos2d.h>
 #include<string>
 #include<vector>
-#include<Player.h>
+#include "Player.h"
 
 USING_NS_CC;
 
@@ -43,7 +43,7 @@ public:
 	Forwards();
 	~Forwards();
 
-	virtual bool init();
+	virtual bool Init();
 	CREATE_FUNC(Forwards);
 
 	//Realize the event
@@ -91,7 +91,7 @@ public:
 	Wealth();
 	~Wealth();
 
-	virtual bool init();
+	virtual bool Init();
 	CREATE_FUNC(Wealth);
 
 	//Realize the event

@@ -1,7 +1,7 @@
 #include "MainMenu.h"
 #include<cocos2d.h>
 #include"GameSceneScene.h"
-#include<Settings.h>
+#include "Settings.h"
 
 USING_NS_CC;
 
@@ -15,35 +15,35 @@ MainMenu::~MainMenu()
 {
 }
 
-bool MainMenu::init()
+bool MainMenu::Init()
 {
-	if (!Menu::init())
+	if (!Menu::Init())
 	{
 		return false;
 	}
 	//Start game button
-	auto StartGameText = Sprite::create("Start Button.png");
-	auto StartGameItem = MenuItemSprite::create(StartGameText, StartGameText, StartGameText,[this](Ref* sender){
-		auto scene = GameScene::createScene();
-		auto transitionscene = TransitionCrossFade::create(0.1f, scene);
-		Director::getInstance()->replaceScene(transitionscene);
+	auto StartGameText = Sprite::Create("Start Button.png");
+	auto StartGameItem = MenuItemSprite::Create(StartGameText, StartGameText, StartGameText,[this](Ref* sender){
+		auto scene = GameScene::CreateScene();
+		auto transitionScene = TransitionCrossFade::Create(0.1f, scene);
+		Director::GetInstance()->ReplaceScene(transitionScene);
 	});
 	//End button
-	auto EndGameText = Sprite::create("Quit Button.png");
-	auto EndGameItem = MenuItemSprite::create(EndGameText, EndGameText, EndGameText,[](Ref* sender){
-		Director::getInstance()->end();
+	auto EndGameText = Sprite::Create("Quit Button.png");
+	auto EndGameItem = MenuItemSprite::Create(EndGameText, EndGameText, EndGameText,[](Ref* sender){
+		Director::GetInstance()->End();
 	});
 
-	//Enter settings
-	auto SettingsText =Sprite::create("Settings Button.png");
-	auto SettingsItem = MenuItemSprite::create(SettingsText, SettingsText, SettingsText,[](Ref* sender){
-		auto scene = Settings::createScene();
-		auto transitionscene = TransitionPageTurn::create(2, scene, false);
-		Director::getInstance()->replaceScene(transitionscene);
+	//Enter Settings
+	auto SettingsText =Sprite::Create("Settings Button.png");
+	auto SettingsItem = MenuItemSprite::Create(SettingsText, SettingsText, SettingsText,[](Ref* sender){
+		auto scene = Settings::CreateScene();
+		auto transitionScene = TransitionPaGeturn::Create(2, scene, false);
+		Director::GetInstance()->ReplaceScene(transitionScene);
 	});
 
-	addChild(StartGameItem); addChild(EndGameItem); addChild(SettingsItem);
-	alignItemsVertically();
+	AddChild(StartGameItem); AddChild(EndGameItem); AddChild(SettingsItem);
+	AlignItemsVertically();
 	return true;
 }
 
