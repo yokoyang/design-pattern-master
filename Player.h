@@ -9,7 +9,7 @@ class PlayerA :public VirtualPlayer
 {
 private:
 
-	float money = 10000;
+	float money = INIT_MONEY;
 
 public:
 
@@ -27,7 +27,7 @@ class PlayerB :public VirtualPlayer
 {
 private:
 
-	float money = 10000;
+	float money = INIT_MONEY;
 
 public:
 
@@ -45,7 +45,7 @@ class PlayerC :public VirtualPlayer
 {
 private:
 
-	float money = 10000;
+	float money = INIT_MONEY;
 
 public:
 
@@ -63,7 +63,7 @@ class PlayerD :public VirtualPlayer
 {
 private:
 
-	float money = 10000;
+	float money = INIT_MONEY;
 
 public:
 

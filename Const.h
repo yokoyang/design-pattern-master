@@ -52,6 +52,7 @@
 #define START_NUMBER "0"
 
 
+const int MAX_PLAYER_NUMBER = 4;
 const int MAP_TAG_1 = 1;
 const int MAP_TAG_2 = 2;
 const int MAP_TAG_3 = 3;

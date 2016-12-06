@@ -11,7 +11,7 @@ PlayerD::PlayerD()
 	_money = 0;
 	saveMony = 0;
 	_name = nullptr;
-	money_string = Label::createWithTTF("","fonts/Gazzarel.TTF",20);
+	money_string = Label::createWithTTF("",SETTING_FONT,20);
 	turnme = false;
 	oneroundend = true;
 	stayRounds = 0;
@@ -34,10 +34,10 @@ bool PlayerD::init()
 void PlayerD::initAnimate()
 {
 	auto Player_spriteFrameCache = SpriteFrameCache::getInstance();
-	Player_spriteFrameCache->addSpriteFramesWithFile("Player4_anim.plist", "Player4_anim.png");
+	Player_spriteFrameCache->addSpriteFramesWithFile(PLAYER4_ANIM_PLIST, PLAYER4_ANIM_PNG);
 	char name[20];
 	memset(name, 0, 20);
-	name = "Player4_anim_04.png";
+	name = PLAYER4_ANIM_PNG_1;
 	Left.pushBack(Player_spriteFrameCache->getSpriteFrameByName(name));
 	Right.pushBack(Player_spriteFrameCache->getSpriteFrameByName(name));
 	Down.pushBack(Player_spriteFrameCache->getSpriteFrameByName(name));

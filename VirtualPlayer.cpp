@@ -12,7 +12,7 @@ VirtualPlayer::VirtualPlayer()
 	_money = 0;
 	saveMony = 0;
 	_name = nullptr;
-	money_string = Label::createWithTTF("","fonts/Gazzarel.TTF",20);
+	money_string = Label::createWithTTF("",SETTING_FONT,20);
 	turnme = false;
 	oneroundend = true;
 	stayRounds = 0;
@@ -38,7 +38,7 @@ VirtualPlayer* VirtualPlayer::createwith(char* name, int tag, SpriteFrame* imag,
 	temp->initAnimate();
 	temp->setAnimate();
 	temp->Sprite::initWithSpriteFrame(imag);
-	temp->_name = Label::createWithTTF(name, "fonts/Gazzarel.TTF", 20);
+	temp->_name = Label::createWithTTF(name, SETTING_FONT, 20);
 	temp->_money = money;
 	temp->turnme = false;
 	memset(temp->right_animation, 0, 20);
