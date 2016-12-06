@@ -1,7 +1,7 @@
 #include "control.h"
 #include "GameSceneScene.h"
-#include "route.h"
-#include "toast.h"
+#include "Route.h"
+#include "Toast.h"
 #include "FinalScene.h"
 
 
