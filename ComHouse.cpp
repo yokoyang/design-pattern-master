@@ -81,24 +81,6 @@ void ComHouse::Ransom()
 	}
 }
 
-void ComHouse::Promote()
-{
-	if (!_ismortgage)
-	{
-		if (_rank == 1)
-		{
-			_rank++;
-			_nowPri += 500;
-			_rentMoney += 100;
-		}
-		else if (_rank == 2)
-		{
-			_rank++;
-			_nowPri += 600;
-			_rentMoney += 200;
-		}
-	}
-}
 
 void ComHouse::ChangeType(int type)
 {
@@ -160,5 +142,19 @@ void ComHouse::Rent()
 }
 
 void HappenAccident(){
-
+	if (!_ismortgage)
+	{
+		if (_rank == 1)
+		{
+			_rank++;
+			_nowPri += 500;
+			_rentMoney += 100;
+		}
+		else if (_rank == 2)
+		{
+			_rank++;
+			_nowPri += 600;
+			_rentMoney += 200;
+		}
+	}
 }
