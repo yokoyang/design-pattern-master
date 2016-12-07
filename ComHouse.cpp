@@ -52,7 +52,7 @@ void ComHouse::PayMoney()
 }
 
 
-
+// define mortgage method
 void ComHouse::Mortgage()
 {
 	_ismortgage = true;
@@ -109,7 +109,7 @@ void ComHouse::Auction()
 		_owner = "";
 	}
 }
-
+//init some house
 bool ComHouse::Init()
 {
 	if (!Sprite::Init())

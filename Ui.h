@@ -8,8 +8,8 @@ USING_NS_CC;
 class Ui
 {
 public:
-	static Point chang_map_to_GL(Point& mappoint, TMXTiledMap* map);
-	static Point chang_GL_to_map(Point& glpoint, TMXTiledMap* map);
+	static Point chang_map_to_GL(Point& mapPoint, TMXTiledMap* map);
+	static Point chang_GL_to_map(Point& glPoint, TMXTiledMap* map);
 	static Vector<String*> SplitString(const char* srcStr, const char* sSep);
 private:
 };

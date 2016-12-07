@@ -14,29 +14,29 @@ protected:
     float _money;
     float saveMony;
     //The path
-    std::vector<int> pathrow;
-    std::vector<int> pathcol;
-    float tilewidth=32;
-    float tileheigh=32;
+    std::vector<int> pathRow;
+    std::vector<int> pathCol;
+    float tileWidth=32;
+    float tileHeigh=32;
     //Coming direction
-    int comex;
-    int comey;
+    int comeX;
+    int comeY;
     //Steps taken
     int _step;
     //Steps in total
-    int _stepcount;
+    int _stepCount;
     //Current coordinate
-    int nowrow;
-    int nowcol;
+    int nowRow;
+    int nowCol;
     //The coordinate of next step
     int row;
     int col;
     //Rounds to stay 
     int stayRounds;
     //Whether the player is able to move
-    bool turnme;
+    bool turnMe;
     //Whether the round has ended
-    bool oneroundend;
+    bool oneRoundend;
     //Get a string to show property
     Label* money_string;
     //Animation names
@@ -55,7 +55,7 @@ protected:
     void InitAnimate();
     void SetAnimate();
     //The number animation to show the steps to take
-    void Addstep_image_running(std::vector<int>pathrow, std::vector<int>pathcol);
+    void Addstep_image_running(std::vector<int>pathRow, std::vector<int>pathCol);
 public:
     std::vector<int>vec;
     Animate* left;
@@ -64,22 +64,22 @@ public:
     Animate* down;
     Player();
     ~Player();
-    //Deal with turnme,whether the character can move
-    virtual void Setturnme(bool turn){ turnme = turn; };
-    virtual bool Getturnme(){ return turnme; };
+    //Deal with turnMe,whether the character can move
+    virtual void Setturnme(bool turn){ turnMe = turn; };
+    virtual bool Getturnme(){ return turnMe; };
     //Deal with the coming directon coordinate
-    virtual int Getcomex(){ return comex; };
-    virtual int Getcomey(){ return comey; };
-    virtual void Setcomex(int comex){ this->comex = comex; };
-    virtual void Setcomey(int comey){ this->comey = comey; };
-    static player* Createwith (char* name, int tag, SpriteFrame* imag, float& money);
+    virtual int Getcomex(){ return comeX; };
+    virtual int Getcomey(){ return comeY; };
+    virtual void Setcomex(int comeX){ this->comeX = comeX; };
+    virtual void Setcomey(int comeY){ this->comeY = comeY; };
+    static Player* Createwith (char* name, int tag, SpriteFrame* imag, float& money);
     CREATE_FUNC(player);
-    //Set pathrow and pathcol after the acquisition of the path
+    //Set pathRow and pathCol after the acquisition of the path
     virtual void Initpathrowandcol();
     virtual int Get_stayRounds(){ return stayRounds; };
     virtual void Set_stayRounds(int i){ stayRounds = i; };
     //Begin the player's motion
-    virtual void Go(std::vector<int>pathrow,std::vector<int>pathcol);
+    virtual void Go(std::vector<int>pathRow,std::vector<int>pathCol);
     //Acquire a lottery
     virtual void GetLottery();
     //Set the ID of the estates of the player of level 1,2,3
@@ -88,7 +88,7 @@ public:
     //Get personal info
     virtual Label* Get_name(){ return _name; };
     virtual Label* Getmoney_string(){ return money_string; };
-    virtual void Settilesize(float tilewidth, float tileheigh);
+    virtual void Settilesize(float tileWidth, float tileHeigh);
     //Deal with the money
     virtual void Setmoney(float money){ _money = money; };
     virtual float Getmoney(){ return _money; };

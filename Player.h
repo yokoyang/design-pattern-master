@@ -2,9 +2,13 @@
 #pragma warning(disable:4996)
 #include"cocos2d.h"
 #include"Ui.h"
+#include "VirtualPlayer.h"
+#include "Const.h"
 
 USING_NS_CC;
 
+
+//define four kinds of player
 class PlayerA :public VirtualPlayer
 {
 private:
@@ -16,11 +20,11 @@ public:
 	float GetMoney() {return money;}
 	PlayerA();
 	~PlayerA();
-	bool PlayerA::init();
+	bool PlayerA::Init();
 
 	//Initiate the animation
-	void PlayerA::initAnimate();
-	void PlayerA::setAnimate();
+	void PlayerA::InitAnimate();
+	void PlayerA::SetAnimate();
 };
 
 class PlayerB :public VirtualPlayer
@@ -34,11 +38,11 @@ public:
 	float GetMoney() {return money;}
 	PlayerB();
 	~PlayerB();
-	bool PlayerB::init();
+	bool PlayerB::Init();
 	
 	//Initiate the animation
-	void PlayerB::initAnimate();
-	void PlayerB::setAnimate();
+	void PlayerB::InitAnimate();
+	void PlayerB::SetAnimate();
 };
 
 class PlayerC :public VirtualPlayer
@@ -52,11 +56,11 @@ public:
 	float GetMoney() {return money;}
 	PlayerC();
 	~PlayerC();
-	bool PlayerC::init();
+	bool PlayerC::Init();
 	
 	//Initiate the animation
-	void PlayerC::initAnimate();
-	void PlayerC::setAnimate();
+	void PlayerC::InitAnimate();
+	void PlayerC::SetAnimate();
 };
 
 class PlayerD :public VirtualPlayer
@@ -70,9 +74,9 @@ public:
 	float GetMoney() {return money;}
 	PlayerD();
 	~PlayerD();
-	bool PlayerD::init();
+	bool PlayerD::Init();
 	
 	//Initiate the animation
-	void PlayerD::initAnimate();
-	void PlayerD::setAnimate();
+	void PlayerD::InitAnimate();
+	void PlayerD::SetAnimate();
 };

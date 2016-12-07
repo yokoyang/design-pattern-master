@@ -1,10 +1,10 @@
-#include "control.h"
+#include "Control.h"
 #include "GameSceneScene.h"
 #include "Route.h"
 #include "Toast.h"
 #include "FinalScene.h"
 
-
+//factory design pattern
 class Factory    
 {    
 public:    
@@ -16,7 +16,7 @@ class FactoryA
 {
 public:    
     PlayerA* CreatePlayer(){
-    	return create("player1.jpg");
+    	return Create("player1.jpg");
     }
 }
 
@@ -24,7 +24,7 @@ class FactoryB
 {
 public:    
     PlayerB* CreatePlayer(){
-    	return create("player2.jpg");
+    	return Create("player2.jpg");
     }
 }
 
@@ -32,7 +32,7 @@ class FactoryC
 {
 public:    
     PlayerC* CreatePlayer(){
-    	return create("player3.jpg");
+    	return Create("player3.jpg");
     }
 }
 
@@ -40,6 +40,6 @@ class FactoryD
 {
 public:    
     PlayerD* CreatePlayer(){
-    	return create("player4.jpg");
+    	return Create("player4.jpg");
     }
 }

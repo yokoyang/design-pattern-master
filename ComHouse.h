@@ -1,10 +1,13 @@
 #pragma once
 #include"cocos2d.h"
 #include"Player.h"
+#include"AbstractHouse.h"
 #include<string>
 USING_NS_CC;
 
-class ComHouse :public house
+
+//declare virtual methods in class ComHouse
+class ComHouse :public AbstractHouse
 {
 public:
 	ComHouse();

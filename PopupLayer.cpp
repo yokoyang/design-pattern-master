@@ -24,21 +24,21 @@ PopupLayer::~PopupLayer()
 	CC_SAFE_RELEASE(m__s9BackGround);
 }
 
-bool PopupLayer::init()
+bool PopupLayer::Init()
 {
-	if (!Layer::init())
+	if (!Layer::Init())
 	{
 		return false;
 	}
 	this->setContentSize(Size::ZERO);
 
 	// 初始化需要的 Menu
-	Menu* menu = Menu::create();
-	menu->setPosition(Point::ZERO);
+	Menu* menu = Menu::Create();
+	menu->SetPosition(Point::ZERO);
 	setMenuButton(menu);
 	setTouchMode(Touch::DispatchMode::ONE_BY_ONE);
 
-	auto listener = EventListenerTouchOneByOne::create();
+	auto listener = EventListenerTouchOneByOne::Create();
 	listener->setSwallowTouches(true);
 
 	listener->onTouchBegan = [](Touch *t, Event *e){
@@ -50,59 +50,59 @@ bool PopupLayer::init()
 }
 
 
-PopupLayer* PopupLayer::create(const char *backgroundImage)
+PopupLayer* PopupLayer::Create(const char *backgroundImage)
 {
-	PopupLayer* ml = PopupLayer::create();
-	ml->setSpriteBackGround(Sprite::create(backgroundImage));
-	ml->setSprite9BackGround(Scale9Sprite::create(backgroundImage));
+	PopupLayer* ml = PopupLayer::Create();
+	ml->setSpriteBackGround(Sprite::Create(backgroundImage));
+	ml->setSprite9BackGround(Scale9Sprite::Create(backgroundImage));
 	return ml;
 }
 
-void PopupLayer::setTitle(const char *title, int fontsize)
+void PopupLayer::setTitle(const char *title, int fontSize)
 {
-	LabelTTF* ltfTitle = LabelTTF::create(title, "", fontsize);
+	LabelTTF* ltfTitle = LabelTTF::Create(title, "", fontSize);
 	setLabelTitle(ltfTitle);
 }
 
-void PopupLayer::setContentText(const char *text, int fontsize, int padding, int paddingTop)
+void PopupLayer::setContentText(const char *text, int fontSize, int padding, int paddingTop)
 {
-	LabelTTF* ltf = LabelTTF::create(text, "", fontsize);
+	LabelTTF* ltf = LabelTTF::Create(text, "", fontSize);
 	setLabelContentText(ltf);
 	m_contentPadding = padding;
 	m_contentPaddingTop = paddingTop;
 }
 
-void PopupLayer::setCallbackFunc(cocos2d::Object *target, SEL_CallFuncN callfun)
+void PopupLayer::SetCallbackFunc(cocos2d::Object *target, SEL_CallFuncN callfun)
 {
 	m_callbackListener = target;
 	m_callback = callfun;
 }
 
 
-bool PopupLayer::addButton(const char *normalImage, const char *selectedImage, const char *title, int tag)
+bool PopupLayer::AddButton(const char *normalImage, const char *selectedImage, const char *title, int tag)
 {
-	Size winSize = Director::getInstance()->getWinSize();
+	Size winSize = Director::GetInstance()->getWinSize();
 	Point pCenter = Point(winSize.width / 2, winSize.height / 2);
 
 	// 创建图片菜单按钮
-	MenuItemImage* menuImage = MenuItemImage::create(normalImage, selectedImage, this, menu_selector(PopupLayer::buttonCallback));
-	menuImage->setTag(tag);
-	menuImage->setPosition(pCenter);
+	MenuItemImage* menuImage = MenuItemImage::Create(normalImage, selectedImage, this, menu_selector(PopupLayer::ButtonCallback));
+	menuImage->SetTag(tag);
+	menuImage->SetPosition(pCenter);
 
 	// 添加文字说明并设置位置
 
-	Size imenu = menuImage->getContentSize();
-	LabelTTF* ttf = LabelTTF::create(title, "", 20);
-	ttf->setColor(Color3B(0, 0, 0));
-	ttf->setPosition(Vec2(imenu.width / 2, imenu.height / 2));
-	menuImage->addChild(ttf);
+	Size imenu = menuImage->GetContentSize();
+	LabelTTF* ttf = LabelTTF::Create(title, "", 20);
+	ttf->SetColor(Color3B(0, 0, 0));
+	ttf->SetPosition(Vec2(imenu.width / 2, imenu.height / 2));
+	menuImage->AddChild(ttf);
 
 
-	getMenuButton()->addChild(menuImage);
+	GetMenuButton()->AddChild(menuImage);
 	return true;
 }
-
-void PopupLayer::buttonCallback(cocos2d::Object *pSender)
+//popup call back button
+void PopupLayer::ButtonCallback(cocos2d::Object *pSender)
 {
 	Node* node = dynamic_cast<Node*>(pSender);
 	
@@ -112,94 +112,94 @@ void PopupLayer::buttonCallback(cocos2d::Object *pSender)
 	// this->removeFromParent();
 }
 
-void PopupLayer::onEnter()
+void PopupLayer::OnEnter()
 {
-	Layer::onEnter();
+	Layer::OnEnter();
 
-	Size winSize = Director::getInstance()->getWinSize();
+	Size winSize = Director::GetInstance()->getWinSize();
 	Point pCenter = Vec2(winSize.width / 2, winSize.height / 2);
 
 	Size contentSize;
 	// 设定好参数，在运行时加载
-	if (getContentSize().equals(Size::ZERO))
+	if (GetContentSize().equals(Size::ZERO))
 	{
-		getSpriteBackGround()->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
-		this->addChild(getSpriteBackGround(), 0, 0);
-		contentSize = getSpriteBackGround()->getTexture()->getContentSize();
+		GetSpriteBackGround()->SetPosition(Vec2(winSize.width / 2, winSize.height / 2));
+		this->AddChild(GetSpriteBackGround(), 0, 0);
+		contentSize = GetSpriteBackGround()->getTexture()->GetContentSize();
 	}
 	else {
-		Scale9Sprite *background = getSprite9BackGround();
-		background->setContentSize(getContentSize());
-		background->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
-		this->addChild(background, 0, 0);
-		contentSize = getContentSize();
+		Scale9Sprite *background = GetSprite9BackGround();
+		background->setContentSize(GetContentSize());
+		background->SetPosition(Vec2(winSize.width / 2, winSize.height / 2));
+		this->AddChild(background, 0, 0);
+		contentSize = GetContentSize();
 	}
 
 
 	// 添加按钮，并设置其位置
-	this->addChild(getMenuButton());
-	float btnWidth = contentSize.width / (getMenuButton()->getChildrenCount() + 1);
+	this->AddChild(GetMenuButton());
+	float btnWidth = contentSize.width / (GetMenuButton()->getChildrenCount() + 1);
 
-	Vector<Node*> vecArray = getMenuButton()->getChildren();
+	Vector<Node*> vecArray = GetMenuButton()->getChildren();
 
 	int j = 0;
 	for (auto it = vecArray.begin(); it != vecArray.end(); it++)
 	{
 		Node* node = dynamic_cast<Node*>(*it);
-		node->setPosition(Point(winSize.width / 2 - contentSize.width / 2 + btnWidth*(j + 1), winSize.height / 2 - contentSize.height / 3));
+		node->SetPosition(Point(winSize.width / 2 - contentSize.width / 2 + btnWidth*(j + 1), winSize.height / 2 - contentSize.height / 3));
 		j++;
 	}
 
 	// 显示对话框标题
-	if (getLabelTitle())
+	if (GetLabelTitle())
 	{
-		getLabelTitle()->setPosition(Point(pCenter, Vec2(0, contentSize.height / 2 - 20)));
-		getLabelTitle()->setColor(Color3B(0, 0, 0));
-		this->addChild(getLabelTitle());
+		GetLabelTitle()->SetPosition(Point(pCenter, Vec2(0, contentSize.height / 2 - 20)));
+		GetLabelTitle()->SetColor(Color3B(0, 0, 0));
+		this->AddChild(GetLabelTitle());
 	}
 
 	if (type == 1)
 	{
-		setlotterycontext(contentSize);
+		Setlotterycontext(contentSize);
 	}
 
 	else
 	{
 		// 显示文本内容
-		if (getLabelContentText())
+		if (GetLabelContentText())
 		{
-			LabelTTF* ltf = getLabelContentText();
-			ltf->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
+			LabelTTF* ltf = GetLabelContentText();
+			ltf->SetPosition(Vec2(winSize.width / 2, winSize.height / 2));
 			ltf->setDimensions(Size(contentSize.width - m_contentPadding * 2, contentSize.height - m_contentPaddingTop));
 			ltf->setHorizontalAlignment(kCCTextAlignmentLeft);
-			ltf->setColor(Color3B(0, 0, 0));
-			this->addChild(ltf);
+			ltf->SetColor(Color3B(0, 0, 0));
+			this->AddChild(ltf);
 		}
 	}
 
 	// 弹出效果
-	Action* popupLayer = Sequence::create(ScaleTo::create(0.0, 0.0),
-		ScaleTo::create(0.15f, 1.05f),
-		ScaleTo::create(0.08f, 0.95f),
-		ScaleTo::create(0.08f, 1.0f),
+	Action* popupLayer = Sequence::Create(ScaleTo::Create(0.0, 0.0),
+		ScaleTo::Create(0.15f, 1.05f),
+		ScaleTo::Create(0.08f, 0.95f),
+		ScaleTo::Create(0.08f, 1.0f),
 		NULL);
-	this->runAction(popupLayer);
+	this->RunAction(popupLayer);
 
 }
 
 
 
-void PopupLayer::setPlayerVector(Vector<player*> _vector)
+void PopupLayer::SetPlayerVector(Vector<Player*> _vector)
 {
 	for (int i = 0; i<_vector.size(); i++)
 	{
-		players_vec.pushBack(_vector.at(i));
+		players_vec.PushBack(_vector.at(i));
 
 	}
 
 }
 
-void PopupLayer::addplayerlottery()
+void PopupLayer::AddPlayerLottery()
 {
 	for (int i = 1; i <= POPUPLAYER_BALL_NUMBER; i++)
 	{
@@ -209,62 +209,62 @@ void PopupLayer::addplayerlottery()
 		}
 
 	}
-	Size winSize = Director::getInstance()->getWinSize();
-	Size size = this->getContentSize();
+	Size winSize = Director::GetInstance()->getWinSize();
+	Size size = this->GetContentSize();
 	Size center = (winSize - size) / 2;
 	int j = 0;
 	for (auto it = players_vec.begin(); it != players_vec.end(); it++)
 	{
-		player* Player = dynamic_cast<player*>(*it);
+		Player* player = dynamic_cast<Player*>(*it);
 
-		lotterynum.clear();
+		lotteryNum.clear();
 		for (int i = 0; i < Player->vec.size(); i++)
 		{
 
-			LabelTTF* labelLotteryNumber = LabelTTF::create(String::createWithFormat("%i", Player->vec.at(i))->getCString(), "", 15);
-			labelLotteryNumber->setPosition(Vec2(center.width + 20 + (i + 1) * 20, (winSize.height / 2 + 30) + j * 50));
-			labelLotteryNumber->setColor(Color3B(255, 100, 100));
-			labelLotteryNumber->setTag(1000 + Player->vec.at(i));
-			addChild(labelLotteryNumber);
+			LabelTTF* labelLotteryNumber = LabelTTF::Create(String::createWithFormat("%i", Player->vec.at(i))->getCString(), "", 15);
+			labelLotteryNumber->SetPosition(Vec2(center.width + 20 + (i + 1) * 20, (winSize.height / 2 + 30) + j * 50));
+			labelLotteryNumber->SetColor(Color3B(255, 100, 100));
+			labelLotteryNumber->SetTag(1000 + Player->vec.at(i));
+			AddChild(labelLotteryNumber);
 		}
 	}
 }
 
 
-void PopupLayer::runanmi()
+void PopupLayer::RunAnmi()
 {
-	scheduleOnce(schedule_selector(PopupLayer::realRunAnmi), 0.2f);
+	ScheduleOnce(schedule_selector(PopupLayer::RealRunAnmi), 0.2f);
 }
 
-void PopupLayer::realRunAnmi(float t)
+void PopupLayer::RealRunAnmi(float t)
 {
-	lp->runAction(Sequence::create(lp->getNormal_anmi(),
-		CallFunc::create([this]()
+	lp->RunAction(Sequence::Create(lp->getNormal_anmi(),
+		CallFunc::Create([this]()
 	{
 		int lott = rand() % (30) + 1;
-		scheduleOnce(schedule_selector(PopupLayer::dismissFromParent), 0.2f);
-		Sprite* ball = Sprite::create(BALL);
-		ball->setPosition(lp->getPosition() - lp->getContentSize() / 2 + Vec2(0, 13));
-		ball->setAnchorPoint(Vec2(0, 0));
-		addChild(ball);
-		LabelTTF* ltf = LabelTTF::create(String::createWithFormat("%02d", lott)->getCString(), "", 20);
-		ltf->setPosition(ball->getPosition() + Vec2(5, 6));
-		ltf->setAnchorPoint(Vec2(0, 0));
-		addChild(ltf);
-		Size winSize = Director::getInstance()->getWinSize();
+		ScheduleOnce(schedule_selector(PopupLayer::DismissFromParent), 0.2f);
+		Sprite* ball = Sprite::Create(BALL);
+		ball->SetPosition(lp->GetPosition() - lp->GetContentSize() / 2 + Vec2(0, 13));
+		ball->SetAnchorPoint(Vec2(0, 0));
+		AddChild(ball);
+		LabelTTF* ltf = LabelTTF::Create(String::createWithFormat("%02d", lott)->getCString(), "", 20);
+		ltf->SetPosition(ball->GetPosition() + Vec2(5, 6));
+		ltf->SetAnchorPoint(Vec2(0, 0));
+		AddChild(ltf);
+		Size winSize = Director::GetInstance()->getWinSize();
 		Size center = (winSize) / 2;
 		int j = 0;
 		for (auto it = players_vec.begin(); it != players_vec.end(); it++)
 		{
-			player* Player = dynamic_cast<player*>(*it);
+			Player* player = dynamic_cast<Player*>(*it);
 			
 
 			for (int i = 0; i < Player->vec.size(); i++)
 			{
 				if (Player->vec.at(i) == lott)
 				{
-					Opportunity::addparticle();
-					GameScene::update_money(Player, LOTTERY_WIN_MONEY);
+					Opportunity::AddParticle();
+					GameScene::UpdateMoney(Player, LOTTERY_WIN_MONEY);
 				}
 			}
 			Player->vec.clear();
@@ -275,59 +275,59 @@ void PopupLayer::realRunAnmi(float t)
 }
 
 
-void PopupLayer::dismissFromParent(float t)
+void PopupLayer::DismissFromParent(float t)
 {
-	this->setVisible(false);
+	this->SetVisible(false);
 }
 
 
-void PopupLayer::addplayerinfo(Size size)
+void PopupLayer::Addplayerinfo(Size size)
 {
-	Size winSize = Director::getInstance()->getWinSize();
+	Size winSize = Director::GetInstance()->getWinSize();
 	Size center = (winSize - size) / 2;
 	int j = 0;
 	Sprite* playerSprite = NULL;
 	for (auto it = players_vec.begin(); it != players_vec.end(); it++)
 	{
-		player* Player = dynamic_cast<player*>(*it);
+		Player* player = dynamic_cast<Player*>(*it);
 		int tag = Player->getTag();
 		if (tag == 1)
 		{
-			playerSprite = Sprite::create(PLAYER_ME);
+			playerSprite = Sprite::Create(PLAYER_ME);
 		}
 		else if (tag == 2)
 		{
-			playerSprite = Sprite::create(PLAYER_ENEMY1);
+			playerSprite = Sprite::Create(PLAYER_ENEMY1);
 		}
 		else if (tag == 3)
 		{
-			playerSprite = Sprite::create(PLAYER_ENEMY2);
+			playerSprite = Sprite::Create(PLAYER_ENEMY2);
 		}
 		else if (tag == 4)
 		{
-			playerSprite = Sprite::create(PLAYER_ENEMY3);
+			playerSprite = Sprite::Create(PLAYER_ENEMY3);
 		}
-		playerSprite->setPosition(center.width + 20, (winSize.height / 2 + 50) + j * 50);
-		addChild(playerSprite);
+		playerSprite->SetPosition(center.width + 20, (winSize.height / 2 + 50) + j * 50);
+		AddChild(playerSprite);
 		j++;
 	}
 }
 
-void PopupLayer::setlotterycontext(Size size)
+void PopupLayer::Setlotterycontext(Size size)
 {
-	Size winSize = Director::getInstance()->getWinSize();
-	lp = Lottery::create();
-	addChild(lp);
-	lp->setPosition((winSize) / 2);
+	Size winSize = Director::GetInstance()->getWinSize();
+	lp = Lottery::Create();
+	AddChild(lp);
+	lp->SetPosition((winSize) / 2);
 
-	addplayerinfo(size);
+	Addplayerinfo(size);
 
 }
 
-void PopupLayer::onExit()
+void PopupLayer::OnExit()
 {
 
 	
 	//this->removeFromParent();
-	Layer::onExit();
+	Layer::OnExit();
 }

@@ -7,6 +7,8 @@
 
 USING_NS_CC;
 using namespace ui;
+
+
 class Settings:public Layer
 {
 public:

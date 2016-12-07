@@ -7,13 +7,13 @@
 
 PlayerA::PlayerA()
 {
-	comex = -1; comey = -1;
+	comeX = -1; comeY = -1;
 	_money = 0;
 	saveMony = 0;
 	_name = nullptr;
-	money_string = Label::createWithTTF("",SETTING_FONT,20);
-	turnme = false;
-	oneroundend = true;
+	money_string = Label::CreateWithTTF("",SETTING_FONT,20);
+	turnMe = false;
+	oneRoundend = true;
 	stayRounds = 0;
 }
 
@@ -21,9 +21,9 @@ PlayerA::~PlayerA()
 {
 }
 
-bool PlayerA::init()
+bool PlayerA::Init()
 {
-	if (!Sprite::init())
+	if (!Sprite::Init())
 	{
 		return false;
 	}
@@ -31,21 +31,21 @@ bool PlayerA::init()
 }
 
 //Initiate the SpriteFrame
-void PlayerA::initAnimate()
+void PlayerA::InitAnimate()
 {
-	auto Player_spriteFrameCache = SpriteFrameCache::getInstance();
+	auto Player_spriteFrameCache = SpriteFrameCache::GetInstance();
 	Player_spriteFrameCache->addSpriteFramesWithFile(PLAYER1_ANIM_PLIST, PLAYER1_ANIM_PNG);
 	char name[20];
 	memset(name, 0, 20);
 	name = PLAYER1_ANIM_PNG_1;
-	Left.pushBack(Player_spriteFrameCache->getSpriteFrameByName(name));
-	Right.pushBack(Player_spriteFrameCache->getSpriteFrameByName(name));
-	Down.pushBack(Player_spriteFrameCache->getSpriteFrameByName(name));
-	Up.pushBack(Player_spriteFrameCache->getSpriteFrameByName(name));
+	Left.PushBack(Player_spriteFrameCache->getSpriteFrameByName(name));
+	Right.PushBack(Player_spriteFrameCache->getSpriteFrameByName(name));
+	Down.PushBack(Player_spriteFrameCache->getSpriteFrameByName(name));
+	Up.PushBack(Player_spriteFrameCache->getSpriteFrameByName(name));
 }
 
 
-void PlayerA::setAnimate()
+void PlayerA::SetAnimate()
 {
 	left_animation = "left_animation_1";
 	right_animation = "right_animation_1";
@@ -53,10 +53,10 @@ void PlayerA::setAnimate()
 	up_animation = "up_animation_1";
 	//直接调用父类方法，添加Animation
 	AddPlayerAnimation(left_animation, right_animation, down_animation, up_animation);
-	left = Animate::create(AnimationCache::getInstance()->getAnimation(left_animation));
-	right = Animate::create(AnimationCache::getInstance()->getAnimation(right_animation));
-	down = Animate::create(AnimationCache::getInstance()->getAnimation(down_animation));
-	up = Animate::create(AnimationCache::getInstance()->getAnimation(up_animation));
+	left = Animate::Create(AnimationCache::GetInstance()->getAnimation(left_animation));
+	right = Animate::Create(AnimationCache::GetInstance()->getAnimation(right_animation));
+	down = Animate::Create(AnimationCache::GetInstance()->getAnimation(down_animation));
+	up = Animate::Create(AnimationCache::GetInstance()->getAnimation(up_animation));
 	left->retain();
 	right->retain();
 	down->retain();

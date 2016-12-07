@@ -10,7 +10,7 @@ Prison::Prison()
 
 //监狱可以交赎金
 void PayMoney(){
-	auto ps = player::getplayers();
+	auto ps = player::GetPlayers();
 	auto it = ps->begin();
 	float moneyLeft;
 	moneyLeft = (*it)->getproperty() - _wage;
@@ -29,7 +29,7 @@ void PayMoney(){
 void HappenAccident(){
 	//没交赎金，需要玩家坐牢
 	if(acceptPunishment == false){
-		auto ps = player::getplayers();
+		auto ps = player::GetPlayers();
 		auto it = ps->begin();
 		(*it)->setPrison(delayDay);
 	}

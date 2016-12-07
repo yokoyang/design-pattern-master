@@ -1,7 +1,7 @@
 #ifndef __CONST_H__
 #define __CONST_H__
 
-
+//macro defines the resource files
 #define START_PAGE "Shanghai.jpg"
 #define START_BUTTON "Start Button.png"
 #define QUIT_BUTTON "Quit Button.png"
@@ -62,7 +62,7 @@ const int MAP_TAG_3 = 3;
 #define GAME_BACKGROUND "Sea.jpg"
 #define LAND_BLOCK_NAME "land"
 #define WAY_BLOCK_NAME "way"
-#define OPPORTUNITY "wenhao"
+#define OPPORTUNITY "quesMark"
 const int MAP_1_LAND_ID = 870;
 const int MAP_2_LAND_ID = 273;
 const int MAP_3_LAND_ID = 273;
