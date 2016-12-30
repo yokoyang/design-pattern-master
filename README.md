@@ -21,9 +21,7 @@
 ## 观察者模式
 我们项目当中每当需要回掉函数是都会使用函数名来调用，我们可以利用观察者模式来进行项目过程的监控，并且将信息的传递通过Message来进行
 ![image_1b57spa5k1n91o95opvqc91v3r1t.png-161.5kB][2]
-
-
-  ![image_1b57sq4u01qib1efk1g0u48217k12a.png-46.9kB][3]
+![image_1b57sq4u01qib1efk1g0u48217k12a.png-46.9kB][3]
 
 
 ## 模板方法模式
