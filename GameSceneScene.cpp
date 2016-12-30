@@ -1,23 +1,28 @@
 #include "GameSceneScene.h"
-#include"Toast.h"
-#include"FinalScene.h"
-#include<string>
-#include<Opportunity.h>
-#include<SimpleAudioEngine.h>
+#include "toast.h"
+#include "FinalScene.h"
+#include <string>
+#include <Opportunity.h>
+#include <SimpleAudioEngine.h>
+#include "VirtualPlayer.h"
+#include "Factory.h"
 
 USING_NS_CC;
 
+
+//统一处理父类和子类，利用多态机制，Vector中存放父类指针
+Vector<VirtualPlayer*>* GameScene::players = new Vector<VirtualPlayer*>();
+
 //全局变量 global
 Vector<Sprite*>* GameScene::playerImg = new Vector<Sprite*>();
-Vector<Player*>* GameScene::players = new Vector<Player*>();
 Vector<Sprite*>* GameScene::step_image = new Vector<Sprite*>();
 Vector<Sprite*> GameScene::area_land;
 Vector<Sprite*> * GameScene::location_image = new Vector<Sprite*>();
-int GameScene::playerNumber = 4;
-int GameScene::map_type = 1;
+int GameScene::playerNumber = MAX_PLAYER_NUMBER;
+int GameScene::map_type = MAP_TAG_1;
 bool** GameScene::isWalk = NULL;
 TMXLayer* GameScene::land = NULL;
-TMXLayer* GameScene::wenhao = NULL;
+TMXLayer* GameScene::quesMark = NULL;
 TMXTiledMap* GameScene::map = NULL;
 PopupLayer* GameScene::dialog = NULL;
 PopupLayer* GameScene::dialogLottery = NULL;
@@ -25,10 +30,10 @@ float GameScene::buy_land_x = 0;
 float GameScene::buy_land_y = 0;
 Layer* GameScene::final_layer = NULL;
 int GameScene::rowCount = 0;
-int GameScene::quesmark_id = 0;
+int GameScene::quesMark_id = 0;
 int GameScene::colCount = 0;
 int GameScene::land_id = 0;
-Sprite* GameScene::go = NULL;
+Sprite* GameScene::Go = NULL;
 
 
 
@@ -40,7 +45,7 @@ Scene* GameScene::CreateScene()
     // 'layer' is an autorelease object
     auto layer = GameScene::Create();
 
-    // Add layer as a child to scene
+    // add layer as a child to scene
     scene->AddChild(layer);
 
     // return the scene
@@ -57,74 +62,74 @@ bool GameScene::Init()
         return false;
     }
     
-    visibleSize = Director::GetInstance()->GetvisibleSize();
+    visibleSize = Director::GetInstance()->GetVisibleSize();
     Vec2 origin = Director::GetInstance()->GetVisibleOrigin();
 
-	auto background = Sprite::Create("world.jpg");
-	background->setPosition(visibleSize / 2);
-	background->setAnchorPoint(Vec2(0.5, 0.5));
+	auto background = Sprite::Create(LOAD_PAGE);
+	background->SetPosition(visibleSize / 2);
+	background->SetAnchorPoint(Vec2(0.5, 0.5));
 	background->SetScale(1.5);
 	AddChild(background);
 	AddProgressTimer();
-	ScheduleOnce(schedule_selector(GameScene::Add_infor), 1.60f);
+	ScheduleOnce(schedule_selector(GameScene::AddInfor), 1.60f);
 
     return true;
 }
 
 //Add all sorts of game resources
-void GameScene::Add_infor(float t)
+void GameScene::AddInfor(float t)
 {
-	auto Size = Director::GetInstance()->GetvisibleSize();
+	auto Size = Director::GetInstance()->GetVisibleSize();
 	auto layer = Layer::Create();
 	AddMap(map_type);
 	AddPlayerImg();
 	AddPlayerInformation(playerNumber);
 	SetIsWalk();
 	GetWayGild();
-	AddStep_image();
+	AddStepImage();
 	AddPlayer(playerNumber);
 	AddDice(layer);
 	reg_notification_Observe();
 	AddChild(layer);
 	AddDialog();
 	AddDialogLottery();
-	AddFinal_layer();
+	AddFinalLayer();
 	Opportunity::Load();
-	Add_location_image();
-	auto back=Sprite::Create("Quit Button.png");
-	back->setPosition(150, 50);
+	AddLocationImage();
+	auto back=Sprite::Create(QUIT_BUTTON);
+	back->SetPosition(150, 50);
 	back->SetScale(0.5);
 	AddChild(back);
 	auto listener = EventListenerTouchOneByOne::Create();
-	listener->OnTouchBegan = [back](Touch* t, Event* e){
-		if (back->GetBoundingBox().ContainsPoint(t->GetLocation()))
+	listener->onTouchBegan = [back](Touch* t, Event* e){
+		if (back->getBoundingBox().containsPoint(t->getLocation()))
 		{
-			Director::GetInstance()->End();
+			Director::GetInstance()->end();
 		}
 		return false;
 	};
-	Director::GetInstance()->GetEventDispatcher()->AddEventListenerWithSceneGraphPriority(listener, back);
+	Director::GetInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, back);
 }
 
 //Add progress timer
 void GameScene::AddProgressTimer()
 {
-	auto Size = Director::GetInstance()->GetvisibleSize();
-	progressBgSprite = Sprite::Create("slider.png");
-	progressBgSprite->setPosition(Size/2);
+	auto Size = Director::GetInstance()->GetVisibleSize();
+	progressBgSprite = Sprite::Create(SLIDER);
+	progressBgSprite->SetPosition(Size/2);
 	AddChild(progressBgSprite);
-	auto progressSprite1 = Sprite::Create("slider.png");
+	auto progressSprite1 = Sprite::Create(SLIDER);
 	progress1 = ProgressTimer::Create(progressSprite1);
-	progress1->SetType(kCCProgressTimerTypeBar);
-	progress1->setPosition(Size/2);
-	progress1->SetMidpoint(Vec2(0, 0));
-	progress1->SetBarChangeRate(Vec2(1, 0));
-	progress1->SetPercentage(0);
+	progress1->setType(kCCProgressTimerTypeBar);
+	progress1->SetPosition(Size/2);
+	progress1->setMidpoint(Vec2(0, 0));
+	progress1->setBarChangeRate(Vec2(1, 0));
+	progress1->setPercentage(0);
 	AddChild(progress1);
-	numsTTF = Label::CreateWithTTF("0", "fonts/Gazzarel.TTF", 18);
-	numsTTF->setPosition(Vec2(300, 300));
+	numsTTF = Label::CreateWithTTF(START_NUMBER, SETTING_FONT, 18);
+	numsTTF->SetPosition(Vec2(300, 300));
 	AddChild(numsTTF, 1);
-	ScheduleUpdate();
+	scheduleUpdate();
 }
 //Update the progress timer
 void GameScene::Update(float t)
@@ -135,206 +140,220 @@ void GameScene::Update(float t)
 	{
 		cu = 100;
 	}
-	progress1->SetPercentage(cu);
-	String *str = String::CreateWithFormat("%.0f%%", cu);
-	numsTTF->SetString(str->GetCString());
+	progress1->setPercentage(cu);
+	String *str = String::createWithFormat("%.0f%%", cu);
+	numsTTF->setString(str->getCString());
 	if (cu >= 100)
 	{
-		numsTTF->setVisible(false);
-		progress1->setVisible(false);
-		progressBgSprite->setVisible(false);
+		numsTTF->SetVisible(false);
+		progress1->SetVisible(false);
+		progressBgSprite->SetVisible(false);
 	}
 }
 
-void GameScene::AddFinal_layer()
+void GameScene::AddFinalLayer()
 {
 	final_layer = FinalScene::Create();
 	AddChild(final_layer);
-	final_layer->setPosition(visibleSize / 2);
-	final_layer->setVisible(false);
+	final_layer->SetPosition(visibleSize / 2);
+	final_layer->SetVisible(false);
 }
 
 void GameScene::AddMap(int type)
 {
-	if (type == 1)
+	if (type == MAP_TAG_1)
 	{
-		map = TMXTiledMap::Create("map1.tmx");
-		auto background = Sprite::Create("Sea.jpg");
-		background->setAnchorPoint(Vec2(0.5, 0.5));
-		background->setPosition(visibleSize / 2);
+		map = TMXTiledMap::Create(MAP_1);
+		auto background = Sprite::Create(GAME_BACKGROUND);
+		background->SetAnchorPoint(Vec2(0.5, 0.5));
+		background->SetPosition(visibleSize / 2);
 		background->SetScale(visibleSize.width / background->GetContentSize().width, visibleSize.height / background->GetContentSize().height);
 		AddChild(background);
 	}
-	else if (type == 2)
+	else if (type == MAP_TAG_2)
 	{
-		map = TMXTiledMap::Create("map2.tmx");
-		auto background = Sprite::Create("Sea.jpg");
-		background->setAnchorPoint(Vec2(0.5, 0.5));
-		background->setPosition(visibleSize / 2);
+		map = TMXTiledMap::Create(MAP_2);
+		auto background = Sprite::Create(GAME_BACKGROUND);
+		background->SetAnchorPoint(Vec2(0.5, 0.5));
+		background->SetPosition(visibleSize / 2);
 		background->SetScale(visibleSize.width / background->GetContentSize().width, visibleSize.height / background->GetContentSize().height);
 		AddChild(background);
 	}
-	else if (type == 3)
+	else if (type == MAP_TAG_3)
 	{
-		map = TMXTiledMap::Create("map3.tmx");
-		auto background = Sprite::Create("Sea.jpg");
-		background->setAnchorPoint(Vec2(0.5, 0.5));
-		background->setPosition(visibleSize / 2); background->SetScale(visibleSize.width / background->GetContentSize().width, visibleSize.height / background->GetContentSize().height); e().height);
+		map = TMXTiledMap::Create(MAP_3);
+		auto background = Sprite::Create(GAME_BACKGROUND);
+		background->SetAnchorPoint(Vec2(0.5, 0.5));
+		background->SetPosition(visibleSize / 2);
+		background->SetScale(visibleSize.width / background->GetContentSize().width, visibleSize.height / background->GetContentSize().height);
 		AddChild(background);
 	}
 	AddChild(map);
-	map->setAnchorPoint(Point(0.5, 0.5));
-	map->setPosition(visibleSize.width / 2 - 100, visibleSize.height / 2);
-	Size tile = map->GetTileSize();
-	tilewidth = tile.width;
-	tileheigh = tile.height;
-	land = map->LayerNamed("land");
-	rowCount = map->GetContentSize().height/tileheigh;
-	colCount = map->GetContentSize().width/tilewidth;
-	wenhao = map->LayerNamed("wenhao");
-	if (type == 2 || type == 3)
+	map->SetAnchorPoint(Point(0.5, 0.5));
+	map->SetPosition(visibleSize.width / 2 - 100, visibleSize.height / 2);
+	Size tile = map->getTileSize();
+	tileWidth = tile.width;
+	tileHeigh = tile.height;
+	land = map->layerNamed(LAND_BLOCK_NAME);
+	rowCount = map->GetContentSize().height/tileHeigh;
+	colCount = map->GetContentSize().width/tileWidth;
+	quesMark = map->layerNamed(OPPORTUNITY);
+	if (type == MAP_TAG_1)
 	{
-		quesmark_id = 469;
-		land_id = 273;
+		land_id = MAP_1_LAND_ID;
+		quesMark_id = MAP_1_OPPORTUNITY_ID;
 	}
-	else if (type == 1)
+	else if (type == MAP_TAG_2)
 	{
-		land_id = 870;
-		quesmark_id = 1048;
+		quesMark_id = MAP_2_OPPORTUNITY_ID;
+		land_id = MAP_2_LAND_ID;
+	}
+	else if (type == MAP_TAG_3)
+	{
+		quesMark_id = MAP_3_OPPORTUNITY_ID;
+		land_id = MAP_3_LAND_ID;
 	}
 }
 
 
+
+//add a new player
 void GameScene::AddPlayerInformation(int number)
 {
-	auto it = playerImg->Begin();
+	auto it = playerImg->begin();
 	for (int i = 0; i < number; i++, it++)
 	{
 		auto player = Sprite::Create();
 		player = *it;
 		AddChild(player);
-		player->setAnchorPoint(Point(0.5,0.5));
-		player->setPosition(Vec2(visibleSize.width / 24 * 19, visibleSize.height / number / 2 + (number - 1 - i) * visibleSize.height / number));
+		player->SetAnchorPoint(Point(0.5,0.5));
+		player->SetPosition(Vec2(visibleSize.width / 24 * 19, visibleSize.height / number / 2 + (number - 1 - i) * visibleSize.height / number));
 	}
 }
 
 
-//去除冗余代码
 void GameScene::AddPlayerImg()
 {
-	playerImg->Clear();
-	for (int i = 1; i < 5; i++)
-	{
-		auto player = Sprite::Create("player%d.jpg",i);
-		playerImg->PushBack(player);
-
-	}
+	playerImg->clear();
+	//四种不同的角色通过工厂的方法进行创建
+	PlayerA* player1 = FactoryA::CreatePlayer();
+	PlayerB* player2 = FactoryB::CreatePlayer();
+	PlayerC* player3 = FactoryC::CreatePlayer();
+	PlayerD* player4 = FactoryD::CreatePlayer();
+	playerImg->PushBack(player1);
+	playerImg->PushBack(player2);
+	playerImg->PushBack(player3);
+	playerImg->PushBack(player4);
 }
-void GameScene::Add_location_image()
+//没改
+void GameScene::AddLocationImage()
 {
-	if (!location_image->Empty())
+	if (!location_image->empty())
 	{
 		return;
 	}
-	for (int i = 0; i < 39; i++)
-	{
-		auto temp = Sprite::Create("Location%02d.jpg", i);
-		location_image->PushBack(temp);
-		AddChild(temp);
-		temp->setVisible(false);
-		temp->setAnchorPoint(Vec2(0.5, 0.5));
-		temp->setPosition(visibleSize / 2);
-	}
-}
+	char*picName = new char[20];
+    memset(picName, 0, 20);
 
+    for (int i = 1; i <= 40; i++)
+    {
+        sprintf(picName, "Location%02d.jpg", i);
+        auto temp = Sprite::Create(picName);
+        location_image->PushBack(temp);
+        AddChild(temp);
+        temp->SetVisible(false);
+        temp->SetAnchorPoint(Vec2(0.5, 0.5));
+        temp->SetPosition(visibleSize / 2);
+    }
+}
 
 void GameScene::AddPlayer(int number)
 {
 	playerNumber = number;
-	float money = 10000;
+	float money = INIT_MONEY;
 	auto framecache = SpriteFrameCache::GetInstance();
-	framecache->AddSpriteFramesWithFile("player1_anim.plist", "player1_anim.png");
-	auto s1 = framecache->GetSpriteFrameByName("player1_anim_01.png");
-	player1 = Player::Createwith("player1", 1, s1, money);
-	player1->SettileSize(tilewidth, tileheigh);
-	player1->setAnchorPoint(Point(0, 0.5));
+	framecache->addSpriteFramesWithFile(PLAYER1_ANIM_PLIST, PLAYER1_ANIM_PNG);
+	auto s1 = framecache->getSpriteFrameByName(PLAYER1_ANIM_PNG_1);
+	player1 = PlayerA::CreateWith(PLAYER1_NAME, PLAYER1_TAG, s1, money);
+	player1->SetTileSize(tileWidth, tileHeigh);
+	player1->SetAnchorPoint(Point(0, 0.5));
 	Point q = point[0];
-	q.y = tileheigh + q.y;
+	q.y = tileHeigh + q.y;
 	map->AddChild(player1);
-	player1->setPosition(q);
-	player1->SetTurnMe(true);
-	player1->Set_id(3, 6, 9);
-	framecache->AddSpriteFramesWithFile("player2_anim.plist", "player2_anim.png");
-	auto s2 = framecache->GetSpriteFrameByName("player2_anim_01.png");
-	auto player2 = Player::Createwith("player2", 2, s2, money);
-	player2->SettileSize(tilewidth, tileheigh);
+	player1->SetPosition(q);
+	player1->setturnme(true);
+	player1->set_id(PLAYER1_LEVEL1_LAND_ID, PLAYER1_LEVEL2_LAND_ID, PLAYER1_LEVEL3_LAND_ID);
+	framecache->addSpriteFramesWithFile(PLAYER2_ANIM_PLIST, PLAYER2_ANIM_PNG);
+	auto s2 = framecache->getSpriteFrameByName(PLAYER2_ANIM_PNG_1);
+	auto player2 = PlayerB::CreateWith(PLAYER2_NAME, PLAYER2_TAG, s2, money);
+	player2->SetTileSize(tileWidth, tileHeigh);
 	Point q1 = point[39];
-	q1.y = tileheigh + q1.y;
+	q1.y = tileHeigh + q1.y;
 	map->AddChild(player2);
-	player2->setPosition(q1);
-	player2->setAnchorPoint(Point(0, 0.5));
-	player2->SetTurnMe(true);
-	player2->Set_id(1, 4, 7);
-	framecache->AddSpriteFramesWithFile("player3_anim.plist", "player3_anim.png");
-	auto s3 = framecache->GetSpriteFrameByName("player3_anim_01.png");
-	auto player3 = Player::Createwith("player3", 3, s3, money);
-	player3->SettileSize(tilewidth, tileheigh);
+	player2->SetPosition(q1);
+	player2->SetAnchorPoint(Point(0, 0.5));
+	player2->setturnme(true);
+	player2->set_id(PLAYER2_LEVEL1_LAND_ID, PLAYER2_LEVEL2_LAND_ID, PLAYER2_LEVEL3_LAND_ID);
+	framecache->addSpriteFramesWithFile(PLAYER3_ANIM_PLIST, PLAYER3_ANIM_PNG);
+	auto s3 = framecache->getSpriteFrameByName(PLAYER3_ANIM_PNG_1);
+	auto player3 = PlayerC::CreateWith(PLAYER3_NAME, PLAYER3_TAG, s3, money);
+	player3->SetTileSize(tileWidth, tileHeigh);
 	Point q2 = point[10];
-	q2.y = tileheigh + q2.y;
+	q2.y = tileHeigh + q2.y;
 	map->AddChild(player3);
-	player3->setPosition(q2);
-	player3->setAnchorPoint(Point(0, 0.5));
-	player3->SetTurnMe(true);
-	player3->Set_id(2, 5, 8);
-	framecache->AddSpriteFramesWithFile("player4_anim.plist", "player4_anim.png");
-	auto s4 = framecache->GetSpriteFrameByName("player4_anim_01.png");
-	auto player4 = Player::Createwith("player4", 4, s4, money);
-	player4->SettileSize(tilewidth, tileheigh);
+	player3->SetPosition(q2);
+	player3->SetAnchorPoint(Point(0, 0.5));
+	player3->setturnme(true);
+	player3->set_id(PLAYER3_LEVEL1_LAND_ID, PLAYER3_LEVEL2_LAND_ID, PLAYER3_LEVEL3_LAND_ID);
+	framecache->addSpriteFramesWithFile(PLAYER4_ANIM_PLIST, PLAYER4_ANIM_PNG);
+	auto s4 = framecache->getSpriteFrameByName(PLAYER4_ANIM_PNG_1);
+	auto player4 = PlayerD::CreateWith(PLAYER4_NAME, PLAYER4_TAG, s4, money);
+	player4->SetTileSize(tileWidth, tileHeigh);
 	Point q3 = point[29];
-	q3.y = tileheigh + q3.y;
+	q3.y = tileHeigh + q3.y;
 	map->AddChild(player4);
-	player4->setPosition(q3);
-	player4->setAnchorPoint(Point(0, 0.5));
-	player4->SetTurnMe(true);
-	player4->Set_id(10, 11, 12);
-	players->Clear();
-	if (number == 4)
+	player4->SetPosition(q3);
+	player4->SetAnchorPoint(Point(0, 0.5));
+	player4->setturnme(true);
+	player4->set_id(PLAYER4_LEVEL1_LAND_ID, PLAYER4_LEVEL2_LAND_ID, PLAYER4_LEVEL3_LAND_ID);
+	players->clear();
+	if (number == MAX_PLAYER_NUMBER - 1)
 	{
 		players->PushBack(player1);
 		players->PushBack(player2);
 		players->PushBack(player3);
 		players->PushBack(player4);
 	}
-	else if (number == 3)
+	else if (number == MAX_PLAYER_NUMBER - 2)
 	{
 		players->PushBack(player1);
 		players->PushBack(player2);
 		players->PushBack(player3);
-		player4->setVisible(false);
+		player4->SetVisible(false);
 	}
-	else if (number == 2)
+	else if (number == MAX_PLAYER_NUMBER - 3)
 	{
 		players->PushBack(player1);
 		players->PushBack(player2);
-		player3->setVisible(false);
-		player4->setVisible(false);
+		player3->SetVisible(false);
+		player4->SetVisible(false);
 	}
-	auto it = players->Begin();
+	auto it = players->begin();
 	int j = 0;
-	for (; it != players->End(); it++)
+	for (; it != players->end(); it++)
 	{
 		j++;
 		char a[20] = { 0 };
 		sprintf(a, "%c%d", '$', (int)(*it)->GetMoney());
-		(*it)->GetMoney_string()->SetString(a);
-		(*it)->GetName()->SetColor(Color3B::BLACK);
-		(*it)->GetName()->SetScale(1.5);
-		(*it)->GetMoney_string()->setPosition(visibleSize.width / 12 * 11, (number - j + 1) * visibleSize.height / number - visibleSize.height / number / 2 - 30);
-		(*it)->GetName()->setPosition(visibleSize.width / 12 * 11, (number - j + 1) * visibleSize.height / number - visibleSize.height / number / 2 + 40);
-		(*it)->GetMoney_string()->SetColor(Color3B::BLACK);
-		(*it)->GetMoney_string()->SetScale(1.5);
-		AddChild((*it)->GetMoney_string());
-		AddChild((*it)->GetName());
+		(*it)->getmoney_string()->setString(a);
+		(*it)->get_name()->SetColor(Color3B::BLACK);
+		(*it)->get_name()->SetScale(1.5);
+		(*it)->getmoney_string()->SetPosition(visibleSize.width / 12 * 11, (number - j + 1) * visibleSize.height / number - visibleSize.height / number / 2 - 30);
+		(*it)->get_name()->SetPosition(visibleSize.width / 12 * 11, (number - j + 1) * visibleSize.height / number - visibleSize.height / number / 2 + 40);
+		(*it)->getmoney_string()->SetColor(Color3B::BLACK);
+		(*it)->getmoney_string()->SetScale(1.5);
+		AddChild((*it)->getmoney_string());
+		AddChild((*it)->get_name());
 	}
 }
 
@@ -342,8 +361,8 @@ void GameScene::AddPlayer(int number)
 //Get the coordinate in the map where the character can move to
 void GameScene::GetWayGild()
 {
-	point.Clear();
-	auto way = map->LayerNamed("way");
+	point.clear();
+	auto way = map->layerNamed(WAY_BLOCK_NAME);
 	Size waysize = way->GetLayerSize();
 	for (int i = 0; i < waysize.width; i++)
 	{
@@ -356,7 +375,7 @@ void GameScene::GetWayGild()
 				point.push_back(P);
 				float x = p->GetPositionX();
 				float y = p->GetPositionY();
-				isWalk[(int)(y/tileheigh)][(int)(x/tilewidth)] = true;
+				isWalk[(int)(y/tileHeigh)][(int)(x/tileWidth)] = true;
 			}
 		}
 	}
@@ -366,27 +385,28 @@ void GameScene::AddDice(Layer* layer)
 {
 	srand(clock());
 	int i = 0;
-	go = Sprite::Create("Start Button.png");
-	go->SetScale(0.5);
-	layer->AddChild(go);
-	go->setAnchorPoint(Point(0,1));
-	go->setPosition(Vec2(280, 80));
+	Go = Sprite::Create(START_BUTTON);
+	Go->SetScale(0.5);
+	layer->AddChild(Go);
+	Go->SetAnchorPoint(Point(0,1));
+	Go->SetPosition(Vec2(280, 80));
 	auto touch = EventListenerTouchOneByOne::Create();
 	bool** isWalkCopy = isWalk;
-	auto Go = go;
+	auto Go = Go;
 	touch->onTouchBegan = [i,isWalkCopy,Go,this](Touch* t, Event* e){
-		if (e->GetCurrentTarGet()->GetBoundingBox().ContainsPoint(t->GetLocation()))
+		if (e->getCurrentTarget()->getBoundingBox().containsPoint(t->getLocation()))
 		{
-			Go->setVisible(false);
-			Go->setPosition(Go->GetPosition() - Vec2(0, 500));
-			auto it = players->Begin();
+			Go->SetVisible(false);
+			Go->SetPosition(Go->GetPosition() - Vec2(0, 500));
+			auto it = players->begin();
 			int stepNumber = rand() % 6;
 			Route::GetInstance()->GetPath(*it,isWalkCopy, stepNumber + 1, colCount, rowCount);
-			(*it)->go(Route::GetInstance()->GetPathRow(), Route::GetInstance()->GetPathCol());
+			NotificationCenter::GetInstance()->postNotification(MSG_GO, String::createWithFormat("%d", MSG_GO_HIDE_TAG));
+			(*it)->Go(Route::GetInstance()->GetPathRow(), Route::GetInstance()->GetPathCol());
 		}
 		return false;
 	};
-	Director::GetInstance()->GetEventDispatcher()->AddEventListenerWithSceneGraphPriority(touch, go);
+	Director::GetInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touch, Go);
 }
 
 
@@ -394,7 +414,7 @@ void GameScene::SetIsWalk()
 {
 	int tileRow;
 	int tileCol;
-	Vec2 size = map->LayerNamed("way")->GetLayerSize();
+	Vec2 size = map->layerNamed(WAY_BLOCK_NAME)->GetLayerSize();
 	tileCol = (int)size.x;
 	tileRow = (int)size.y;
 	isWalk = new bool*[tileRow];
@@ -418,141 +438,146 @@ bool** GameScene::GetIsWalk()
 }
 
 
-
-void GameScene::AddStep_image()
+void GameScene::AddStepImage()
 {
-	step_image->Clear();
-	for (int i = 1; i < 7; i++)
-	{
-		auto image = Sprite::Create("Marker%d.png", i);
-		step_image->PushBack(image);
-		image->setVisible(false);
-		map->AddChild(image);
+	step_image->clear();
+
+    char*picName = new char[20];
+    memset(picName, 0, 20);
+	//sprintf来减少重复代码
+	for(int i=1;i<=6;i++){
+        sprintf(picName, "Marker%02d.png", i);
+		auto image1 = Sprite::Create(picName);
+		step_image->PushBack(image1);
+		image1->SetVisible(false);
+		map->AddChild(image1);
+    	memset(picName, 0, 20);
+
 	}
 
 }
 
 void GameScene::AddDialog()
 {
-	dialog = PopupLayer::Create("dialog_bg.png");
-	dialog->SetContentSize(Size(400, 220));
-	dialog->SetTitle("buy land");
-	dialog->SetContentText("", 20, 60, 250);
+	dialog = PopupLayer::Create(DIALOG_BACKGROUND);
+	dialog->setContentSize(Size(400, 220));
+	dialog->setTitle(BUY_LAND_DIALOG_TITLE);
+	dialog->setContentText("", 20, 60, 250);
 	dialog->SetCallbackFunc(this, callfuncN_selector(GameScene::BuyLand));
-	dialog->AddButton("button_bg1.png", "button_bg3.png", "OK", 1);
-	dialog->AddButton("button_bg2.png", "button_bg3.png", "CANCEL", 0);
+	dialog->AddButton(BUTTON_BACKGROUND_1, BUTTON_BACKGROUND_3, OK, 1);
+	dialog->AddButton(BUTTON_BACKGROUND_2, BUTTON_BACKGROUND_3, CANCEL, 0);
 	AddChild(dialog);
-	dialog->setVisible(false);
+	dialog->SetVisible(false);
 }
 
 void GameScene::AddDialogLottery()
 {
-	dialogLottery = PopupLayer::Create("dialog_bg.png");
-	dialogLottery->SetType(1);
-	dialogLottery->SetContentSize(Size(400,220));
-	dialogLottery->SetTitle("Lottery");
-	dialogLottery->SetContentText("", 20, 60, 250);
+	dialogLottery = PopupLayer::Create(DIALOG_BACKGROUND);
+	dialogLottery->settype(1);
+	dialogLottery->setContentSize(Size(400,220));
+	dialogLottery->setTitle(LOTTERY_DIALOG_TITLE);
+	dialogLottery->setContentText("", 20, 60, 250);
 	dialogLottery->SetPlayerVector(*players);
 	dialogLottery->SetTag(100);
 	this->AddChild(dialogLottery);
-	dialogLottery->setVisible(false);
+	dialogLottery->SetVisible(false);
 
 }
 
 void GameScene::BuyLand(Node* node)
 {
-	if (node->GetTag() == 1)
+	if (node->getTag() == 1)
 	{
 		Sprite* image1;
-		switch (dialog->GetDataTag())
+		switch (dialog->getDataTag())
 		{
-		case 2:
+		case MSG_BUY_BLANK_TAG:
 		{
 			Player* player = players->at(0);
-			land->SetTileGID(3+land_id, Vec2(buy_land_x, buy_land_y));
-			image1 = Sprite::Create("house1.png");
-			image1->setPosition(Ui::chang_map_to_GL( Vec2(buy_land_x, buy_land_y),map).x+16,Ui::chang_map_to_GL(Vec2(buy_land_x,buy_land_y),map).y+16);
-			image1->setVisible(true);
+			land->setTileGID(PLAYER1_LEVEL1_LAND_ID + land_id, Vec2(buy_land_x, buy_land_y));
+			image1 = Sprite::Create(PLAYER1_LEVEL1_HOUSE);
+			image1->SetPosition(Ui::chang_map_to_GL( Vec2(buy_land_x, buy_land_y),map).x+16,Ui::chang_map_to_GL(Vec2(buy_land_x,buy_land_y),map).y+16);
+			image1->SetVisible(true);
 			map->AddChild(image1);
-			image1->setAnchorPoint(Vec2(0.5, 0.5));
-			dialog->setVisible(false);
+			image1->SetAnchorPoint(Vec2(0.5, 0.5));
+			dialog->SetVisible(false);
 
-			CocosDenshion::SimpleAudioEngine::GetInstance()->PlayEffect("Sounding/Godbless.wav");
-			UpdateMoney(player, -1000);
-			NotificationCenter::GetInstance()->PostNotification("one_go", String::CreateWithFormat("%d", 5));
+			CocosDenshion::SimpleAudioEngine::GetInstance()->playEffect(GOD_BLESS_MUSIC);
+			UpdateMoney(Player, -LAND_BLANK_MONEY);
+			NotificationCenter::GetInstance()->postNotification(MSG_PICKONE_TOGO, String::createWithFormat("%d", MSG_PICKONE_TOGO_TAG));
 			break;
 		}
-		case 3:
+		case MSG_BUY_LAND_1_TAG:
 		{
 			Player* player = players->at(0);
-		    land->SetTileGID(6+land_id, Vec2(buy_land_x, buy_land_y));
-			image1 = Sprite::Create("house2.png");
-			image1->setPosition(Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).x + 16, Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).y + 16);
-			image1->setVisible(true);
+			land->setTileGID(PLAYER1_LEVEL2_LAND_ID + land_id, Vec2(buy_land_x, buy_land_y));
+			image1 = Sprite::Create(PLAYER1_LEVEL2_HOUSE);
+			image1->SetPosition(Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).x + 16, Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).y + 16);
+			image1->SetVisible(true);
 			map->AddChild(image1);
-			image1->setAnchorPoint(Vec2(0.5, 0.5));
-			dialog->setVisible(false);
+			image1->SetAnchorPoint(Vec2(0.5, 0.5));
+			dialog->SetVisible(false);
 
-			CocosDenshion::SimpleAudioEngine::GetInstance()->PlayEffect("Sounding/Speaking_00458.wav");
+			CocosDenshion::SimpleAudioEngine::GetInstance()->playEffect(RANDOM_MUSCI);
 
-			UpdateMoney(player, -2000);
-			NotificationCenter::GetInstance()->PostNotification("one_go", String::CreateWithFormat("%d", 5));
+			UpdateMoney(Player, -LAND_LEVEL_1_MONEY);
+			NotificationCenter::GetInstance()->postNotification(MSG_PICKONE_TOGO, String::createWithFormat("%d", MSG_PICKONE_TOGO_TAG));
 			break;
 		}
-		case 4:
+		case MSG_BUY_LAND_2_TAG:
 		{
 			Player* player = players->at(0);
-			land->SetTileGID(9+land_id, Vec2(buy_land_x, buy_land_y));
-			image1 = Sprite::Create("house3.png");
-			image1->setPosition(Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).x + 16, Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).y + 16);
-			image1->setVisible(true);
+			land->setTileGID(PLAYER1_LEVEL3_LAND_ID + land_id, Vec2(buy_land_x, buy_land_y));
+			image1 = Sprite::Create(PLAYER1_LEVEL3_HOUSE);
+			image1->SetPosition(Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).x + 16, Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).y + 16);
+			image1->SetVisible(true);
 			map->AddChild(image1);
-			image1->setAnchorPoint(Vec2(0.5, 0.5));
-			dialog->setVisible(false);
+			image1->SetAnchorPoint(Vec2(0.5, 0.5));
+			dialog->SetVisible(false);
 
-			CocosDenshion::SimpleAudioEngine::GetInstance()->PlayEffect("Sounding/Speaking_00458.wav");
+			CocosDenshion::SimpleAudioEngine::GetInstance()->playEffect(RANDOM_MUSCI);
 
 			
-			UpdateMoney(player, -3000);
-			NotificationCenter::GetInstance()->PostNotification("one_go", String::CreateWithFormat("%d", 5));
+			UpdateMoney(Player, -LAND_LEVEL_2_MONEY);
+			NotificationCenter::GetInstance()->postNotification(MSG_PICKONE_TOGO, String::createWithFormat("%d", MSG_PICKONE_TOGO_TAG));
 			break;
 		}
 		}
 	}
 	else
 	{
-		dialog->setVisible(false);
-		NotificationCenter::GetInstance()->PostNotification("one_go", String::CreateWithFormat("%d", 5));
+		dialog->SetVisible(false);
+		NotificationCenter::GetInstance()->postNotification(MSG_PICKONE_TOGO, String::createWithFormat("%d", MSG_PICKONE_TOGO_TAG));
 	}
 }
 //Display a dialog to ask whether to purchase estates
 void GameScene::show_buy_land_dialog(int tag)
 {
 	String show = *String::Create("");
-	if (tag == 2)
+	if (tag == MSG_BUY_BLANK_TAG)
 	{
 		show = "Purchase The Area? $1000 Needed!";
-		dialog->SetDataTag(2);
-		dialog->GetLabelContentText()->SetString(show.GetCString());
-		dialog->setVisible(true);
+		dialog->setDataTag(MSG_BUY_BLANK_TAG);
+		dialog->GetLabelContentText()->setString(show.getCString());
+		dialog->SetVisible(true);
 	}
-	else if (tag == 3)
+	else if (tag == MSG_BUY_LAND_1_TAG)
 	{
 		show = "Upgrade Your Estate to Level 2? $ 2000 Needed";
-		dialog->SetDataTag(3);
-		dialog->GetLabelContentText()->SetString(show.GetCString());
-		dialog->setVisible(true);
+		dialog->setDataTag(MSG_BUY_LAND_1_TAG);
+		dialog->GetLabelContentText()->setString(show.getCString());
+		dialog->SetVisible(true);
 	}
-	else if (tag == 4)
+	else if (tag == MSG_BUY_LAND_2_TAG)
 	{
 		show = "Upgrade Your Estate to Level 3? $ 3000 Needed";
-		dialog->SetDataTag(4);
-		dialog->GetLabelContentText()->SetString(show.GetCString());
-		dialog->setVisible(true);
+		dialog->setDataTag(MSG_BUY_LAND_2_TAG);
+		dialog->GetLabelContentText()->setString(show.getCString());
+		dialog->SetVisible(true);
 	}
-	else if (tag == 1000)
+	else if (tag == MSG_CON_GO)
 	{
-		NotificationCenter::GetInstance()->PostNotification("one_go", String::CreateWithFormat("%d", 5));
+		NotificationCenter::GetInstance()->postNotification(MSG_PICKONE_TOGO, String::createWithFormat("%d", MSG_PICKONE_TOGO_TAG));
 	}
 }
 
@@ -560,63 +585,65 @@ void GameScene::show_buy_land_dialog(int tag)
 
 void GameScene::reg_notification_Observe()
 {
-	NotificationCenter::GetInstance()->AddObserver(this, CallFuncO_selector(GameScene::Received_MSG), "buy_land", NULL);
-	NotificationCenter::GetInstance()->AddObserver(this, CallFuncO_selector(GameScene::Received_MSG), "pay_tolls", NULL);
+	NotificationCenter::GetInstance()->addObserver(this, callfuncO_selector(GameScene::ReceivedMsg), MSG_GO, NULL);
+	NotificationCenter::GetInstance()->addObserver(this, callfuncO_selector(GameScene::ReceivedMsg), MSG_PAY_TOLLS, NULL);
+	NotificationCenter::GetInstance()->addObserver(this, callfuncO_selector(GameBaseScene::ReceivedMsg), MSG_BUY, NULL);
 }
 
-void GameScene::Received_MSG(Object* data)
+void GameScene::ReceivedMsg(Object* data)
 {
 	String* str = (String*)data;
-	Vector<String*>message = Ui::SplitString(str->GetCString(), "-");
-	int restype = message.at(0)->IntValue();
+	Vector<String*>message = Ui::splitString(str->getCString(), "-");
+	int restype = message.at(0)->intValue();
 	Sprite* image;
-	if (restype == 2)
+	switch (restype)
 	{
-		buy_land_x = message.at(1)->FloatValue();
-		buy_land_y = message.at(2)->FloatValue();
-		int tag = message.at(3)->IntValue();
-		if (tag == 1)
+	case MSG_BUY_BLANK_TAG:
+		buy_land_x = message.at(1)->floatValue();
+		buy_land_y = message.at(2)->floatValue();
+		int tag = message.at(3)->intValue();
+		if (tag == PLAYER1_TAG)
 		{
 			show_buy_land_dialog(restype);
 		}
 		else
 		{
 			Player* player = players->at(tag - 1);
-			int money = 1000;
+			int money = LAND_BLANK_MONEY;
 			Point p = Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map);
 			Point q = Vec2(buy_land_x, buy_land_y);
-			if (tag == 2)
+			if (tag == PLAYER2_TAG)
 			{
-				land->SetTileGID(1 + land_id, q);
-				image = Sprite::Create("house4.png");
+				land->setTileGID(PLAYER2_LEVEL1_LAND_ID + land_id, q);
+				image = Sprite::Create(PLAYER2_LEVEL1_HOUSE);
 			}
-			else if (tag == 3)
+			else if (tag == PLAYER3_TAG)
 			{
-				land->SetTileGID(2 + land_id, q);
-				image = Sprite::Create("house7.png");
+				land->setTileGID(PLAYER3_LEVEL1_LAND_ID + land_id, q);
+				image = Sprite::Create(PLAYER3_LEVEL1_HOUSE);
 			}
-			else if (tag == 4)
+			else if (tag == PLAYER4_TAG)
 			{
-				land->SetTileGID(10 + land_id, q);
-				image = Sprite::Create("house10.png");
+				land->setTileGID(PLAYER4_LEVEL1_LAND_ID + land_id, q);
+				image = Sprite::Create(PLAYER4_LEVEL1_HOUSE);
 			}
-			CocosDenshion::SimpleAudioEngine::GetInstance()->PlayEffect("Sounding/p2_buyit.wav");
+			CocosDenshion::SimpleAudioEngine::GetInstance()->playEffect(BUY_MUSIC);
 
-			image->setPosition(Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).x + 16, Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).y + 16);
-			image->setVisible(true);
+			image->SetPosition(Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).x + 16, Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).y + 16);
+			image->SetVisible(true);
 			map->AddChild(image);
-			image->setAnchorPoint(Vec2(0.5, 0.5));
-			UpdateMoney(player, -money);
-			NotificationCenter::GetInstance()->PostNotification("one_go", String::CreateWithFormat("%d", 5));
+			image->SetAnchorPoint(Vec2(0.5, 0.5));
+			UpdateMoney(Player, -money);
+			NotificationCenter::GetInstance()->postNotification(MSG_PICKONE_TOGO, String::createWithFormat("%d", MSG_PICKONE_TOGO_TAG));
 		}
+		break;
 	}
-	else if (restype == 3)
-	{
-		int money = 2000;
-		buy_land_x = message.at(1)->FloatValue();
-		buy_land_y = message.at(2)->FloatValue();
-		int tag = message.at(3)->IntValue();
-		if (tag == 1)
+	case MSG_BUY_LAND_1_TAG:
+		int money = LAND_LEVEL_1_MONEY;
+		buy_land_x = message.at(1)->floatValue();
+		buy_land_y = message.at(2)->floatValue();
+		int tag = message.at(3)->intValue();
+		if (tag == PLAYER1_TAG)
 		{
 			show_buy_land_dialog(restype);
 		}
@@ -625,37 +652,36 @@ void GameScene::Received_MSG(Object* data)
 			Player* player = players->at(tag - 1);
 			Point p = Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map);
 			Point q = Vec2(buy_land_x, buy_land_y);
-			if (tag == 2)
+			if (tag == PLAYER2_TAG)
 			{
-				land->SetTileGID(4 + land_id, q);
-				image = Sprite::Create("house5.png");
+				land->setTileGID(PLAYER2_LEVEL2_LAND_ID + land_id, q);
+				image = Sprite::Create(PLAYER2_LEVEL2_HOUSE);
 			}
-			else if (tag == 3)
+			else if (tag == PLAYER3_TAG)
 			{
-				land->SetTileGID(5 + land_id, q);
-				image = Sprite::Create("house8.png");
+				land->setTileGID(PLAYER3_LEVEL2_LAND_ID + land_id, q);
+				image = Sprite::Create(PLAYER3_LEVEL2_HOUSE);
 			}
-			else if (tag == 4)
+			else if (tag == PLAYER4_TAG)
 			{
-				land->SetTileGID(11 + land_id, q);
-				image = Sprite::Create("house11.png");
+				land->setTileGID(PLAYER4_LEVEL2_LAND_ID + land_id, q);
+				image = Sprite::Create(PLAYER4_LEVEL2_HOUSE);
 			}
-			CocosDenshion::SimpleAudioEngine::GetInstance()->PlayEffect("Sounding/p2_tiger.wav");
-			image->setPosition(Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).x + 16, Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).y + 16);
-			image->setVisible(true);
+			CocosDenshion::SimpleAudioEngine::GetInstance()->playEffect(TIGER_MUSIC);
+			image->SetPosition(Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).x + 16, Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).y + 16);
+			image->SetVisible(true);
 			map->AddChild(image);
-			image->setAnchorPoint(Vec2(0.5, 0.5));
-			UpdateMoney(player, -money);
-			NotificationCenter::GetInstance()->PostNotification("one_go", String::CreateWithFormat("%d", 5));
+			image->SetAnchorPoint(Vec2(0.5, 0.5));
+			UpdateMoney(Player, -money);
+			NotificationCenter::GetInstance()->postNotification(MSG_PICKONE_TOGO, String::createWithFormat("%d", MSG_PICKONE_TOGO_TAG));
 		}
-	}
-	else if (restype == 4)
-	{
-		int money = 3000;
-		buy_land_x = message.at(1)->FloatValue();
-		buy_land_y = message.at(2)->FloatValue();
-		int tag = message.at(3)->IntValue();
-		if (tag == 1)
+		break;
+	case MSG_BUY_LAND_2_TAG:
+		int money = LAND_LEVEL_2_MONEY;
+		buy_land_x = message.at(1)->floatValue();
+		buy_land_y = message.at(2)->floatValue();
+		int tag = message.at(3)->intValue();
+		if (tag == PLAYER1_TAG)
 		{
 			show_buy_land_dialog(restype);
 		}
@@ -664,124 +690,121 @@ void GameScene::Received_MSG(Object* data)
 			Player* player = players->at(tag - 1);
 			Point p = Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map);
 			Point q = Vec2(buy_land_x, buy_land_y);
-			if (tag == 2)
+			if (tag == PLAYER2_TAG)
 			{
-				land->SetTileGID(7 + land_id, q);
-				image = Sprite::Create("house6.png");
+				land->setTileGID(PLAYER2_LEVEL3_LAND_ID + land_id, q);
+				image = Sprite::Create(PLAYER2_LEVEL3_HOUSE);
 			}
-			else if (tag == 3)
+			else if (tag == PLAYER3_TAG)
 			{
-				land->SetTileGID(8 + land_id, q);
-				image = Sprite::Create("house9.png");
+				land->setTileGID(PLAYER3_LEVEL3_LAND_ID + land_id, q);
+				image = Sprite::Create(PLAYER3_LEVEL3_HOUSE);
 			}
-			else if (tag == 4)
+			else if (tag == PLAYER4_TAG)
 			{
-				land->SetTileGID(12 + land_id, q);
-				image = Sprite::Create("house12.png");
+				land->setTileGID(PLAYER4_LEVEL3_LAND_ID + land_id, q);
+				image = Sprite::Create(PLAYER4_LEVEL3_HOUSE);
 			}
-			CocosDenshion::SimpleAudioEngine::GetInstance()->PlayEffect("Sounding/p2_tiger.wav");
+			CocosDenshion::SimpleAudioEngine::GetInstance()->playEffect(TIGER_MUSIC);
 
-			image->setPosition(Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).x + 16, Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).y + 16);
-			image->setVisible(true);
+			image->SetPosition(Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).x + 16, Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map).y + 16);
+			image->SetVisible(true);
 			map->AddChild(image);
-			image->setAnchorPoint(Vec2(0.5, 0.5));
-			UpdateMoney(player, -money);
-			NotificationCenter::GetInstance()->PostNotification("one_go", String::CreateWithFormat("%d", 5));
-		}
-	}
-	else if (restype == 1000)
-	{
-		int tag = message.at(3)->IntValue();
+			image->SetAnchorPoint(Vec2(0.5, 0.5));
+			UpdateMoney(Player, -money);
+			NotificationCenter::GetInstance()->postNotification(MSG_PICKONE_TOGO, String::createWithFormat("%d", MSG_PICKONE_TOGO_TAG));
+		};
+		break;
+	case MSG_CON_GO:
+		int tag = message.at(3)->intValue();
 		if (tag == 1)
 		{
 			show_buy_land_dialog(restype);
 		}
 		else
 		{
-			NotificationCenter::GetInstance()->PostNotification("one_go", String::CreateWithFormat("%d", 5));
+			NotificationCenter::GetInstance()->postNotification(MSG_PICKONE_TOGO, String::createWithFormat("%d", MSG_PICKONE_TOGO_TAG));
 		}
-	}
-	else if (restype == 6)
-	{
-		area_land.Clear();
-		int money = 500;
-		buy_land_x = message.at(1)->FloatValue();
-		buy_land_y = message.at(2)->FloatValue();
-		int tag = message.at(3)->IntValue();
+		break;
+	case MSG_PAY_TOLLS_1_TAG:
+		area_land.clear();
+		int money = PAY_TOLLS_MONEY_1;
+		buy_land_x = message.at(1)->floatValue();
+		buy_land_y = message.at(2)->floatValue();
+		int tag = message.at(3)->intValue();
 		Point p = Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map);
 		Player* owner = get_land_owner(land->GetTileGIDAt(Vec2(buy_land_x, buy_land_y)));
-		int e_money = area_land_pay(buy_land_x, buy_land_y, players->at(tag - 1), owner->Get_id().at(0), owner->Get_id().at(1), owner->Get_id().at(2));
-		UpdateMoney(owner, e_money+money);
-		UpdateMoney(players->at(tag - 1), -e_money-money);
+		int e_money = AreaLandPay(buy_land_x, buy_land_y, players->at(tag - 1), owner->get_id().at(0), owner->get_id().at(1), owner->get_id().at(2));
+		UpdateMoney(owner, e_money + money);
+		UpdateMoney(players->at(tag - 1), -e_money - money);
 
-		CocosDenshion::SimpleAudioEngine::GetInstance()->PlayEffect("Sounding/p2_buhuiba.wav");
+		CocosDenshion::SimpleAudioEngine::GetInstance()->playEffect(UNBELIEVE_MUSIC);
 
-		Toast::AddToast(map, owner->GetPosition(), String::CreateWithFormat("+%d",e_money+money)->GetCString(),2);
-		Toast::AddToast(map, players->at(tag - 1)->GetPosition(), String::CreateWithFormat("-%d", e_money + money)->GetCString(),2);
-		NotificationCenter::GetInstance()->PostNotification("one_go", String::CreateWithFormat("%d", 5));
-	}
-	else if (restype == 7)
-	{
-		int money = 1000;
-		buy_land_x = message.at(1)->FloatValue();
-		buy_land_y = message.at(2)->FloatValue();
-		int tag = message.at(3)->IntValue();
+		toast::addtoast(map, owner->GetPosition(), String::createWithFormat("+%d", e_money + money)->getCString(), 2);
+		toast::addtoast(map, players->at(tag - 1)->GetPosition(), String::createWithFormat("-%d", e_money + money)->getCString(), 2);
+		NotificationCenter::GetInstance()->postNotification(MSG_PICKONE_TOGO, String::createWithFormat("%d", MSG_PICKONE_TOGO_TAG));
+		break;
+	case MSG_PAY_TOLLS_2_TAG:
+		int money = PAY_TOLLS_MONEY_2;
+		buy_land_x = message.at(1)->floatValue();
+		buy_land_y = message.at(2)->floatValue();
+		int tag = message.at(3)->intValue();
 		Point p = Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map);
 		Player* owner = get_land_owner(land->GetTileGIDAt(Vec2(buy_land_x, buy_land_y)));
-		int e_money = area_land_pay(buy_land_x, buy_land_y, players->at(tag - 1), owner->Get_id().at(0), owner->Get_id().at(1), owner->Get_id().at(2));
-		UpdateMoney(owner, e_money+money);
-		UpdateMoney(players->at(tag - 1), -e_money-money);
+		int e_money = AreaLandPay(buy_land_x, buy_land_y, players->at(tag - 1), owner->get_id().at(0), owner->get_id().at(1), owner->get_id().at(2));
+		UpdateMoney(owner, e_money + money);
+		UpdateMoney(players->at(tag - 1), -e_money - money);
 
-		CocosDenshion::SimpleAudioEngine::GetInstance()->PlayEffect("Sounding/p2_zhenmianmu.wav");
+		CocosDenshion::SimpleAudioEngine::GetInstance()->playEffect(UNHEPPY_MUSIC4);
 
-		Toast::AddToast(map, owner->GetPosition(), String::CreateWithFormat("+%d", e_money + money)->GetCString(), 2);
-		Toast::AddToast(map, players->at(tag - 1)->GetPosition(), String::CreateWithFormat("-%d", e_money + money)->GetCString(), 2);
-		NotificationCenter::GetInstance()->PostNotification("one_go", String::CreateWithFormat("%d", 5));
-	}
-	else if (restype ==8)
-	{
-		int money = 2000;
-		buy_land_x = message.at(1)->FloatValue();
-		buy_land_y = message.at(2)->FloatValue();
-		int tag = message.at(3)->IntValue();
+		toast::addtoast(map, owner->GetPosition(), String::createWithFormat("+%d", e_money + money)->getCString(), 2);
+		toast::addtoast(map, players->at(tag - 1)->GetPosition(), String::createWithFormat("-%d", e_money + money)->getCString(), 2);
+		NotificationCenter::GetInstance()->postNotification(MSG_PICKONE_TOGO, String::createWithFormat("%d", MSG_PICKONE_TOGO_TAG));
+		break;
+	case MSG_PAY_TOLLS_3_TAG:
+		int money = PAY_TOLLS_MONEY_3;
+		buy_land_x = message.at(1)->floatValue();
+		buy_land_y = message.at(2)->floatValue();
+		int tag = message.at(3)->intValue();
 		Point p = Ui::chang_map_to_GL(Vec2(buy_land_x, buy_land_y), map);
-		Player* owner = get_land_owner(land->GetTileGIDAt(Vec2(buy_land_x, buy_land_y)));get_land_owner
-		int e_money = area_land_pay(buy_land_x, buy_land_y, players->at(tag - 1), owner->Get_id().at(0), owner->Get_id().at(1), owner->Get_id().at(2));
-		UpdateMoney(owner, e_money+money);
-		UpdateMoney(players->at(tag - 1), -e_money-money);
+		Player* owner = get_land_owner(land->GetTileGIDAt(Vec2(buy_land_x, buy_land_y)));
+		int e_money = AreaLandPay(buy_land_x, buy_land_y, players->at(tag - 1), owner->get_id().at(0), owner->get_id().at(1), owner->get_id().at(2));
+		UpdateMoney(owner, e_money + money);
+		UpdateMoney(players->at(tag - 1), -e_money - money);
 
-		CocosDenshion::SimpleAudioEngine::GetInstance()->PreloadEffect("Sounding/p2_qiangqiana.wav");
+		CocosDenshion::SimpleAudioEngine::GetInstance()->preloadEffect(UNHEPPY_MUSIC3);
 
-		Toast::AddToast(map, owner->GetPosition(), String::CreateWithFormat("+%d", e_money + money)->GetCString(), 2);
-		Toast::AddToast(map, players->at(tag - 1)->GetPosition(), String::CreateWithFormat("-%d", e_money + money)->GetCString(), 2);
-		NotificationCenter::GetInstance()->PostNotification("one_go", String::CreateWithFormat("%d", 5));
-	}
+		toast::addtoast(map, owner->GetPosition(), String::createWithFormat("+%d", e_money + money)->getCString(), 2);
+		toast::addtoast(map, players->at(tag - 1)->GetPosition(), String::createWithFormat("-%d", e_money + money)->getCString(), 2);
+		NotificationCenter::GetInstance()->postNotification(MSG_PICKONE_TOGO, String::createWithFormat("%d", MSG_PICKONE_TOGO_TAG));
+		break;
+	
 }
 //Update the character's money 
 void GameScene::UpdateMoney(Player* player, int money)
 {
 	char a[20] = { 0 };
-	sprintf(a, "%c %d", '$', (int)player->GetMoney() + money);
-	player->GetMoney_string()->SetString(a);
-	player->SetMoney(player->GetMoney() + (float)money);
+	sprintf(a, "%c %d", '$', (int)Player->GetMoney() + money);
+	Player->getmoney_string()->setString(a);
+	Player->setmoney(Player->GetMoney() + (float)money);
 }
 
 
 Player* GameScene::get_land_owner(int Id)
 {
-	if (Id == 3+land_id || Id == 6+land_id || Id == 9+land_id)
+	if (Id == PLAYER1_LEVEL1_LAND_ID + land_id || Id == PLAYER1_LEVEL2_LAND_ID + land_id || Id == PLAYER1_LEVEL3_LAND_ID + land_id)
 	{
 		return players->at(0);
 	}
-	else if (Id == 1+land_id || Id == 4+land_id || Id == 7+land_id)
+	else if (Id == PLAYER2_LEVEL1_LAND_ID + land_id || Id == PLAYER2_LEVEL2_LAND_ID + land_id || Id == PLAYER2_LEVEL3_LAND_ID + land_id)
 	{
 		return players->at(1);
 	}
-	else if (Id == 2 + land_id || Id == 5 + land_id || Id == 8 + land_id)
+	else if (Id == PLAYER3_LEVEL1_LAND_ID + land_id || Id == PLAYER3_LEVEL2_LAND_ID + land_id || Id == PLAYER3_LEVEL3_LAND_ID + land_id)
 	{
 		return players->at(2);
 	}
-	else if (Id == 10 + land_id || Id == 11 + land_id || Id == 12 + land_id)
+	else if (Id == PLAYER4_LEVEL1_LAND_ID + land_id || Id == PLAYER4_LEVEL2_LAND_ID + land_id || Id == PLAYER4_LEVEL3_LAND_ID + land_id)
 	{
 		return players->at(3);
 	}
@@ -790,11 +813,11 @@ Player* GameScene::get_land_owner(int Id)
 
 
 
-int GameScene::area_land_pay(float x, float y, Player* player, int id1, int id2, int id3)
+int GameScene::AreaLandPay(float x, float y, Player* player, int id1, int id2, int id3)
 {
-	area_land.Clear();
+	area_land.clear();
 	int money = 0;
-	Point p = player->GetPosition();
+	Point p = Player->GetPosition();
 	float nowx = Ui::chang_GL_to_map(p, map).x;
 	float nowy = Ui::chang_GL_to_map(p, map).y;
 	if (nowx == x)
@@ -803,16 +826,16 @@ int GameScene::area_land_pay(float x, float y, Player* player, int id1, int id2,
 		float right = x + 1;
 		int leftid = land->GetTileGIDAt(Vec2(left, y));
 		int rightid = land->GetTileGIDAt(Vec2(right, y));
-		area_land.PushBack(land->GetTileAt(Vec2(x, y)));
+		area_land.PushBack(land->getTileAt(Vec2(x, y)));
 		while (leftid != 0 && (leftid == id1+land_id || leftid == id2+land_id || leftid == id3+land_id))
 		{
 			if (leftid == id1+land_id)
-				money += 500;
+				money += PAY_TOLLS_MONEY_1;
 			if (leftid == id2+land_id)
-				money += 1000;
+				money += PAY_TOLLS_MONEY_2;
 			if (leftid == id3+land_id)
-				money += 2000;
-			area_land.PushBack(land->GetTileAt(Vec2(left, y)));
+				money += PAY_TOLLS_MONEY_3;
+			area_land.PushBack(land->getTileAt(Vec2(left, y)));
 			left -= 1;
 			leftid = land->GetTileGIDAt(Vec2(left, y));
 			if (leftid == 0)
@@ -821,12 +844,12 @@ int GameScene::area_land_pay(float x, float y, Player* player, int id1, int id2,
 		while (rightid != 0 && (rightid == id1+land_id || rightid == id2+land_id || rightid == id3+land_id))
 		{
 			if (rightid == id1+land_id)
-				money += 500;
+				money += PAY_TOLLS_MONEY_1;
 			if (rightid == id2+land_id)
-				money += 1000;
+				money += PAY_TOLLS_MONEY_2;
 			if (rightid == id3+land_id)
-				money += 2000;
-			area_land.PushBack(land->GetTileAt(Vec2(right, y)));
+				money += PAY_TOLLS_MONEY_3;
+			area_land.PushBack(land->getTileAt(Vec2(right, y)));
 			right += 1;
 			rightid = land->GetTileGIDAt(Vec2(right, y));
 			if (rightid == 0)
@@ -839,16 +862,16 @@ int GameScene::area_land_pay(float x, float y, Player* player, int id1, int id2,
 		float down = y + 1;
 		int upid = land->GetTileGIDAt(Vec2(x, up));
 		int downid = land->GetTileGIDAt(Vec2(x, down));
-		area_land.PushBack(land->GetTileAt(Vec2(x, y)));
+		area_land.PushBack(land->getTileAt(Vec2(x, y)));
 		while (upid != 0 && (upid == id1+land_id || upid == id2+land_id || upid == id3+land_id))
 		{
 			if (upid == id1+land_id)
-				money += 500;
+				money += PAY_TOLLS_MONEY_1;
 			if (upid == id2+land_id)
-				money += 1000;
+				money += PAY_TOLLS_MONEY_2;
 			if (upid == id3+land_id)
-				money += 2000;
-			area_land.PushBack(land->GetTileAt(Vec2(x, up)));
+				money += PAY_TOLLS_MONEY_3;
+			area_land.PushBack(land->getTileAt(Vec2(x, up)));
 			up -= 1;
 			upid = land->GetTileGIDAt(Vec2(x, up));
 			if (upid == 0)
@@ -857,26 +880,21 @@ int GameScene::area_land_pay(float x, float y, Player* player, int id1, int id2,
 		while (downid != 0 && (downid == id1+land_id || downid == id2+land_id || downid == id3+land_id))
 		{
 			if (downid == id1+land_id)
-				money += 500;
+				money += PAY_TOLLS_MONEY_1;
 			if (downid == id2+land_id)
-				money += 1000;
+				money += PAY_TOLLS_MONEY_2;
 			if (downid == id3+land_id)
-				money += 2000;
-			area_land.PushBack(land->GetTileAt(Vec2(x, down)));
+				money += PAY_TOLLS_MONEY_3;
+			area_land.PushBack(land->getTileAt(Vec2(x, down)));
 			down += 1;
 			downid = land->GetTileGIDAt(Vec2(x, down));
 			if (downid == 0)
 				break;
 		}
 	}
-	for (auto it = area_land.Begin(); it != area_land.End(); it++)
+	for (auto it = area_land.begin(); it != area_land.end(); it++)
 	{
 		(*it)->RunAction(Sequence::Create(FadeOut::Create(0.5)->clone(), FadeIn::Create(0.5)->clone(), NULL));
 	}
 	return money;
 }
-
-
-
-
-

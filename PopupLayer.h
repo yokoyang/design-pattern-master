@@ -21,10 +21,10 @@ public:
 	virtual bool Init();
 	CREATE_FUNC(PopupLayer);
 	Vector<Player*> players_vec;
-	std::vector<int>lotterynum;
+	std::vector<int>lotteryNum;
 	static PopupLayer * Create(const char* backgroundImage);
-	void SetTitle(const char* title, int fontsize = Pop_FontSize);
-	void SetContentText(const char* text, int fontsize = Pop_FontSize, int pAdding = 50, int pAddintTop = 100);
+	void SetTitle(const char* title, int fontSize = Pop_FontSize);
+	void SetContentText(const char* text, int fontSize = Pop_FontSize, int pAdding = 50, int pAddintTop = 100);
 	void SetCallbackFunc(Object* tarGet, SEL_CallFuncN callfun);
 	void SetPlayerVector(Vector<Player*>_vector);
 	bool AddButton(const char* normalImage, const char* selectedImage, const char* title, int tag = 0);

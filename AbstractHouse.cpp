@@ -23,7 +23,7 @@ void TemplateChooseMethod(){
     HappenAccident();
     log("Done the template method!");
 }
-
+//define method to buy a house
 void AbstractHouse::Buy(std::string& name)
 {
 	if (!_isMortgage)

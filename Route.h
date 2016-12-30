@@ -19,13 +19,13 @@ public:
 	void GetPath(Player* playername, bool** isWalk, int step, int colCount, int rowCount);
 
 	//Decide which of the four directions are accessible
-	bool IsCanGo(int x, int y, int dir, bool**);
+	bool IsCango(int x, int y, int dir, bool**);
 
 	//Set the tile size
-	void SettileSize(float tilewidth, float tileheigh);
+	void SetTileSize(float tileWidth, float tileHeigh);
 
-	std::vector<int> GetPathRow(){ return pathRow; };
-	std::vector<int> GetPathCol(){ return pathCol; };
+	std::vector<int> GetPathrow(){ return pathRow; };
+	std::vector<int> GetPathcol(){ return pathCol; };
 private:
 	static Route* route;
 	std::vector<int> pathRow;
@@ -34,6 +34,6 @@ private:
 	//Coming direction, avoided 
 	int comeX;
 	int comeY;
-	float tilewidth=32;
-	float tileheigh=32;
+	float tileWidth=32;
+	float tileHeigh=32;
 };

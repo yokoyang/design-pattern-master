@@ -2,20 +2,20 @@
 #include <string>
 
 //Coordinate interchange
-Point Ui::chang_GL_to_map(Point& glpoint, TMXTiledMap* map)
+Point Ui::chang_GL_to_map(Point& glPoint, TMXTiledMap* map)
 {
-	Point mappoint;
-	mappoint.x = glpoint.x / map->GetTileSize().width;
-	mappoint.y = (map->GetContentSize().height - glpoint.y) / map->GetTileSize().height;
-	return mappoint;
+	Point mapPoint;
+	mapPoint.x = glPoint.x / map->GetTileSize().width;
+	mapPoint.y = (map->GetContentSize().height - glPoint.y) / map->GetTileSize().height;
+	return mapPoint;
 }
 //Coordinate interchange
-Point Ui::chang_map_to_GL(Point& mappoint, TMXTiledMap* map)
+Point Ui::chang_map_to_GL(Point& mapPoint, TMXTiledMap* map)
 {
-	Point glpoint;
-	glpoint.x = map->GetTileSize().width*mappoint.x;
-	glpoint.y = map->GetContentSize().height - map->GetTileSize().height*(mappoint.y + 1);
-	return glpoint;
+	Point glPoint;
+	glPoint.x = map->GetTileSize().width*mapPoint.x;
+	glPoint.y = map->GetContentSize().height - map->GetTileSize().height*(mapPoint.y + 1);
+	return glPoint;
 }
 //string dealing
 Vector<String*> Ui::SplitString(const char* srcStr, const char* sSep)

@@ -3,6 +3,7 @@
 #include"Player.h"
 #include"Prison.h"
 #include<string>
+#include "AbstractHouse.h"
 USING_NS_CC;
 
 class Prison :public AbstractHouse

@@ -9,7 +9,7 @@ USING_NS_CC;
 class HelloWorld : public cocos2d::Layer
 {
 private:
-	Label* developer = Label::CreateWithSystemFont("Rafael Marmalade, Yu Yifan, Yan Xiongbaixue", "Gothic", 70);
+	Label* developer = Label::createWithSystemFont(DEVELOPER_MESSAGE, DEVELOPER_MESSAGE_FONT, DEVELOPER_MESSAGE_FONT_SIZE);
 public:
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
     static cocos2d::Scene* CreateScene();

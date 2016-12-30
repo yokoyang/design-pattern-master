@@ -1,9 +1,8 @@
 #include"Control.h"
 #include"GameSceneScene.h"
-#include"Route.h"
+#include"route.h"
 #include"Ui.h"
-#include "Opportunity.h"
-#include"player.h"
+#include"Duang.h"
 
 
 Control* Control::control_Instance = NULL;
@@ -13,7 +12,7 @@ Control::Control()
 	comeX = -1;
 	comeY = -1;
 	struct timeval now;
-	Get_time_of_day(&now, NULL);
+	gettimeofday(&now, NULL);
 	unsigned rand_seed = (unsigned)(now.tv_sec * 1000 + now.tv_usec / 1000);
 	srand(rand_seed);
 }
@@ -30,15 +29,15 @@ bool Control::Init()
 //Add a registry in order to call some certain functions
 void Control::res_notification_Observe()
 {
-	NotificationCenter::GetInstance()->AddObserver(this, CallFuncO_selector(Control::ReceiveMsg), "one_go", NULL);
+	NotificationCenter::GetInstance()->addObserver(this, callfuncO_selector(Control::ReceiveMsg), MSG_PICKONE_TOGO, NULL);
 }
 //Registry Callback
 void Control::ReceiveMsg(Object* node)
 {
-	int res = ((String*)node)->IntValue();
-	if (res == 5)
+	int res = ((String*)node)->intValue();
+	if (res == MSG_PICKONE_TOGO_TAG)
 	{
-		Robotwalk();
+		RobotWalk();
 	}
 }
 
@@ -62,82 +61,82 @@ void Control::MoveOne(Player* player)
 {
 	row = pathRow[_step + 1];
 	col = pathCol[_step + 1];
-	int disr = row - nowrow;
-	int disc = col - nowcol;
+	int disr = row - nowRow;
+	int disc = col - nowCol;
 	MoveBy* moveby;
 	Repeat* repeate;
 	Action* action;
 	if (disr > 0)
 	{
-		moveby = MoveBy::Create(1.2f, Vec2(0, tileheigh));
-		repeate = Repeat::Create(player->up, 1.2f);
+		moveby = MoveBy::Create(1.2f, Vec2(0, tileHeigh));
+		repeate = Repeat::Create(Player->up, 1.2f);
 	}
 	if (disr < 0)
 	{
-		moveby = MoveBy::Create(1.2f, Vec2(0, -tileheigh));
-		repeate = Repeat::Create(player->down, 1.2f);
+		moveby = MoveBy::Create(1.2f, Vec2(0, -tileHeigh));
+		repeate = Repeat::Create(Player->down, 1.2f);
 	}
 	if (disc > 0)
 	{
 
-		moveby = MoveBy::Create(1.2f, Vec2(tilewidth, 0));
-		repeate = Repeat::Create(player->right, 1.2f);
+		moveby = MoveBy::Create(1.2f, Vec2(tileWidth, 0));
+		repeate = Repeat::Create(Player->right, 1.2f);
 	}
 	if (disc < 0)
 	{
-		moveby = MoveBy::Create(1.2f, Vec2(-tilewidth, 0));
-		repeate = Repeat::Create(player->left, 1.2f);
+		moveby = MoveBy::Create(1.2f, Vec2(-tileWidth, 0));
+		repeate = Repeat::Create(Player->left, 1.2f);
 	}
 
 	action = Sequence::Create(Spawn::Create(moveby, repeate, nullptr), CallFunc::Create(CC_CALLBACK_0(Control::EndGo, this)), nullptr);
-	action->Retain();
-	player->RunAction(action);
+	action->retain();
+	Player->RunAction(action);
 }
 
 //The current character starts moving 
 //rowVector and colVector stores the path of the current character
-//player points to the current character
+//Player points to the current character
 void Control::StartGo(std::vector<int>pathRow,std::vector<int>pathCol,Player* player)
 {
-	nowcol = pathCol[0];
-	nowrow = pathRow[0];
+	nowCol = pathCol[0];
+	nowRow = pathRow[0];
 	row = col = 0;
 	this->pathRow = pathRow;
 	this->pathCol = pathCol;
-	this->player = player;
+	this->Player = player;
 	_step = 0;
 	_stepCount = pathRow.size() - 1;
 	if (_stepCount == 0)
 	{
-		Endevent();
+		EndEvent();
 	}
 	else
 	{
-		moveone(player);
+		MoveOne(Player);
 	}
 }
 
 //Deal with the events when the character has finished moving and ended up in one specific tile
 void Control::EndGo()
 {
-	GameScene::GetStep_image()->at(_step)->setVisible(false);
+	GameScene::GetStepImage()->at(_step)->SetVisible(false);
 	_step++;
 	if (_step >= _stepCount)
 	{
-		float x = pathCol[_step] * tilewidth;
-		float y = pathRow[_step] * tileheigh + tileheigh;
-		Point mappoint = Ui::chang_GL_to_map(Vec2(x, y), GameScene::Getmap());
-		int id = GameScene::Getmap()->LayerNamed("wenhao")->GetTileGIDAt(mappoint);
-		int id1 = GameScene::Getmap()->LayerNamed("way")->GetTileGIDAt(mappoint);
-		int ID = GameScene::Getmap()->propertiesForGID(id1).asValueMap()["location"].asInt();
+		float x = pathCol[_step] * tileWidth;
+		float y = pathRow[_step] * tileHeigh + tileHeigh;
+		Point mapPoint = Ui::chang_GL_to_map(Vec2(x, y), GameScene::GetMap());
+		int id = GameScene::GetMap()->layerNamed(OPPORTUNITY)->GetTileGIDAt(mapPoint);
+		int id1 = GameScene::GetMap()->layerNamed(WAY_BLOCK_NAME)->GetTileGIDAt(mapPoint);
+		int ID = GameScene::GetMap()->propertiesForGID(id1).asValueMap()["location"].asInt();
 		if (ID)
 		{
-			image = GameScene::Get_location_image()->at(ID - 1);
-			image->setVisible(true);
+			image = GameScene::get_location_image()->at(ID - 1);
+			image->SetVisible(true);
 			image->RunAction(Spawn::Create(FadeIn::Create(1.0f),FadeOut::Create(3.0f),NULL));
 			
 		}
-		if (id == GameScene::GetQuesMark_id())
+		if (id == GameScene::Get_quesMark_id())
 		{
 			srand(clock());
 			log("card");
@@ -155,7 +154,7 @@ void Control::EndGo()
 			{
 					  int number = random() % 7;
 					  Delay::GetInstance()->at(number)->RunAction(player);
-					  Endevent();
+					  EndEvent();
 			}; break;
 			case 4:
 			case 5:
@@ -164,14 +163,14 @@ void Control::EndGo()
 			{
 					  int number = random() % 9;
 					  Wealth::GetInstance()->at(number)->RunAction(player);
-					  Endevent();
+					  EndEvent();
 			}; break;
 			case 8:
 			{
-					  player->GetLottery();
-					  poplottery();
-					  player->RunAction(Sequence::Create(DelayTime::Create(2.0f), CallFunc::Create([this]{
-						  Endevent();
+					  Player->GetLottery();
+					  PopLottery();
+					  Player->RunAction(Sequence::Create(DelayTime::Create(2.0f), CallFunc::Create([this]{
+						  EndEvent();
 					  }), NULL));
 			}; break;
 			}
@@ -179,277 +178,277 @@ void Control::EndGo()
 		}
 		else
 
-		    Endevent();
+		    EndEvent();
 		return;
 	}
-	nowcol = col;
-	nowrow = row;
-	moveone(player);
+	nowCol = col;
+	nowRow = row;
+	MoveOne(player);
 }
 
 //Lottery publish
-void Control::poplottery()
+void Control::PopLottery()
 {
-	GameScene::Get_dialoglottery()->setVisible(true);
-	GameScene::Get_dialoglottery()->AddPlayerLottery();
-	GameScene::Get_dialoglottery()->RunAnmi();
+	GameScene::GetDialogLottery()->SetVisible(true);
+	GameScene::GetDialogLottery()->AddPlayerLottery();
+	GameScene::GetDialogLottery()->RunAnmi();
 }
 
 
 //Non-player characters Move
-void Control::Robotwalk()
+void Control::RobotWalk()
 {
-	for (auto it = GameScene::GetPlayers()->Begin(); it != GameScene::GetPlayers()->End(); it++)
+	for (auto it = GameScene::GetPlayers()->begin(); it != GameScene::GetPlayers()->end(); it++)
 	{
 		auto Player1 = dynamic_cast<Player*>(*it);
 
-		if (Player1->GetTurnMe())
+		if (Player1->getturnme())
 		{
 			int randNumber = rand() % 6 + 1;
-			Route::GetInstance()->GetPath(Player1,GameScene::isWalk, randNumber,GameScene::Getcol_count(),GameScene::Getrow_count());
-			Player1->go(Route::GetInstance()->GetPathRow(), Route::GetInstance()->GetPathCol());
+			Route::GetInstance()->GetPath(Player1,GameScene::isWalk, randNumber,GameScene::GetColCount(),GameScene::GetRowCount());
+			Player1->Go(Route::GetInstance()->GetPathRow(), Route::GetInstance()->GetPathCol());
 			return;
 		}
 
 	}
-	GameScene::Get_go()->setPosition(GameScene::Get_go()->GetPosition() + Vec2(0, 500));
-	GameScene::Get_go()->setVisible(true);
+	GameScene::GetGo()->SetPosition(GameScene::GetGo()->GetPosition() + Vec2(0, 500));
+	GameScene::GetGo()->SetVisible(true);
 	oneRoundend = true;
-	ReSetPlayerGoTurn();
+	ResetPlayerGoTurn();
 }
 
 //The remaining characters initiation
-void Control::ReSetPlayerGoTurn()
+void Control::ResetPlayerGoTurn()
 {
-	for (auto it = GameScene::GetPlayers()->Begin(); it != GameScene::GetPlayers()->End(); it++)
+	for (auto it = GameScene::GetPlayers()->begin(); it != GameScene::GetPlayers()->end(); it++)
 	{
 		Player* richerPlayer = dynamic_cast<Player*>(*it);
-		richerPlayer->SetTurnMe(true);
+		richerPlayer->setturnme(true);
 
 	}
 }
-
-void Control::Endevent()
+//end oneround
+void Control::EndEvent()
 {
 	oneRoundend = false;
-	float x = pathCol[_step] * tilewidth;
-	float y = pathRow[_step] * tileheigh + tileheigh;
+	float x = pathCol[_step] * tileWidth;
+	float y = pathRow[_step] * tileHeigh + tileHeigh;
 	std::vector<Vec2>dir;
-	dir.push_back(Vec2(x, y + tileheigh));
-	dir.push_back(Vec2(x, y - tileheigh));
-	dir.push_back(Vec2(x - tilewidth, y));
-	dir.push_back(Vec2(x + tilewidth, y));
+	dir.push_back(Vec2(x, y + tileHeigh));
+	dir.push_back(Vec2(x, y - tileHeigh));
+	dir.push_back(Vec2(x - tileWidth, y));
+	dir.push_back(Vec2(x + tileWidth, y));
 	int flag = 0;
 	for (int i = 0; i < 4; i++)
 	{
-		Point mappoint = Ui::chang_GL_to_map(dir.at(i), GameScene::Getmap());
-		int id = GameScene::GetLandLayer()->GetTileGIDAt(mappoint);
-		GameScene::buy_land_x = mappoint.x;
-		GameScene::buy_land_y = mappoint.y;
+		Point mapPoint = Ui::chang_GL_to_map(dir.at(i), GameScene::GetMap());
+		int id = GameScene::GetLandLayer()->GetTileGIDAt(mapPoint);
+		GameScene::buy_land_x = mapPoint.x;
+		GameScene::buy_land_y = mapPoint.y;
 		if (id == GameScene::GetLand_id())
 		{
 			flag++;
-			String* str = String::CreateWithFormat("%d-%f-%f-%d", 2, mappoint.x, mappoint.y,player->GetTag());
-			NotificationCenter::GetInstance()->PostNotification("buy_land", str);
+			String* str = String::createWithFormat("%d-%f-%f-%d", MSG_BUY_BLANK_TAG, mapPoint.x, mapPoint.y, Player->getTag());
+			NotificationCenter::GetInstance()->postNotification(MSG_BUY, str);
 			break;
 		}
-		if (id == 3 + GameScene::GetLand_id())
+		if (id == PLAYER1_LEVEL1_LAND_ID + GameScene::GetLand_id())
 		{
-			if (player->GetTag() == 1)
+			if (Player->getTag() == PLAYER1_TAG)
 			{
 				flag++;
-				String* str = String::CreateWithFormat("%d-%f-%f-%d", 3, mappoint.x, mappoint.y, player->GetTag());
-				NotificationCenter::GetInstance()->PostNotification("buy_land", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_BUY_LAND_1_TAG, mapPoint.x, mapPoint.y, Player->getTag());
+				NotificationCenter::GetInstance()->postNotification(MSG_BUY, str);
 				break;
 			}
 			else
 			{
 				flag++;
-				String* str = String::CreateWithFormat("%d-%f-%f-%d", 6, mappoint.x, mappoint.y, player->GetTag());
-				NotificationCenter::GetInstance()->PostNotification("pay_tolls", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_PAY_TOLLS_1_TAG, mapPoint.x, mapPoint.y, Player->getTag());
+				NotificationCenter::GetInstance()->postNotification(MSG_PAY_TOLLS, str);
 				break;
 			}
 		}
-		if (id == 1 + GameScene::GetLand_id())
+		if (id == PLAYER2_LEVEL1_LAND_ID + GameScene::GetLand_id())
 		{
 			flag++;
-			if (player->GetTag() == 2)
+			if (Player->getTag() == PLAYER2_TAG)
 			{
-				String* str = String::CreateWithFormat("%d-%f-%f-%d", 3, mappoint.x, mappoint.y, player->GetTag());
-				NotificationCenter::GetInstance()->PostNotification("buy_land", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_BUY_LAND_1_TAG, mapPoint.x, mapPoint.y, Player->getTag());
+				NotificationCenter::GetInstance()->postNotification(MSG_BUY, str);
 				break;
 			}
 			else
 			{
-				String* str = String::CreateWithFormat("%d-%f-%f-%d", 6, mappoint.x, mappoint.y, player->GetTag());
-				NotificationCenter::GetInstance()->PostNotification("pay_tolls", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_PAY_TOLLS_1_TAG, mapPoint.x, mapPoint.y, Player->getTag());
+				NotificationCenter::GetInstance()->postNotification(MSG_PAY_TOLLS, str);
 				break;
 			}
 		}
-		if (id == 2 + GameScene::GetLand_id())
+		if (id == PLAYER3_LEVEL1_LAND_ID + GameScene::GetLand_id())
 		{
 			flag++;
-			if (player->GetTag() == 3)
+			if (Player->getTag() == PLAYER3_TAG)
 			{
-				String* str = String::CreateWithFormat("%d-%f-%f-%d", 3, mappoint.x, mappoint.y, player->GetTag());
-				NotificationCenter::GetInstance()->PostNotification("buy_land", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_BUY_LAND_1_TAG, mapPoint.x, mapPoint.y, Player->getTag());
+				NotificationCenter::GetInstance()->postNotification(MSG_BUY, str);
 				break;
 			}
 			else
 			{
-				String* str = String::CreateWithFormat("%d-%f-%f-%d", 6, mappoint.x, mappoint.y, player->GetTag());
-				NotificationCenter::GetInstance()->PostNotification("pay_tolls", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_PAY_TOLLS_1_TAG, mapPoint.x, mapPoint.y, Player->getTag());
+				NotificationCenter::GetInstance()->postNotification(MSG_PAY_TOLLS, str);
 				break;
 			}
 		}
-		if (id == 10 + GameScene::GetLand_id())
+		if (id == PLAYER4_LEVEL1_LAND_ID + GameScene::GetLand_id())
 		{
 			flag++;
-			if (player->GetTag() == 4)
+			if (Player->getTag() == PLAYER4_TAG)
 			{
-				String* str = String::CreateWithFormat("%d-%f-%f-%d", 3, mappoint.x, mappoint.y, player->GetTag());
-				NotificationCenter::GetInstance()->PostNotification("buy_land", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_BUY_LAND_1_TAG, mapPoint.x, mapPoint.y, Player->getTag());
+				NotificationCenter::GetInstance()->postNotification(MSG_BUY, str);
 				break;
 			}
 			else
 			{
-				String* str = String::CreateWithFormat("%d-%f-%f-%d", 6, mappoint.x, mappoint.y, player->GetTag());
-				NotificationCenter::GetInstance()->PostNotification("pay_tolls", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_PAY_TOLLS_1_TAG, mapPoint.x, mapPoint.y, Player->getTag());
+				NotificationCenter::GetInstance()->postNotification(MSG_PAY_TOLLS, str);
 				break;
 			}
 		}
-		if (id == 6 + GameScene::GetLand_id())
+		if (id == PLAYER1_LEVEL2_LAND_ID + GameScene::GetLand_id())
 		{
 			flag++;
-			if (player->GetTag() == 1)
+			if (Player->getTag() == PLAYER1_TAG)
 			{
-				String* str = String::CreateWithFormat("%d-%f-%f-%d", 4, mappoint.x, mappoint.y, player->GetTag());
-				NotificationCenter::GetInstance()->PostNotification("buy_land", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_BUY_LAND_2_TAG, mapPoint.x, mapPoint.y, Player->getTag());
+				NotificationCenter::GetInstance()->postNotification(MSG_BUY, str);
 				break;
 			}
 			else
 			{
-				String* str = String::CreateWithFormat("%d-%f-%f-%d", 7, mappoint.x, mappoint.y, player->GetTag());
-				NotificationCenter::GetInstance()->PostNotification("pay_tolls", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_PAY_TOLLS_2_TAG, mapPoint.x, mapPoint.y, Player->getTag());
+				NotificationCenter::GetInstance()->postNotification(MSG_PAY_TOLLS, str);
 				break;
 			}
 		}
-		if (id == 4 + GameScene::GetLand_id())
+		if (id == PLAYER2_LEVEL2_LAND_ID + GameScene::GetLand_id())
 		{
 			flag++;
-			if (player->GetTag() == 2)
+			if (Player->getTag() == PLAYER2_TAG)
 			{
-				String* str = String::CreateWithFormat("%d-%f-%f-%d", 4, mappoint.x, mappoint.y, player->GetTag());
-				NotificationCenter::GetInstance()->PostNotification("buy_land", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_BUY_LAND_2_TAG, mapPoint.x, mapPoint.y, Player->getTag());
+				NotificationCenter::GetInstance()->postNotification(MSG_BUY, str);
 				break;
 			}
 			else
 			{
-				String* str = String::CreateWithFormat("%d-%f-%f-%d", 7, mappoint.x, mappoint.y, player->GetTag());
-				NotificationCenter::GetInstance()->PostNotification("pay_tolls", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_PAY_TOLLS_2_TAG, mapPoint.x, mapPoint.y, Player->getTag());
+				NotificationCenter::GetInstance()->postNotification(MSG_PAY_TOLLS, str);
 				break;
 			}
 		}
-		if (id == 5 + GameScene::GetLand_id())
+		if (id == PLAYER3_LEVEL2_LAND_ID + GameScene::GetLand_id())
 		{
 			flag++;
-			if (player->GetTag() == 3)
+			if (Player->getTag() == PLAYER3_TAG)
 			{
-				String* str = String::CreateWithFormat("%d-%f-%f-%d", 4, mappoint.x, mappoint.y, player->GetTag());
-				NotificationCenter::GetInstance()->PostNotification("buy_land", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_BUY_LAND_2_TAG, mapPoint.x, mapPoint.y, Player->getTag());
+				NotificationCenter::GetInstance()->postNotification(MSG_BUY, str);
 				break;
 			}
 			else
 			{
-				String* str = String::CreateWithFormat("%d-%f-%f-%d", 7, mappoint.x, mappoint.y, player->GetTag());
-				NotificationCenter::GetInstance()->PostNotification("pay_tolls", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_PAY_TOLLS_2_TAG, mapPoint.x, mapPoint.y, Player->getTag());
+				NotificationCenter::GetInstance()->postNotification(MSG_PAY_TOLLS, str);
 				break;
 			}
 		}
-		if (id == 11 + GameScene::GetLand_id())
+		if (id == PLAYER4_LEVEL2_LAND_ID + GameScene::GetLand_id())
 		{
 			flag++;
-			if (player->GetTag() == 4)
+			if (Player->getTag() == PLAYER4_TAG)
 			{
-				String* str = String::CreateWithFormat("%d-%f-%f-%d", 4, mappoint.x, mappoint.y, player->GetTag());
-				NotificationCenter::GetInstance()->PostNotification("buy_land", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_BUY_LAND_2_TAG, mapPoint.x, mapPoint.y, Player->getTag());
+				NotificationCenter::GetInstance()->postNotification(MSG_BUY, str);
 				break;
 			}
 			else
 			{
-				String* str = String::CreateWithFormat("%d-%f-%f-%d", 7, mappoint.x, mappoint.y, player->GetTag());
-				NotificationCenter::GetInstance()->PostNotification("pay_tolls", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_PAY_TOLLS_2_TAG, mapPoint.x, mapPoint.y, Player->getTag());
+				NotificationCenter::GetInstance()->postNotification(MSG_PAY_TOLLS, str);
 				break;
 			}
 		}
-		if (id == 9 + GameScene::GetLand_id())
+		if (id == PLAYER1_LEVEL3_LAND_ID + GameScene::GetLand_id())
 		{
 			flag++;
-			if (player->GetTag() == 1)
+			if (Player->getTag() == PLAYER1_TAG)
 			{
-				String* str = String::CreateWithFormat("%d-%f-%f-%d", 1000, mappoint.x, mappoint.y, player->GetTag());
-				NotificationCenter::GetInstance()->PostNotification("buy_land", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_CON_GO, mapPoint.x, mapPoint.y, Player->getTag());
+				NotificationCenter::GetInstance()->postNotification(MSG_BUY, str);
 				break;
 			}
 			else
 			{
-				String* str = String::CreateWithFormat("%d-%f-%f-%d", 8, mappoint.x, mappoint.y, player->GetTag());
-				NotificationCenter::GetInstance()->PostNotification("pay_tolls", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_PAY_TOLLS_3_TAG, mapPoint.x, mapPoint.y, Player->getTag());
+				NotificationCenter::GetInstance()->postNotification(MSG_PAY_TOLLS, str);
 				break;
 			}
 		}
-		if (id == 7 + GameScene::GetLand_id())
+		if (id == PLAYER2_LEVEL3_LAND_ID + GameScene::GetLand_id())
 		{
 			flag++;
-			if (player->GetTag() == 2)
+			if (Player->getTag() == PLAYER2_TAG)
 			{
-				String* str = String::CreateWithFormat("%d-%f-%f-%d", 1000, mappoint.x, mappoint.y, player->GetTag());
-				NotificationCenter::GetInstance()->PostNotification("buy_land", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_CON_GO, mapPoint.x, mapPoint.y, Player->getTag());
+				NotificationCenter::GetInstance()->postNotification(MSG_BUY, str);
 				break;
 			}
 			else
 			{
-				String* str = String::CreateWithFormat("%d-%f-%f-%d", 8, mappoint.x, mappoint.y, player->GetTag());
-				NotificationCenter::GetInstance()->PostNotification("pay_tolls", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_PAY_TOLLS_3_TAG, mapPoint.x, mapPoint.y, Player->getTag());
+				NotificationCenter::GetInstance()->postNotification(MSG_PAY_TOLLS, str);
 				break;
 			}
 		}
-		if (id == 8 + GameScene::GetLand_id())
+		if (id == PLAYER3_LEVEL3_LAND_ID + GameScene::GetLand_id())
 		{
 			flag++;
-			if (player->GetTag() == 3)
+			if (Player->getTag() == PLAYER3_TAG)
 			{
-				String* str = String::CreateWithFormat("%d-%f-%f-%d", 1000, mappoint.x, mappoint.y, player->GetTag());
-				NotificationCenter::GetInstance()->PostNotification("buy_land", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_CON_GO, mapPoint.x, mapPoint.y, Player->getTag());
+				NotificationCenter::GetInstance()->postNotification(MSG_BUY, str);
 				break;
 			}
 			else
 			{
-				String* str = String::CreateWithFormat("%d-%f-%f-%d", 8, mappoint.x, mappoint.y, player->GetTag());
-				NotificationCenter::GetInstance()->PostNotification("pay_tolls", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_PAY_TOLLS_3_TAG, mapPoint.x, mapPoint.y, Player->getTag());
+				NotificationCenter::GetInstance()->postNotification(MSG_PAY_TOLLS, str);
 				break;
 			}
 		}
-		if (id == 12 + GameScene::GetLand_id())
+		if (id == PLAYER4_LEVEL3_LAND_ID + GameScene::GetLand_id())
 		{
 			flag++;
-			if (player->GetTag() == 4)
+			if (Player->getTag() == PLAYER4_TAG)
 			{
-				String* str = String::CreateWithFormat("%d-%f-%f-%d", 1000, mappoint.x, mappoint.y, player->GetTag());
-				NotificationCenter::GetInstance()->PostNotification("buy_land", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_CON_GO, mapPoint.x, mapPoint.y, Player->getTag());
+				NotificationCenter::GetInstance()->postNotification(MSG_BUY, str);
 				break;
 			}
 			else
 			{
-				String* str = String::CreateWithFormat("%d-%f-%f-%d", 8, mappoint.x, mappoint.y, player->GetTag());
-				NotificationCenter::GetInstance()->PostNotification("pay_tolls", str);
+				String* str = String::createWithFormat("%d-%f-%f-%d", MSG_PAY_TOLLS_3_TAG, mapPoint.x, mapPoint.y, Player->getTag());
+				NotificationCenter::GetInstance()->postNotification(MSG_PAY_TOLLS, str);
 				break;
 			}
 		}
 	}
 	if (!flag)
 	{
-		NotificationCenter::GetInstance()->PostNotification("one_go", String::CreateWithFormat("%d", 5));
+		NotificationCenter::GetInstance()->postNotification(MSG_PICKONE_TOGO, String::createWithFormat("%d", MSG_PICKONE_TOGO_TAG));
 	}
 }
 

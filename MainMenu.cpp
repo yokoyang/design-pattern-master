@@ -1,7 +1,7 @@
 #include "MainMenu.h"
 #include<cocos2d.h>
 #include"GameSceneScene.h"
-#include "Settings.h"
+#include<Settings.h>
 
 USING_NS_CC;
 
@@ -22,24 +22,24 @@ bool MainMenu::Init()
 		return false;
 	}
 	//Start game button
-	auto StartGameText = Sprite::Create("Start Button.png");
+	auto StartGameText = Sprite::Create(START_BUTTON);
 	auto StartGameItem = MenuItemSprite::Create(StartGameText, StartGameText, StartGameText,[this](Ref* sender){
 		auto scene = GameScene::CreateScene();
-		auto transitionScene = TransitionCrossFade::Create(0.1f, scene);
-		Director::GetInstance()->ReplaceScene(transitionScene);
+		auto transitionscene = TransitionCrossFade::Create(0.1f, scene);
+		Director::GetInstance()->ReplaceScene(transitionscene);
 	});
 	//End button
-	auto EndGameText = Sprite::Create("Quit Button.png");
+	auto EndGameText = Sprite::Create(QUIT_BUTTON);
 	auto EndGameItem = MenuItemSprite::Create(EndGameText, EndGameText, EndGameText,[](Ref* sender){
-		Director::GetInstance()->End();
+		Director::GetInstance()->end();
 	});
 
-	//Enter Settings
-	auto SettingsText =Sprite::Create("Settings Button.png");
+	//Enter settings
+	auto SettingsText =Sprite::Create(SETTING_BUTTON);
 	auto SettingsItem = MenuItemSprite::Create(SettingsText, SettingsText, SettingsText,[](Ref* sender){
 		auto scene = Settings::CreateScene();
-		auto transitionScene = TransitionPaGeturn::Create(2, scene, false);
-		Director::GetInstance()->ReplaceScene(transitionScene);
+		auto transitionscene = TransitionPageTurn::Create(2, scene, false);
+		Director::GetInstance()->ReplaceScene(transitionscene);
 	});
 
 	AddChild(StartGameItem); AddChild(EndGameItem); AddChild(SettingsItem);

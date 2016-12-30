@@ -25,14 +25,14 @@ public:
     CREATE_FUNC(GameScene);
 
 	//Get the coordinate in the map where the character can move to
-	void GetWayGild();
+	void GetWaygild();
 
 
 	//Acquire isWalk
-	bool** isWalk();
+	bool** IsWalk();
 
 	//Returns the container of step marker
-	static Vector<Sprite*>* GetStep_image(){ return step_image; };
+	static Vector<Sprite*>* GetStepImage(){ return step_image; };
 
 
 	//Acquire a container of characters
@@ -54,7 +54,7 @@ public:
 	static TMXLayer* GetLandLayer(){ return land; };
 
 	//Acquire the map
-	static TMXTiledMap* Getmap(){ return map; };
+	static TMXTiledMap* GetMap(){ return map; };
 
 	//Display a dialog to ask whether to purchase estates
 	static void show_buy_land_dialog(int);
@@ -63,7 +63,6 @@ public:
 
 	//Update the character's money 
 	static void UpdateMoney(Player*, int money);
-	bool** GetIsWalk();
 
 	//Add all sorts of game resources
 	void AddInfor(float);
@@ -75,11 +74,11 @@ public:
 	//Get the ID of the vacant land
 	static int GetLand_id(){ return land_id; };
 
-	//Acquire the go button
-	static Sprite* GetGo(){ return go; };
+	//Acquire the Go button
+	static Sprite* GetGo(){ return Go; };
 
 	//Aquire the ID where there are question marks
-	static int GetQuesmark_id(){ return quesmark_id; };
+	static int GetQuesMark_id(){ return quesMark_id; };
 
 	//Acuire the container of location pictures
 	static Vector<Sprite*>* GetLocation_image(){ return location_image; };
@@ -111,8 +110,8 @@ private:
 	static Vector<Sprite*> * playerImg;
 	
 	//The width and height of a single tile
-	float tilewidth;
-	float tileheigh;
+	float tileWidth;
+	float tileHeigh;
 	std::vector<Vec2> point;
 
 	static Vector<Sprite*>* step_image;
@@ -121,11 +120,11 @@ private:
 	static PopupLayer* dialogLottery;
 	//Vacant land
 	static TMXLayer* land;
-	static TMXLayer* wenhao;
-	static int quesmark_id;
+	static TMXLayer* quesMark;
+	static int quesMark_id;
 	void reg_notification_Observe();
 
-	void Received_MSG(Object*);
+	void ReceivedMsg(Object*);
 
 	static Vector<Sprite*>area_land;
 
@@ -133,7 +132,7 @@ private:
 	
 	static int rowCount;
 	static int colCount;
-	static Sprite* go;
+	static Sprite* Go;
 	static Vector<Sprite*>* location_image;
 	static int map_type;
 	
@@ -141,9 +140,9 @@ private:
 	void Add_location_image();
 
 	Player* GetId(int ID);
-	int AreaLand_pay(float x, float y, Player*, int id1, int id2, int id3);
+	int AreaLandPay(float x, float y, Player*, int id1, int id2, int id3);
 	//Add map
-	void AddMap(int type);
+	void Addmap(int type);
 	//Add players images
 	void AddPlayerImg();
 	//Add the info of the characters
@@ -151,15 +150,15 @@ private:
 	//Add players of number 'number'
 	void AddPlayer(int number);
 	//Add dice to Layer*
-	void AddShaiZi(Layer*);
+	void AddDice(Layer*);
 
 	
-	void SetIsWalk();
+	void SetIswalk();
 
-	void AddStep_image();
+	void AddStepImage();
 
 	void AddDialog();
-	void AddDialogLottery();
+	void AddDialoglottery();
 
 	void BuyLand(Node*);
 };
