@@ -1,6 +1,6 @@
 # 设计模式
 
-标签（空格分隔）： C++ 观察者模式 工厂模式 模板方法模式
+标签： C++ 观察者模式 工厂模式 模板方法模式
 
 ---
 
@@ -20,17 +20,16 @@
 
 ## 观察者模式
 我们项目当中每当需要回掉函数是都会使用函数名来调用，我们可以利用观察者模式来进行项目过程的监控，并且将信息的传递通过Message来进行
-![image_1b57spa5k1n91o95opvqc91v3r1t.png-161.5kB][2]
-![image_1b57sq4u01qib1efk1g0u48217k12a.png-46.9kB][3]
+![image_1b57t6tro1jrib5m1d3f1q781ua19.png-266.9kB][2]
 
 
 ## 模板方法模式
 ### 模板方法概要
-![image_1b57srtba1im214ee4q1mjs13la34.png-61.8kB][4]
+![image_1b57srtba1im214ee4q1mjs13la34.png-61.8kB][3]
 
 
 ### 模板方法类图
-![image_1b57sta20n4u1p3q17lt1ec08o13h.png-130.6kB][5]
+![image_1b57sta20n4u1p3q17lt1ec08o13h.png-130.6kB][4]
 
 
 ## 工厂模式
@@ -41,8 +40,6 @@
 
 
   [1]: http://static.zybuluo.com/yokoyang/lcf5w7b1s4jplsgteduvqc5e/image_1b57slpuc116fnn167eom71lbhm.png
-  [2]: http://static.zybuluo.com/yokoyang/wmmzbtmz4s71o99c9muyj633/image_1b57spa5k1n91o95opvqc91v3r1t.png
-  [3]: http://static.zybuluo.com/yokoyang/w32pwvdt6qsnfp7txjj0ef97/image_1b57sq4u01qib1efk1g0u48217k12a.png
-  [4]: http://static.zybuluo.com/yokoyang/c3iqtp7v0nt6v0zv019w8neg/image_1b57srtba1im214ee4q1mjs13la34.png
-  [5]: http://static.zybuluo.com/yokoyang/tum7sqidfyg94o2j1byd1cmr/image_1b57sta20n4u1p3q17lt1ec08o13h.png
- 
+  [2]: http://static.zybuluo.com/yokoyang/01ywh5fissv8hzemjilnd8zv/image_1b57t6tro1jrib5m1d3f1q781ua19.png
+  [3]: http://static.zybuluo.com/yokoyang/c3iqtp7v0nt6v0zv019w8neg/image_1b57srtba1im214ee4q1mjs13la34.png
+  [4]: http://static.zybuluo.com/yokoyang/tum7sqidfyg94o2j1byd1cmr/image_1b57sta20n4u1p3q17lt1ec08o13h.png
